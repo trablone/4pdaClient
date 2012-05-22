@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <style name="cat_name">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">#4373C3</item>
+        <item name="android:textSize">12dip</item>
+        <!--<item name="android:layout_marginTop">7dip</item>-->
+        <!--<item name="android:layout_marginBottom">5dp</item>-->
+        <item name="android:paddingLeft">10dp</item>
+        <!--<item name="android:paddingTop">10dp</item>-->
+        <item name="android:paddingRight">10dp</item>
+        <!--<item name="android:paddingBottom">10dp</item>-->
+        <item name="android:gravity">left|center_vertical</item>
+
+    </style>
+
+
+    <style name="tab_button">
+        <item name="android:textColor">#4373C3</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">#FFFFFF</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <style name="NotificationText">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+    <style name="NotificationTitle">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <!-- =============================================================== -->
+    <!-- Black Style -->
+    <!-- =============================================================== -->
+    <dimen name="tab_margin_bl">0dip</dimen>
+    <dimen name="themes_margin_bl">0dip</dimen>
+    <style name="tab_background_bl">
+        <item name="android:background">#000</item>
+        <item name="android:padding">@dimen/tab_margin_bl</item>
+    </style>
+
+    <style name="themes_background_bl">
+        <item name="android:background">#000</item>
+        <item name="android:padding">@dimen/themes_margin_bl</item>
+    </style>
+    <style name="text_theme_item_isnew_bl">
+        <item name="android:paddingLeft">4dip</item>
+        <item name="android:background">#000</item>
+    </style>
+    <style name="default_background_bl">
+        <item name="android:background">#000</item>
+    </style>
+
+    <style name="default_textcolor_bl">
+        <item name="android:background">#fff</item>
+    </style>
+
+    <style name="default_colors_bl">
+        <item name="android:background">#000</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="cat_name_bl">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">#565656</item>
+        <item name="android:textSize">12dip</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
+
+    <style name="board_forum_name_bl">
+        <item name="android:textColor">#4373C3</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">#000</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <style name="devdb_group_bl">
+        <item name="android:textColor">#4373c3</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="devdb_prop_bl">
+
+    </style>
+
+    <style name="devdb_value_bl">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!-- =============================================================== -->
+    <!-- White Style -->
+    <!-- =============================================================== -->
+    <dimen name="tab_margin_wh">0dip</dimen>
+    <dimen name="themes_margin_wh">0dip</dimen>
+
+    <style name="tab_background_wh">
+        <item name="android:background">#fff</item>
+        <item name="android:padding">@dimen/tab_margin_wh</item>
+    </style>
+    <style name="themes_background_wh">
+        <item name="android:background">#fff</item>
+        <item name="android:padding">@dimen/themes_margin_wh</item>
+    </style>
+
+    <style name="text_theme_item_isnew_wh">
+        <item name="android:paddingLeft">4dip</item>
+        <item name="android:background">#fff</item>
+    </style>
+    <style name="default_background_wh">
+        <item name="android:background">#fff</item>
+    </style>
+    <style name="default_textcolor_wh">
+        <item name="android:background">#000</item>
+    </style>
+
+    <style name="default_colors_wh">
+        <item name="android:background">#fff</item>
+        <item name="android:textColor">#000</item>
+    </style>
+    <style name="cat_name_wh">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">#4373C3</item>
+        <item name="android:textSize">12dip</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
+
+    <style name="board_forum_name_wh">
+        <item name="android:textColor">#4373C3</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">#FFFFFF</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <style name="devdb_group_wh">
+        <item name="android:textColor">#4373c3</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+     <style name="devdb_prop_wh">
+
+    </style>
+
+    <style name="devdb_value_wh">
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

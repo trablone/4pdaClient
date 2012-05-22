@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                style="?themeBackground"
+                android:orientation="vertical">
+    <org.softeg.slartus.forpda.classes.AdvWebView
+            android:id="@+id/wvBody"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/pnlSearch"
+            android:layout_alignParentTop="true"
+            android:layout_alignTop="@+id/pnlSearch"
+            style="?themeBackground"
+            android:textSize="12dip"
+            />
+
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/pnlSearch"
+            android:visibility="gone">
+
+        <ImageButton
+                android:id="@+id/btnPrevSearch"
+                android:src="@drawable/ic_btn_find_prev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <ImageButton
+                android:id="@+id/btnNextSearch"
+                android:src="@drawable/ic_btn_find_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/btnPrevSearch"/>
+
+
+        <EditText
+                android:id="@+id/txtSearch"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/btnNextSearch"
+                android:layout_toLeftOf="@+id/btnCloseSearch"/>
+
+        <ImageButton
+                android:id="@+id/btnCloseSearch"
+                android:src="@drawable/btn_close_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+</RelativeLayout>

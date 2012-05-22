@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+
+              android:background="?forumItemSelector"
+              android:textAppearance="?android:attr/textAppearanceLarge"
+
+        >
+    <ImageView android:id="@+id/txtIsNew" android:layout_width="4dip" android:text="|||"
+               android:layout_height="fill_parent" style="?defaultColors" android:textSize="12dip"
+
+               android:scaleType="centerCrop"
+               android:lines="3"
+               android:minLines="3"/>
+
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="fill_parent"
+                  android:orientation="vertical"
+                  android:padding="5dip"
+            >
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" style="?defaultBackground">
+            <TextView android:id="@+id/txtAuthor" android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      style="?defaultBackground" android:textColor="#606060" android:textSize="10dip"/>
+
+            <TextView android:id="@+id/txtLastMessageDate" android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      style="?defaultBackground"
+                      android:textColor="#606060"
+                      android:textSize="10dip"
+                      android:layout_gravity="center_vertical"
+                      android:layout_alignParentRight="true"/>
+
+
+        </RelativeLayout>
+
+        <TextView android:id="@+id/txtTitle"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  style="?defaultColors"
+                  android:textSize="13dip"/>
+
+        <TextView android:id="@+id/txtForumTitle"
+                  android:textSize="11dip"
+                  android:textColor="#969696"
+                  android:gravity="right"
+                  android:textStyle="italic"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  style="?defaultBackground"
+                />
+    </LinearLayout>
+</LinearLayout>

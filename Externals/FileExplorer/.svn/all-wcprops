@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/!svn/ver/10/trunk/FileExplorer
+END
+default.properties
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3/trunk/FileExplorer/default.properties
+END
+.classpath
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/3/trunk/FileExplorer/.classpath
+END
+proguard.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/3/trunk/FileExplorer/proguard.cfg
+END
+.project
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/3/trunk/FileExplorer/.project
+END
+AndroidManifest.xml
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/4/trunk/FileExplorer/AndroidManifest.xml
+END

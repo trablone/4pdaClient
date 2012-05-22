@@ -1,0 +1,140 @@
+<resources>
+    <string-array name="tabsArray">
+        <item>Вкладка1</item>
+        <item>Вкладка2</item>
+        <item>Вкладка3</item>
+        <item>Вкладка4</item>
+        <item>Вкладка5</item>
+    </string-array>
+
+    <string-array name="tabsValues">
+        <item>Tab1</item>
+        <item>Tab2</item>
+        <item>Tab3</item>
+        <item>Tab4</item>
+        <item>Tab5</item>
+    </string-array>
+
+    <string-array name="ThemeActionsArray">
+        <item>К первому</item>
+        <item>К последнему</item>
+        <item>К первому непрочитанному</item>
+        <item>Открыть в браузере</item>
+    </string-array>
+
+    <string-array name="ThemeActionsValues">
+        <item>getfirstpost</item>
+        <item>getlastpost</item>
+        <item>getnewpost</item>
+        <item>browser</item>
+    </string-array>
+
+    <string-array name="SearchSourceArray">
+        <item>Везде</item>
+        <item>Только в заголовках тем</item>
+        <item>Только в сообщениях</item>
+    </string-array>
+
+    <string-array name="SearchSourceValues">
+        <item>all</item>
+        <item>top</item>
+        <item>pst</item>
+    </string-array>
+
+    <string-array name="SearchSortArray">
+        <item>Релевантности (соответствию запросу)</item>
+        <item>Дате (от новых к старым)</item>
+        <item>Дате (от старых к новым)</item>
+    </string-array>
+
+    <string-array name="SearchSortValues">
+        <item>rel</item>
+        <item>dd</item>
+        <item>da</item>
+    </string-array>
+
+    <string-array name="appthemesArray">
+        <item>White</item> /
+        <item>Black</item>
+
+        <item>White от Remie-l</item>
+        <item>Black от Remie-l</item>
+        <item>WhiteR от Remie-l</item>
+        <item>Gray от Remie-l</item>
+
+        <item>White от bezIPHONa</item>
+        <item>Light от bezIPHONa</item>
+
+        <item>White от vetalorlov</item>
+
+
+        <item>Custom for css debug</item>
+    </string-array>
+
+    <string-array name="appthemesValues">
+        <item>0</item>
+        <item>1</item>
+
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>6</item>
+
+        <item>4</item>
+        <item>9</item>
+
+        <item>7</item>
+
+
+        <item>99</item>
+    </string-array>
+
+    <string-array name="themesTemplatesArray">
+        <item>Новости</item>
+        <item>Поиск</item>
+        <item>Форумы</item>
+        <item>Избранное</item>
+        <item>Подписки</item>
+        <item>Дайджест</item>
+        <item>Каталог</item>
+        <item>Приложения</item>
+        <item>Android - Первая помощь</item>
+        <item>DevDB.ru</item>
+    </string-array>
+
+    <string-array name="themesTemplatesValues">
+        <item>NewsTab</item>
+        <item>SearchTab</item>
+        <item>ForumsTab</item>
+        <item>FavoritesTab</item>
+        <item>SubscribesTab</item>
+        <item>DigestTab</item>
+        <item>CatalogTab</item>
+        <item>AppsTab</item>
+        <item>FirstHelpTab</item>
+        <item>DevDB</item>
+    </string-array>
+
+    <string-array name="screenOrienationArray">
+        <item>Авто</item>
+        <item>Горизонтально</item>
+        <item>Вертикально</item>
+    </string-array>
+
+    <string-array name="screenOrienationValues">
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="listOffsetsArray">
+        <item>Выше</item>
+        <item>Нормально</item>
+        <item>Ниже</item>
+    </string-array>
+    <string-array name="listOffsetsValues">
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+</resources>

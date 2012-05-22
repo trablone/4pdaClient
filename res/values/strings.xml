@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">4pda</string>
+    <string name="loading">Загрузка...</string>
+    <string name="Forums">Форумы</string>
+    <string name="pull_to_refresh_pull_label">Оттяни для обновления...</string>
+	<string name="pull_to_refresh_release_label">Брось для обновления...</string>
+	<string name="pull_to_refresh_refreshing_label">Обновление...</string>
+</resources>

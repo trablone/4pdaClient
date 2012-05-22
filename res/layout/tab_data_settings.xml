@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              style="?themeBackground">
+    <ScrollView android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+        <TableLayout android:layout_width="fill_parent"
+                     android:layout_height="wrap_content"
+                     style="?defaultBackground"
+                     android:id="@+id/lnrSettings"
+
+                     android:padding="5dip"
+                     android:shrinkColumns="1"
+                     android:stretchColumns="1">
+            <TableRow android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/shablons_row">
+                <TextView
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Шаблоны"
+                        style="?defaultColors"/>
+                <Spinner android:layout_width="fill_parent"
+                         android:layout_height="wrap_content"
+                         android:id="@+id/spnrTemplates"
+                         android:entries="@array/themesTemplatesArray"
+                         android:entryValues="@array/themesTemplatesValues"/>
+            </TableRow>
+
+            <TableRow android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/name_row">
+                <TextView
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Имя шаблона"
+                        style="?defaultColors"/>
+                <EditText
+                        android:id="@+id/template_name_edit"
+                        android:singleLine="true"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:minWidth="250dip"
+                        android:scrollHorizontally="true"
+                        android:capitalize="none"
+                        android:autoText="false"/>
+            </TableRow>
+            <TableRow android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/query_row">
+                <TextView
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Текст поиска"
+                        style="?defaultColors"/>
+                <EditText
+                        android:id="@+id/query_edit"
+                        android:singleLine="true"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:minWidth="250dip"
+                        android:scrollHorizontally="true"
+                        android:capitalize="none"
+                        android:autoText="false"/>
+            </TableRow>
+            <TableRow android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/username_row">
+                <TextView
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Логин автора"
+                        style="?defaultColors"/>
+                <EditText
+                        android:id="@+id/username_edit"
+                        android:singleLine="true"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:minWidth="250dip"
+                        android:scrollHorizontally="true"
+                        android:capitalize="none"
+                        android:autoText="false"/>
+            </TableRow>
+            <TableRow android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/source_row">
+                <TextView
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Искать"
+                        style="?defaultColors"/>
+                <Spinner android:layout_width="fill_parent"
+                         android:layout_height="wrap_content"
+                         android:id="@+id/spnrSource"
+                         android:entries="@array/SearchSourceArray"
+                         android:entryValues="@array/SearchSourceValues"/>
+            </TableRow>
+            <TableRow android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/sort_row">
+                <TextView
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Сортировать по"
+                        style="?defaultColors"/>
+                <Spinner android:layout_width="fill_parent"
+                         android:layout_height="wrap_content"
+                         android:id="@+id/spnrSort"
+                         android:entries="@array/SearchSortArray"
+                         android:entryValues="@array/SearchSortValues"/>
+            </TableRow>
+            <TableRow android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/forums_row">
+                <TextView
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Форумы"
+                        style="?defaultColors"/>
+                <Button android:id="@+id/btnAddForum"
+                        android:text="Все форумы"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+            </TableRow>
+            <TableRow android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/subforums_row">
+                <CheckBox android:id="@+id/chkSubforums"
+                          android:layout_span="2"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:checked="true"
+                          android:text="Искать в подфорумах?"
+                          android:paddingLeft="50dip"
+                          style="?defaultColors"/>
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+</LinearLayout>

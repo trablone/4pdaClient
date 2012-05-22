@@ -1,0 +1,27 @@
+<resources>
+    <attr name="tabBackground" format="reference"/>
+    <attr name="themeBackground" format="reference"/>
+    <attr name="textThemeItemIsnew" format="reference"/>
+    <attr name="defaultBackground" format="reference"/>
+    <attr name="defaultTextColor" format="reference"/>
+    <attr name="defaultColors" format="reference"/>
+    <attr name="forumItemSelector" format="reference"/>
+    <attr name="categoryName" format="reference"/>
+    <attr name="boardForumName" format="reference"/>
+    <attr name="devdb_group" format="reference"/>
+    <attr name="devdb_prop" format="reference"/>
+    <attr name="devdb_value" format="reference"/>
+
+    <declare-styleable name="ExpandoLayout">
+        <attr name="text" format="string"/>
+        <attr name="titleRowPadding" format="integer"/>
+        <attr name="expanded" format="boolean"/>
+        <attr name="moreBar" format="boolean"/>
+        <attr name="moreBarDefaultViewHeight" format="integer"/>
+        <attr name="moreBarFadeColor" format="color"/>
+        <attr name="moreBarOnRight" format="boolean"/>
+        <attr name="compactText" format="string"/>
+        <attr name="expandedText" format="string"/>
+        <attr name="showAndHideChildren" format="boolean"/>
+    </declare-styleable>
+</resources>

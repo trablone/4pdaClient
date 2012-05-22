@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="org.softeg.slartus.forpda"
+          android:versionCode="92"
+          android:versionName="1.5.5 beta4" android:installLocation="auto"
+        >
+    <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="14"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <application android:label="@string/app_name" android:icon="@drawable/icon"
+                 android:hardwareAccelerated="true"
+                 android:name="org.softeg.slartus.forpda.MyApp"
+                 android:theme="@style/Theme.Sherlock">
+
+        <activity android:name="MainActivity"
+
+                  android:label="@string/app_name" android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"  >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="http" android:host="4pda.ru"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="4pda" android:host="4pda.ru"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.EDIT"/>
+                <action android:name="android.intent.action.PICK"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="application/4pda"/>
+            </intent-filter>
+        </activity>
+
+
+        <activity android:name=".ThemeActivity" android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:launchMode="singleTop"   android:theme="@style/Theme.Sherlock">
+            <intent-filter>
+
+                <action android:name="android.intent.action.SEARCH"/>
+
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                       android:resource="@xml/searchable"/>
+        </activity>
+        <activity android:name=".Mail.EditMailActivity" android:label="Новое сообщение" android:launchMode="singleTop"
+                  android:theme="@style/Theme.Sherlock"  android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".Mail.MailBoxActivity" android:label="Личный ящик" android:launchMode="singleTop"
+                  android:theme="@style/Theme.Sherlock"  android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".Mail.MailActivity" android:label="Письмо" android:launchMode="singleTop"
+                  android:theme="@style/Theme.Sherlock"  android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".PreferencesActivity" android:label="Настройки" android:launchMode="singleTop"/>
+        <activity android:name=".DownloadsActivity" android:label="Загрузки"
+                  android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
+        <activity android:name=".SearchActivity" android:label="Поиск"
+                  android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
+        <activity android:name=".ProfileActivity" android:label="Профиль"
+                  android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
+        <activity android:name=".ReputationActivity" android:label="История репутации"
+                  android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
+        <activity android:name=".Tabs.TabDataSettingsActivity" android:label="Настройки закладки"
+                  android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
+        <activity android:name=".EditPostPlusActivity" android:label="Редактирование сообщения"
+                  android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
+        <activity android:name="com.lamerman.FileDialog" android:label="Выберите файл"
+                  android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
+        <activity android:name=".QuickStartActivity" android:label="Быстрый доступ"
+                  android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
+        <activity android:name=".DevDbDeviceActivity" android:label="DevDB.ru"
+                  android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
+        <activity android:name=".ImageViewActivity" android:label="Просмотр изображения"
+                  android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
+        <activity android:name=".NewsActivity" android:label="Новости"
+                  android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop">
+            <intent-filter>
+
+                <action android:name="android.intent.action.SEARCH"/>
+
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                       android:resource="@xml/searchable"/>
+        </activity>
+
+    </application>
+
+
+</manifest> 

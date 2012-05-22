@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:orientation="vertical"
+                  android:padding="5dip">
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:padding="5dip">
+            <TextView android:text="Получатель:" android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"/>
+            <EditText android:id="@+id/entered_name" android:layout_width="match_parent"
+                      android:layout_height="wrap_content">
+                <requestFocus/>
+            </EditText>
+
+        </LinearLayout>
+
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+            <Button
+                    android:id="@+id/btnRecipients"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView1"
+                    android:layout_toLeftOf="@+id/btnAddRecipient"
+                    android:spinnerMode="dropdown"
+                    android:drawableRight="@drawable/expander_ic_minimized"
+                    android:text="Копии пользователям (0)"
+                    android:textSize="12dip"/>
+
+
+            <Button
+                    android:id="@+id/btnAddRecipient"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/textView1"
+                    android:text=" + "/>
+            <CheckBox android:id="@+id/mt_hide_cc"
+                      android:text="Скрыть имена копий от других?"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_below="@+id/btnAddRecipient"
+                      android:textSize="12dip"
+                      android:visibility="gone"/>
+
+        </RelativeLayout>
+
+
+        <TextView android:text="Заголовок:" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
+        <EditText android:id="@+id/msg_title" android:layout_width="match_parent"
+                  android:layout_height="wrap_content"/>
+
+        <TextView android:text="Сообщение:" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
+        <HorizontalScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout
+                    android:id="@+id/lnrBbCodes"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+            </LinearLayout>
+        </HorizontalScrollView>
+        <EditText
+                android:id="@+id/txtPost"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:minLines="10"
+                android:maxLines="20"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:capitalize="sentences">
+
+        </EditText>
+        <TextView android:text="Опции:" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
+        <CheckBox android:id="@+id/add_sent" android:text="Добавить копию этого сообщения в директорию «Отправленные»"
+                  android:layout_width="fill_parent"
+                  android:checked="true"
+                  android:layout_height="wrap_content"/>
+        <CheckBox android:id="@+id/add_tracking" android:text="Проследить за этим сообщением?"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"/>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            style="?defaultColors">
+
+
+    <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+        <TextView
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Имена получателей"/>
+        <EditText
+                android:id="@+id/entered_name"
+                android:singleLine="true"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:minWidth="250dip"
+                android:scrollHorizontally="true"
+                android:capitalize="none"
+                android:autoText="false">
+            <requestFocus/>
+        </EditText>
+
+        <TextView
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Заголовок сообщения"/>
+         <EditText
+                android:id="@+id/msg_title"
+                android:singleLine="true"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:minWidth="250dip"
+                android:scrollHorizontally="true"
+                android:capitalize="none"
+                android:autoText="false">
+            <requestFocus/>
+        </EditText>
+
+        <EditText
+                android:id="@+id/msg_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:minWidth="250dip"
+                android:minLines="10"
+                android:maxLines="20"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:autoText="false">
+        </EditText>
+
+        <CheckBox
+                android:id="@+id/add_sent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Добавить копию этого сообщения в директорию «Отправленные» "/>
+
+        <CheckBox
+                android:id="@+id/add_tracking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Проследить за этим сообщением?"/>
+        <Button
+                android:id="@+id/btnSend"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Отправить"/>
+    </LinearLayout>
+
+</ScrollView>

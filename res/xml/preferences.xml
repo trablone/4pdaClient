@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen android:title="Общее">
+        <!--<CheckBoxPreference android:key="ShowNewQmsLsToast"-->
+                            <!--android:defaultValue="false"-->
+                            <!--android:title="Показывать напоминание QMS и ЛС"-->
+                            <!--android:summary="Короткое сообщение при наличии QMS или ЛС"/>-->
+        <ListPreference android:key="appstyle"
+                        android:defaultValue="0"
+                        android:title="Стиль"
+                        android:summary="Выберите стиль программы"
+                        android:entries="@array/appthemesArray"
+                        android:entryValues="@array/appthemesValues"/>
+         <ListPreference android:key="theme.ScreenOrientation"
+                        android:defaultValue="-1"
+                        android:title="Ориентация экрана"
+                        android:entries="@array/screenOrienationArray"
+                        android:entryValues="@array/screenOrienationValues"/>
+
+    </PreferenceScreen>
+    <PreferenceScreen android:title="Список тем">
+        <EditTextPreference android:key="interface.themeslist.title.font.size"
+                            android:defaultValue="13" android:title="Размер шрифта в списке тем"
+                            android:summary="Размер шрифта названия тем в списках закладок"
+                            android:inputType="number"/>
+        <CheckBoxPreference android:key="themeslist.UseVolumesScroll"
+                            android:defaultValue="false"
+                            android:title="Скролл громкостью"
+                            android:summary="Скроллить список кнопками громкости"/>
+    </PreferenceScreen>
+
+    <PreferenceScreen android:title="Вкладки"
+                      android:summary="Поведение, содержание вкладок">
+        <ListPreference android:key="tabs.defaulttab"
+                        android:defaultValue="LatestMessagesTab"
+                        android:title="По умолчанию"
+                        android:summary="Выберите вкладку, которая будет открываться при старте программы"
+                        android:entries="@array/tabsArray"
+                        android:entryValues="@array/tabsValues"/>
+
+
+        <PreferenceScreen android:title="Вкладка1" android:key="tabs.Tab1">
+            <ListPreference android:key="tabs.Tab1.Action"
+                            android:defaultValue="getfirstpost"
+                            android:title="Действие по умолчанию"
+                            android:summary="Выберите действие по клику на теме"
+                            android:entries="@array/ThemeActionsArray"
+                            android:entryValues="@array/ThemeActionsValues"/>
+            <Preference android:key="tabs.Tab1.Data"
+                        android:title="Содержание"
+                        android:summary="Последние"/>
+        </PreferenceScreen>
+
+
+        <PreferenceScreen android:title="Вкладка2" android:key="tabs.Tab2">
+            <ListPreference android:key="tabs.Tab2.Action"
+                            android:defaultValue="getfirstpost"
+                            android:title="Действие по умолчанию"
+                            android:summary="Выберите действие по клику на теме"
+                            android:entries="@array/ThemeActionsArray"
+                            android:entryValues="@array/ThemeActionsValues"/>
+            <Preference android:key="tabs.Tab2.Data"
+                        android:title="Содержание"
+                        android:summary="Форумы"/>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="Вкладка3" android:key="tabs.Tab3">
+            <ListPreference android:key="tabs.Tab3.Action"
+                            android:defaultValue="getnewpost"
+                            android:title="Действие по умолчанию"
+                            android:summary="Выберите действие по клику на теме"
+                            android:entries="@array/ThemeActionsArray"
+                            android:entryValues="@array/ThemeActionsValues"/>
+            <Preference android:key="tabs.Tab3.Data"
+                        android:title="Содержание"
+                        android:summary="Избранное"/>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="Вкладка4" android:key="tabs.Tab4">
+            <ListPreference android:key="tabs.Tab4.Action"
+                            android:defaultValue="getnewpost"
+                            android:title="Действие по умолчанию"
+                            android:summary="Выберите действие по клику на теме"
+                            android:entries="@array/ThemeActionsArray"
+                            android:entryValues="@array/ThemeActionsValues"/>
+            <Preference android:key="tabs.Tab4.Data"
+                        android:title="Содержание"
+                        android:summary="Подписки"/>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="Вкладка5" android:key="tabs.Tab5">
+            <ListPreference android:key="tabs.Tab5.Action"
+                            android:defaultValue="getfirstpost"
+                            android:title="Действие по умолчанию"
+                            android:summary="Выберите действие по клику на теме"
+                            android:entries="@array/ThemeActionsArray"
+                            android:entryValues="@array/ThemeActionsValues"/>
+            <Preference android:key="tabs.Tab5.Data"
+                        android:title="Содержание"
+                        android:summary="Каталог"/>
+        </PreferenceScreen>
+    </PreferenceScreen>
+    <PreferenceScreen android:title="Системное" android:summary="Лучше не трогать ;)">
+        <EditTextPreference android:key="cookies.path"
+                            android:title="Путь к файлу cookies"
+                            android:summary="По умолчанию - пусто" />
+        <ListPreference android:key="topics.list.offset"
+                        android:defaultValue="0"
+                        android:title="Смещение в списке тем"
+                        android:summary="При неверном открытии тем выберите какую тему открывать"
+                        android:entries="@array/listOffsetsArray"
+                        android:entryValues="@array/listOffsetsValues"/>
+        <CheckBoxPreference android:key="system.WebviewAllowJavascriptInterface"
+                            android:defaultValue="true"
+                            android:title="Использовать скрипты в просмотре темы"
+                            android:summary="Снимите галочку, если программа падает при вызове меню в просмотре темы"/>
+    </PreferenceScreen>
+    <PreferenceScreen android:title="Просмотр темы">
+        <CheckBoxPreference android:key="theme.SpoilFirstPost"
+                            android:defaultValue="true"
+                            android:title="Прятать первый пост"
+                            android:summary="Прятать первый пост темы в спойлер"/>
+
+        <CheckBoxPreference android:key="theme.ConfirmSend"
+                            android:defaultValue="true"
+                            android:title="Подтверждать отправку"
+                            android:summary="Подтверждать отправку сообщения"/>
+        <CheckBoxPreference android:key="theme.LoadsImagesAutomatically"
+                            android:defaultValue="true"
+                            android:title="Загружать картинки"/>
+        <EditTextPreference android:key="theme.ZoomLevel"
+                            android:defaultValue="150"
+                            android:title="Масштаб страницы"
+                            android:summary="Масштаб страницы, %"
+                            android:inputType="number"/>
+        <CheckBoxPreference android:key="theme.ZoomUsing"
+                            android:defaultValue="true"
+                            android:title="Использовать масштабирование"
+                            android:summary="Возможность изменять масштаб страницы во время просмотра"/>
+        <CheckBoxPreference android:key="theme.UseVolumesScroll"
+                            android:defaultValue="false"
+                            android:title="Скролл громкостью"
+                            android:summary="Скроллить страницу кнопками громкости"/>
+        <CheckBoxPreference android:key="theme.KeepScreenOn"
+                            android:defaultValue="false"
+                            android:title="Не выключать экран"/>
+
+        <CheckBoxPreference android:key="files.ConfirmDownload"
+                            android:defaultValue="true"
+                            android:title="Подтверждать загрузку файла"
+                            android:summary=" Подтверждение загрузки файла при выборе ссылки"/>
+        <CheckBoxPreference android:key="theme.HidePostForm"
+                            android:defaultValue="false"
+                            android:title="Прятать поле ответа"
+                            android:summary="Прятать поле ответа под спойлер"/>
+    </PreferenceScreen>
+
+    <PreferenceScreen android:title="Новости">
+        <CheckBoxPreference android:key="news.ConfirmSend"
+                            android:defaultValue="true"
+                            android:title="Подтверждать отправку"
+                            android:summary="Подтверждать отправку сообщения"/>
+        <CheckBoxPreference android:key="news.LoadsImagesAutomatically"
+                            android:defaultValue="true"
+                            android:title="Загружать картинки"/>
+        <EditTextPreference android:key="news.ZoomLevel"
+                            android:defaultValue="150"
+                            android:title="Масштаб страницы"
+                            android:summary="Масштаб страницы, %"
+                            android:inputType="number"/>
+        <CheckBoxPreference android:key="news.ZoomUsing"
+                            android:defaultValue="true"
+                            android:title="Использовать масштабирование"
+                            android:summary="Возможность изменять масштаб страницы во время просмотра"/>
+        <CheckBoxPreference android:key="news.UseVolumesScroll"
+                            android:defaultValue="false"
+                            android:title="Скролл громкостью"
+                            android:summary="Скроллить страницу кнопками громкости"/>
+        <CheckBoxPreference android:key="news.KeepScreenOn"
+                            android:defaultValue="false"
+                            android:title="Не выключать экран"/>
+
+    </PreferenceScreen>
+
+    <!--<PreferenceCategory android:title="Сообщения">-->
+    <!--<CheckBoxPreference android:key="posts.UsePR"-->
+    <!--android:defaultValue="false"-->
+    <!--android:title="Пиарить программу"-->
+    <!--android:summary="Добавлять 'Я использую 4pda-клиент'"/>-->
+    <!--</PreferenceCategory>-->
+    <!--<PreferenceScreen android:title="Дополнительно"-->
+                      <!--android:summary="Дополнительные настройки">-->
+        <!--<EditTextPreference android:title="Путь к cookies"-->
+                            <!--android:key="Additional.CookiesFile"/>-->
+    <!--</PreferenceScreen>-->
+
+    <PreferenceScreen android:title="О программе">
+        <Preference android:key="About.AppVersion"
+                    android:summary="Нажми меня"/>
+        <Preference android:title="История изменений"
+                    android:key="About.History"/>
+        <Preference android:title="Рассказать друзьям"
+                    android:key="About.ShareIt"/>
+        <Preference android:title="Оставить отзыв"
+                    android:summary="Оставить отзыв на маркете"
+                    android:key="About.SendFeedback"/>
+        <Preference android:title="Дать в репу"
+                    android:summary="Повысить репутацию разработчика на форуме"
+                    android:key="About.AddRep"/>
+        <Preference android:title="Открыть тему"
+                    android:summary="Открыть тему обсуждения программы"
+                    android:key="About.ShowTheme"/>
+    </PreferenceScreen>
+    <PreferenceScreen android:title="Помочь проекту" android:summary="Ваше осязаемое 'Спасибо'">
+        <Preference android:title="Яндекс-кошелёк"
+                    android:summary="41001491859942"
+                    android:key="Yandex.money"/>
+        <Preference android:title="WebMoney"
+                    android:summary="Z188582160272, R391199896701"
+                    android:key="WebMoney.money"/>
+        <Preference android:title="Paypal"
+                    android:summary="slartus@gmail.com"
+                    android:key="Paypal.money"/>
+    </PreferenceScreen>
+</PreferenceScreen>

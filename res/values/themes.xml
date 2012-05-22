@@ -1,0 +1,39 @@
+<resources>
+
+
+    <style name="Theme.White" parent="@style/Theme.Sherlock">
+        <item name="tabBackground">@style/tab_background_wh</item>
+        <item name="themeBackground">@style/themes_background_wh</item>
+        <item name="textThemeItemIsnew">@style/text_theme_item_isnew_wh</item>
+        <item name="defaultBackground">@style/default_background_wh</item>
+        <item name="defaultTextColor">@style/default_textcolor_wh</item>
+        <item name="defaultColors">@style/default_colors_wh</item>
+        <item name="forumItemSelector">@drawable/forum_item_selector_wh</item>
+        <item name="categoryName">@style/cat_name_wh</item>
+        <item name="boardForumName">@style/board_forum_name_wh</item>
+        <item name="devdb_group">@style/devdb_group_wh</item>
+        <item name="devdb_prop">@style/devdb_prop_wh</item>
+        <item name="devdb_value">@style/devdb_value_wh</item>
+
+    </style>
+
+    <style name="Theme.Black"  parent="@style/Theme.Sherlock">
+        <item name="tabBackground">@style/tab_background_bl</item>
+        <item name="themeBackground">@style/themes_background_bl</item>
+        <item name="textThemeItemIsnew">@style/text_theme_item_isnew_bl</item>
+        <item name="defaultBackground">@style/default_background_bl</item>
+        <item name="defaultTextColor">@style/default_textcolor_bl</item>
+        <item name="defaultColors">@style/default_colors_bl</item>
+        <item name="forumItemSelector">@drawable/forum_item_selector_bl</item>
+        <item name="categoryName">@style/cat_name_bl</item>
+        <item name="boardForumName">@style/board_forum_name_bl</item>
+        <item name="devdb_group">@style/devdb_group_bl</item>
+        <item name="devdb_prop">@style/devdb_prop_bl</item>
+        <item name="devdb_value">@style/devdb_value_bl</item>
+    </style>
+
+    <style name="TextAppearance.Theme.PlainText" parent="android:TextAppearance.Theme">
+        <item name="android:textStyle">normal</item>
+    </style>
+
+</resources>

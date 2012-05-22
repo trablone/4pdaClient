@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+
+    <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+        <HorizontalScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout
+                    android:id="@+id/lnrBbCodes"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <EditText
+                android:id="@+id/txtPost"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:minLines="10"
+                android:maxLines="20"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:capitalize="sentences">
+
+            <requestFocus/>
+        </EditText>
+
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:text="Прикрепление файлов"
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+
+            <Button
+                android:id="@+id/btnSelectFile"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView1"
+                android:layout_toLeftOf="@+id/btnAddFile"
+                android:spinnerMode="dropdown"
+                android:drawableRight="@drawable/expander_ic_minimized"
+                android:text="Управление текущими файлами (0)"
+                />
+
+
+            <Button
+                    android:id="@+id/btnAddFile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/textView1"
+                    android:text=" + "/>
+             <Button
+                    android:id="@+id/btnAddImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/btnAddFile"
+                    android:text="[+]"/>
+
+        </RelativeLayout>
+
+        <CheckBox
+                android:id="@+id/chkEnableEmo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Включить смайлы"/>
+
+        <CheckBox
+                android:id="@+id/chkEnablesig"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Включить подпись"/>
+
+        <!--<TextView-->
+                <!--android:id="@+id/textView2"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:text="Причина редактирования:"-->
+                <!--android:textAppearance="?android:attr/textAppearanceSmall"/>-->
+        <!--<EditText-->
+                <!--android:id="@+id/txtEditReason"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="top"-->
+                <!--android:scrollHorizontally="false"-->
+                <!--android:singleLine="false"/>-->
+
+    </LinearLayout>
+
+</ScrollView>

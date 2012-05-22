@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:padding="5dip"
+              android:orientation="vertical"
+              style="?defaultColors">
+    <TextView android:id="@+id/date_text" android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text=""
+              android:textStyle="bold" style="?defaultColors"/>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content" style="?defaultColors">
+        <TextView android:text="Автор:" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" style="?defaultColors"/>
+        <TextView android:id="@+id/author_text" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="" android:paddingLeft="5dip"
+                  android:textStyle="bold" style="?defaultColors"/>
+    </LinearLayout>
+
+    <WebView android:id="@+id/body_webview" android:layout_width="fill_parent"
+             android:layout_height="fill_parent"
+             android:fastScrollEnabled="true"
+             android:textSize="12dip"/>
+</LinearLayout>
