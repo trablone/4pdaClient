@@ -268,8 +268,9 @@ padding: 10px 5px 10px 15px;
 text-align: center;
 }
 .post object{
-width: 100%!important;
-height: auto!important;
+max-width: 100%
+max-height: 100%;
+/*height: auto!important;*/
 }
 .wp-pagenavi a{
 display: inline-block;
@@ -363,12 +364,50 @@ padding-left: 7px;
 padding-right: 7px;
 padding-bottom: 7px;
 } 
-/*
 .thdrpy {
-padding: 0px 5px 10px 5px;
-border-bottom: 2px #272727 groove!important;
+padding: 0px 5px 0px 5px;
 text-align: right;
 }
 .thdrpy a{
 text-decoration: none!important;
-}*/
+}
+#comment{
+position: relative;
+display: block;
+width: 90%;
+margin-left: auto;
+margin-right: auto;
+margin-top: auto;
+margin-bottom: auto;
+color: #515151;
+background: #fff;
+border: 2px #fff groove;
+border-radius:5px;
+}
+#commentform{
+padding-left: auto;
+padding-right: auto;
+padding-top: 12px;
+background: #eee;
+border: 2px #ddd solid;
+border-radius:5px;
+} 
+#commentform p{
+clear: both;
+text-align: center;
+}
+#submit{
+display: block;
+margin-left: auto;
+margin-right: auto;
+margin-top: 10px;
+padding: 4px 12px; 
+font-size: 11px;
+background: #eee;
+border: 2px #ddd solid;
+border-radius:5px;
+font-weight: bold;
+text-transform:lowercase;
+color: #607890;
+text-decoration: none; 
+}
