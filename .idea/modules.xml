@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/4pda.iml" filepath="$PROJECT_DIR$/4pda.iml" />
       <module fileurl="file://$PROJECT_DIR$/Externals/ActionBarSherlock/library/ActionBarSherlock.iml" filepath="$PROJECT_DIR$/Externals/ActionBarSherlock/library/ActionBarSherlock.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Externals/android-pinch/Android-pinch.iml" filepath="$PROJECT_DIR$/Externals/android-pinch/Android-pinch.iml" />
       <module fileurl="file://$PROJECT_DIR$/Externals/FileExplorer/FileExplorer.iml" filepath="$PROJECT_DIR$/Externals/FileExplorer/FileExplorer.iml" />
       <module fileurl="file://$PROJECT_DIR$/Externals/chrisbanes-Android-PullToRefresh/library/PullToRefresh.iml" filepath="$PROJECT_DIR$/Externals/chrisbanes-Android-PullToRefresh/library/PullToRefresh.iml" />
       <module fileurl="file://$PROJECT_DIR$/Externals/QuickActions/QuickActions.iml" filepath="$PROJECT_DIR$/Externals/QuickActions/QuickActions.iml" />

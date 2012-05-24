@@ -465,3 +465,8 @@ a:hover{
 	font-size: 10px;
 	width:100%;
 }
+#commentform textarea {
+        width: 99%;
+        font-family: Verdana, Arial, Sans-Serif;
+        font-size: 10pt;
+}
