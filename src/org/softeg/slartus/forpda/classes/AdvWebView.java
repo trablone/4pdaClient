@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Toast;
 import org.softeg.slartus.forpda.MyApp;
@@ -33,9 +34,11 @@ public class AdvWebView extends WebView {
         getSettings().setJavaScriptCanOpenWindowsAutomatically(false);
         getSettings().setDomStorageEnabled(true);
         getSettings().setAllowFileAccess(true);
+        getSettings().setCacheMode( WebSettings.LOAD_NO_CACHE);
         setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         setScrollbarFadingEnabled(false);
         setBackgroundColor(MyApp.INSTANCE.getThemeStyleWebViewBackground());
+        loadData("<html><head></head><body bgcolor="+MyApp.INSTANCE.getCurrentThemeName()+"></body></html>","text/html", "UTF-8");
     }
 //
 //    @Override
