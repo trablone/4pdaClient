@@ -143,6 +143,27 @@ public final class Log {
             e(null, e, false);
         }
     }
+    
+    public static void sendMail(final Handler handler,final Context context, final String theme, final String body, final String attachText){
+
+
+        Thread th = new Thread(new Runnable() {
+            public void run() {
+                final Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{EMAIL});
+                intent.putExtra(Intent.EXTRA_SUBJECT, theme);
+                intent.putExtra(Intent.EXTRA_TEXT, body.toString());
+                intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + createLogFile(context,attachText)));
+                handler.post(new Runnable() {
+                    public void run() {
+                        context.startActivity(Intent.createChooser(intent, "Отправка сообщения"));
+                    }
+                });
+            }
+        });
+        th.start();
+    }
 
     public static void sendReport(final Context context, final String fullExceptionText, final Throwable ex) {
         final Handler transThreadHandler = new Handler();

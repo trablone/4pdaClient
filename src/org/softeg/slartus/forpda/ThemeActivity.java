@@ -1489,7 +1489,9 @@ public class ThemeActivity extends BaseFragmentActivity  {
                                     Intent marketIntent = new Intent(
                                             Intent.ACTION_VIEW,
                                             Uri.parse("http://" + Client.SITE + "/forum/index.php?" + getInterface().getLastUrl()));
-                                    startActivity(marketIntent);
+                                    startActivity(Intent.createChooser(marketIntent, "Выберите"));
+
+
                                 } catch (ActivityNotFoundException e) {
                                     Log.e(getActivity(), e);
                                 }

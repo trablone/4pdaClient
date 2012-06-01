@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -56,6 +57,7 @@ public class EditMailActivity extends BaseFragmentActivity {
     public static final String KEY_TITLE = "title";
     public static final String KEY_FROM_EDIT = "from_edit";
     public static final String KEY_RETERN_BACK = "retrun_back";
+    private String m_AttachPostKey="";
     private LinearLayout lnrBbCodes;
     private EditText txtPost, entered_name, msg_title;
     private Button btnAddRecipient, btnRecipients;
@@ -63,7 +65,7 @@ public class EditMailActivity extends BaseFragmentActivity {
     private Boolean m_ConfirmSend = true, mReturnBack=false;
     private CheckBox mt_hide_cc, add_sent, add_tracking;
     MenuFragment mFragment1;
-
+    Handler mHandler = new Handler();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -219,6 +221,7 @@ public class EditMailActivity extends BaseFragmentActivity {
                 .setMessage("Отправить сообщение?")
                 .setPositiveButton("Отправить", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
                         SendTask sendTask = new SendTask(EditMailActivity.this, enteredName,
                                 mtHideCc,
                                 msgTitle,
@@ -226,7 +229,7 @@ public class EditMailActivity extends BaseFragmentActivity {
                                 addSent,
                                 addTracking, m_Recipients);
                         sendTask.execute();
-                        dialogInterface.dismiss();
+
                     }
                 })
                 .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
@@ -453,7 +456,7 @@ public class EditMailActivity extends BaseFragmentActivity {
                 additionalHeaders.put("add_sent", "yes");
             if (addTracking)
                 additionalHeaders.put("add_tracking", "1");
-            // additionalHeaders.put("attach_post_key", "");//TODO
+            additionalHeaders.put("attach_post_key", m_AttachPostKey);
             additionalHeaders.put("auth_key", Client.INSTANCE.getAuthKey());
             additionalHeaders.put("carbon_copy", TextUtils.join("\n", recipients));
             additionalHeaders.put("CODE", "04");
@@ -465,9 +468,12 @@ public class EditMailActivity extends BaseFragmentActivity {
             additionalHeaders.put("OID", "0");
             additionalHeaders.put("Post", postBody);
             additionalHeaders.put("removeattachid", "0");
-            String res = Client.INSTANCE.performPost("http://www.4pda.ru/forum/index.php?act=msg", additionalHeaders);
+            String res = Client.INSTANCE.performPost("http://4pda.ru/forum/index.php?act=msg", additionalHeaders);
+           // Log.sendMail(mHandler, mContext,"Не отправляет ЛС","",res);
             checkErrors(res);
         }
+
+
 
         private void checkErrors(String body) throws NotReportException {
             Matcher errorsMatcher = Pattern.compile("<div class=\"errorwrap\"><h4>(.*?)</h4><p>(.*?)</p></div>").matcher(body);
@@ -548,9 +554,14 @@ public class EditMailActivity extends BaseFragmentActivity {
         String msgTitle = "";
 
         private void parseBody(String body) {
+            Matcher attachPostKeyMatcher=Pattern.compile("name=\"attach_post_key\" value=\"(.*?)\"").matcher(body);
             Matcher enteredNameMatcher = Pattern.compile("<input type=\"text\" id='entered_name'.*?value=\"(.*?)\"").matcher(body);
             Matcher postMatcher = Pattern.compile("<textarea name=\"Post\".*?>([\\s\\S]*?)</textarea>").matcher(body);
             Matcher msgTitleMatcher = Pattern.compile("<input type=\"text\" name=\"msg_title\".*?value=\"(.*?)\" />").matcher(body);
+            
+            if(attachPostKeyMatcher.find()){
+                m_AttachPostKey= attachPostKeyMatcher.group(1);
+            }
             if (enteredNameMatcher.find()) {
                 enteredName = enteredNameMatcher.group(1);
             }
@@ -566,6 +577,7 @@ public class EditMailActivity extends BaseFragmentActivity {
         protected Boolean doInBackground(String... params) {
             try {
                 String body = Client.INSTANCE.performGet("http://4pda.ru/forum/index.php?" + m_Params);
+                
                 parseBody(body);
 
                 return true;
