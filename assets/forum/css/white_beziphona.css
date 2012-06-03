@@ -12,9 +12,9 @@
 	position:relative;
 	top:1px;
 }.post_body img{
-        max-width: 100%;
-        height: auto!important;
-        -webkit-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.9);
+    max-width: 100%;
+    height: auto!important;
+    /*-webkit-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);*/
 } .post_nick a{
 	color: #FF6600!important;
 	font-size: 15px!important;
@@ -119,8 +119,7 @@
 	margin-top: 10px;
 	;
 	
-}
-body{
+}body{
 	color: #333;
 	font-family: Verdana, Tahoma, Arial, "Trebuchet MS", Sans-Serif, Georgia, Courier, "Times New Roman", Serif;
 	font-size: 11px;
@@ -143,10 +142,7 @@ body{
 }a:link{
 	color: #666666;
 	text-decoration: none;
-}.post_body img{
-        max-width: 100%;
-        height: auto!important;
-        -webkit-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
+}
         
 }.button
 {
