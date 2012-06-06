@@ -74,13 +74,19 @@ public class MainActivity extends BaseFragmentActivity {
             if (checkIntent())
                 return;
 
-            createTabHost();
+            createTabHost( savedInstanceState);
             MyApp.INSTANCE.showPromo(this);
 
         } catch (Exception ex) {
             Log.e(getApplicationContext(), ex);
         }
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("tab", mTabHost.getCurrentTabTag());
     }
 
     private void createMenu() {
@@ -131,7 +137,7 @@ public class MainActivity extends BaseFragmentActivity {
     private Boolean m_TabHostCreating = false;
     private String m_Defaulttab = "Tab1";
 
-    private void createTabHost() throws NotReportException {
+    private void createTabHost(Bundle savedInstanceState) throws NotReportException {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         m_Defaulttab = prefs.getString("tabs.defaulttab", "Tab1");
         m_TabHostCreating = true;
@@ -156,7 +162,11 @@ public class MainActivity extends BaseFragmentActivity {
 
 
         mTabHost.setCurrentTab(-1);
-        mTabHost.setCurrentTabByTag(m_Defaulttab);
+        if (savedInstanceState != null) {
+            mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
+        }
+        else
+            mTabHost.setCurrentTabByTag(m_Defaulttab);
         m_TabHostCreating = false;
 
         ITab tab = (ITab) mTabHost.getCurrentView();
@@ -333,7 +343,7 @@ public class MainActivity extends BaseFragmentActivity {
                     try {
                         View currentView = getTabHost() == null ? null : getTabHost().getCurrentView();
                         if (currentView == null)
-                            ((MainActivity) getActivity()).createTabHost();
+                            ((MainActivity) getActivity()).createTabHost(null);
                         else
                             ((ITab) getTabHost().getCurrentView()).refresh();
                     } catch (Exception ex) {

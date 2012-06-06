@@ -381,6 +381,7 @@ public class Client {
             res = httpHelper.performGet(s);
         } finally {
             httpHelper.close();
+
         }
         // m_HttpHelper.close();
         return res;

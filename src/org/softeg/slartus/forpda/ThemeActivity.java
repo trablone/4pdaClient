@@ -603,9 +603,11 @@ public class ThemeActivity extends BaseFragmentActivity  {
     }
 
     private class MyPictureListener implements WebView.PictureListener {
-
+        Thread m_ScrollThread;
         public void onNewPicture(WebView view, Picture arg1) {
-            new Thread(new Runnable() {
+            if(TextUtils.isEmpty(m_ScrollElement)||m_ScrollX==0)return;
+            if(m_ScrollThread==null)
+            m_ScrollThread=new Thread(new Runnable() {
                 public void run() {
                     try {
                         Thread.sleep(800);
@@ -618,7 +620,9 @@ public class ThemeActivity extends BaseFragmentActivity  {
                         }
                     });
                 }
-            }).start();
+            });
+            m_ScrollThread.stop();
+            m_ScrollThread.start();
         }
 
         private void tryScrollToElement() {
