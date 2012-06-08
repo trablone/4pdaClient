@@ -1,6 +1,7 @@
 package org.softeg.slartus.forpda;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +14,7 @@ import org.softeg.slartus.forpda.classes.common.ExtPreferences;
  * Date: 05.08.11
  * Time: 8:03
  */
-public class MyApp extends android.app.Application {
+public class MyApp extends Application {
     public static final int THEME_WHITE=0;
     public static final int THEME_BLACK=1;
 
@@ -24,11 +25,20 @@ public class MyApp extends android.app.Application {
     public static final int THEME_GRAY_REMIE=6;
     public static final int THEME_WHITE_VETALORLOV=7;
 
-    public static final int THEME_LIGHT_BEZIPHONA=9;
+    public static final int THEME_GRAY_BEZIPHONA=9;
     public static final int THEME_CUSTOM_CSS=99;
 
     private static boolean m_IsDebugModeLoaded = false;
     private static boolean m_IsDebugMode = false;
+
+    private static MyApp singleton;
+    public static MyApp getInstance() {
+        return singleton;
+    } @Override
+      public final void onCreate() {
+        super.onCreate();
+        singleton = this;
+    }
 
     public static boolean getIsDebugMode() {
         if (!m_IsDebugModeLoaded) {
@@ -38,7 +48,7 @@ public class MyApp extends android.app.Application {
         }
         return m_IsDebugMode;
     }
-    
+
     public static void showMainActivityWithoutBack(Activity activity){
         Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
         intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -62,7 +72,7 @@ public class MyApp extends android.app.Application {
                 return R.style.Theme_White;
             case THEME_BLACK_REMIE:
             case THEME_GRAY_REMIE:
-            case THEME_LIGHT_BEZIPHONA:
+            case THEME_GRAY_BEZIPHONA:
             case THEME_BLACK:
                 return R.style.Theme_Black;
             default:
@@ -81,7 +91,7 @@ public class MyApp extends android.app.Application {
             case THEME_WHITE:
                 return getResources().getColor(R.color.white_theme_webview_background) ;
             case THEME_BLACK_REMIE:
-            case THEME_LIGHT_BEZIPHONA:
+            case THEME_GRAY_BEZIPHONA:
             case THEME_GRAY_REMIE:
             case THEME_BLACK:
                 return Color.BLACK;
@@ -110,7 +120,7 @@ public class MyApp extends android.app.Application {
             case THEME_WHITE:
                 cssFile = "white";
                 break;
-            case THEME_LIGHT_BEZIPHONA:
+            case THEME_GRAY_BEZIPHONA:
             case THEME_BLACK_REMIE:
             case THEME_GRAY_REMIE:
             case THEME_BLACK:
@@ -151,7 +161,7 @@ public class MyApp extends android.app.Application {
                 cssFile = "white_vetalorlov.css";
                 break;
 
-            case THEME_LIGHT_BEZIPHONA:
+            case THEME_GRAY_BEZIPHONA:
                 cssFile = "gray_beziphona.css";
                 break;
             case THEME_CUSTOM_CSS:
@@ -168,7 +178,7 @@ public class MyApp extends android.app.Application {
         INSTANCE = this;
 
     }
-    
+
     public void showPromo(final Context context){
 //        new AlertDialog.Builder(context)
 //                .setTitle("Просьба")
@@ -190,6 +200,7 @@ public class MyApp extends android.app.Application {
     public static Context getContext() {
         return INSTANCE;
     }
+    
 
 
 }
