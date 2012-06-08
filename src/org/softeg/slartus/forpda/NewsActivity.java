@@ -716,4 +716,39 @@ public class NewsActivity extends BaseFragmentActivity {
                 })
                 .create().show();
     }
+    //новые обработчики
+    @Override
+           public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+        webView.getSettings().setBuiltInZoomControls(m_UseZoom);
+        webView.getSettings().setSupportZoom(m_UseZoom);
+    }
+
+    
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        webView.getSettings().setBuiltInZoomControls(m_UseZoom);
+        webView.getSettings().setSupportZoom(m_UseZoom);
+    }
+
+    
+    @Override
+    public void onStop(){
+        super.onStop();
+
+        webView.getSettings().setBuiltInZoomControls(m_UseZoom);
+        webView.getSettings().setSupportZoom(m_UseZoom);
+    }
+
+    
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+
+        webView.getSettings().setBuiltInZoomControls(m_UseZoom);
+        webView.getSettings().setSupportZoom(m_UseZoom);
+    }
 }
