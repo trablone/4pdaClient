@@ -1592,5 +1592,44 @@ public class ThemeActivity extends BaseFragmentActivity  {
 
 
         }
+        // новые обработчики
+    }@Override
+           public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        webView = (AdvWebView) findViewById(R.id.wvBody);
+        registerForContextMenu(webView);
+        webView.getSettings().setBuiltInZoomControls(m_UseZoom);
+        webView.getSettings().setSupportZoom(m_UseZoom);
+        webView.setWebViewClient(new MyWebViewClient());
+
+
     }
+    @Override
+    public void onPause(){
+        super.onPause();
+        webView = (AdvWebView) findViewById(R.id.wvBody);
+        registerForContextMenu(webView);
+        webView.getSettings().setBuiltInZoomControls(m_UseZoom);
+        webView.getSettings().setSupportZoom(m_UseZoom);
+        webView.setWebViewClient(new MyWebViewClient());
+    }
+  @Override
+    public void onStop(){
+      super.onStop();
+      webView = (AdvWebView) findViewById(R.id.wvBody);
+      registerForContextMenu(webView);
+      webView.getSettings().setBuiltInZoomControls(m_UseZoom);
+      webView.getSettings().setSupportZoom(m_UseZoom);
+      webView.setWebViewClient(new MyWebViewClient());
+  }
+
+  @Override
+   public void onDestroy(){
+      super.onDestroy();
+      webView = (AdvWebView) findViewById(R.id.wvBody);
+      registerForContextMenu(webView);
+      webView.getSettings().setBuiltInZoomControls(m_UseZoom);
+      webView.getSettings().setSupportZoom(m_UseZoom);
+      webView.setWebViewClient(new MyWebViewClient());
+  }
 }
