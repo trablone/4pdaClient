@@ -167,7 +167,8 @@ public class ThemeActivity extends BaseFragmentActivity  {
         }
 
         webView.setWebViewClient(new MyWebViewClient());
-        webView.setPictureListener(new MyPictureListener());
+        
+        /*webView.setPictureListener(new MyPictureListener());*/
 
         Intent intent = getIntent();
         if (intent != null && intent.getData() != null) {
@@ -601,7 +602,7 @@ public class ThemeActivity extends BaseFragmentActivity  {
             Log.e(ThemeActivity.this, ex);
         }
     }
-
+/*
     private class MyPictureListener implements WebView.PictureListener {
 
         public void onNewPicture(WebView view, Picture arg1) {
@@ -631,7 +632,7 @@ public class ThemeActivity extends BaseFragmentActivity  {
                 m_ScrollElement = null;
             }
         }
-    }
+    }*/
 
     private class MyWebViewClient extends WebViewClient {
         @Override
