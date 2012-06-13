@@ -16,6 +16,15 @@ public class Forum extends ForumItem {
     public int level = 0;
     private String tag;
 
+    public static Forum loadFromApiForum(org.softeg.slartus.forpdaapi.Forum apiForum){
+        Forum forum=new Forum(apiForum.getId(),apiForum.getTitle());
+        for(int i=0;i<apiForum.getForums().size();i++){
+            forum.addForum(Forum.loadFromApiForum(apiForum.getForums().get(i)));
+        }
+        
+        return forum;
+    }
+    
     public Forum(String id, String title) {
         m_Id = id;
         m_Title = title;

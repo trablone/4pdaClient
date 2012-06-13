@@ -19,6 +19,7 @@ import org.softeg.slartus.forpda.Tabs.DevicesTab;
 import org.softeg.slartus.forpda.classes.DevDbDevice;
 import org.softeg.slartus.forpda.classes.LazyGallery.LazyAdapter;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -238,7 +239,7 @@ public class DevDbDeviceActivity extends BaseActivity {
         protected Boolean doInBackground(String... params) {
             try {
                 m_DevDbDevice = new DevDbDevice();
-                String pageBody = DevicesTab.performGet("http://devdb.ru/" + m_DeviceId, new Client.OnProgressChangedListener() {
+                String pageBody = DevicesTab.performGet("http://devdb.ru/" + m_DeviceId, new OnProgressChangedListener() {
                     public void onProgressChanged(String state) {
                         publishProgress(state);
                     }

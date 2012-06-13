@@ -14,6 +14,7 @@ import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.DevDbDeviceActivity;
 import org.softeg.slartus.forpda.classes.Forum;
 import org.softeg.slartus.forpda.classes.Topic;
+import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -53,7 +54,7 @@ public class DevicesTab extends TreeTab {
     }
 
     @Override
-    protected void loadForum(Forum forum, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    protected void loadForum(Forum forum, OnProgressChangedListener progressChangedListener) throws IOException {
         switch (forum.level) {
             case 0:
                 parseDevicesTypes(forum, progressChangedListener);
@@ -87,7 +88,7 @@ public class DevicesTab extends TreeTab {
 
 
     @Override
-    protected void getThemes(Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    protected void getThemes(OnProgressChangedListener progressChangedListener) throws IOException {
 
     }
 
@@ -111,7 +112,9 @@ public class DevicesTab extends TreeTab {
         }
     }
 
-    public void parseDevicesTypes(Forum forum, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+
+
+    public void parseDevicesTypes(Forum forum, OnProgressChangedListener progressChangedListener) throws IOException {
         String pageBody = performGet("http://devdb.ru", progressChangedListener);
 
         Pattern pattern = Pattern.compile("<a href=\"http://devdb.ru/(.*?)/\">.*?<br /><br />(.*?)</a></p>");
@@ -122,7 +125,7 @@ public class DevicesTab extends TreeTab {
         }
     }
 
-    public void parseDevicesBrands(Forum forum, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    public void parseDevicesBrands(Forum forum, OnProgressChangedListener progressChangedListener) throws IOException {
         String pageBody = performGet("http://devdb.ru/" + forum.getId(), progressChangedListener);
 
         Pattern pattern = Pattern.compile("<li><a href=\"http://devdb.ru/(.*?)\">(.*?)</a></li>");
@@ -133,7 +136,7 @@ public class DevicesTab extends TreeTab {
         }
     }
 
-    public void parseModels(Forum forum, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    public void parseModels(Forum forum, OnProgressChangedListener progressChangedListener) throws IOException {
         String pageBody = performGet("http://devdb.ru/" + forum.getId(), progressChangedListener);
 
         Pattern pattern = Pattern.compile("<li><a href=\"http://devdb.ru/(.*?)\">(.*?)</a></li>");
@@ -144,7 +147,7 @@ public class DevicesTab extends TreeTab {
         }
     }
 
-    public static String performGet(String url, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    public static String performGet(String url, OnProgressChangedListener progressChangedListener) throws IOException {
         progressChangedListener.onProgressChanged("Получение данных...");
         String pageBody = Client.INSTANCE.performGet(url);
         progressChangedListener.onProgressChanged("Обработка данных...");

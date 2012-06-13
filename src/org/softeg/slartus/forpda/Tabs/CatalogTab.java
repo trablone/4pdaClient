@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.classes.Forum;
 import org.softeg.slartus.forpda.classes.Topic;
+import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -35,7 +36,7 @@ public class CatalogTab extends TreeTab {
     }
 
     @Override
-    protected void loadForum(Forum forum, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    protected void loadForum(Forum forum, OnProgressChangedListener progressChangedListener) throws IOException {
 
         loadCatalog(forum, progressChangedListener);
 
@@ -48,7 +49,7 @@ public class CatalogTab extends TreeTab {
 
 
     @Override
-    protected void getThemes(Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    protected void getThemes(OnProgressChangedListener progressChangedListener) throws IOException {
 
         if (m_Themes.size() == 0) {
             if (m_ForumForLoadThemes.getTag() != null && m_ForumForLoadThemes.getTag().equals("games")) {
@@ -78,7 +79,7 @@ public class CatalogTab extends TreeTab {
     private static final String appCatalogUrl = "http://4pda.ru/forum/index.php?showtopic=112220";
     private static final String gameCatalogUrl = "http://4pda.ru/forum/index.php?showtopic=117270";
 
-    private void loadCatalog(Forum catalog, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private void loadCatalog(Forum catalog, OnProgressChangedListener progressChangedListener) throws IOException {
 
         Forum appCatalog = new Forum("112220", "Программы");
         loadAppCatalog(appCatalog, progressChangedListener);
@@ -92,7 +93,7 @@ public class CatalogTab extends TreeTab {
 
     }
 
-    private void loadAppCatalog(Forum catalog, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private void loadAppCatalog(Forum catalog, OnProgressChangedListener progressChangedListener) throws IOException {
 
         String pageBody = Client.INSTANCE.loadPageAndCheckLogin(appCatalogUrl, progressChangedListener);
 
@@ -124,7 +125,7 @@ public class CatalogTab extends TreeTab {
 
     }
 
-    private void loadGameCatalog(Forum catalog, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private void loadGameCatalog(Forum catalog, OnProgressChangedListener progressChangedListener) throws IOException {
 
         String pageBody = Client.INSTANCE.loadPageAndCheckLogin(gameCatalogUrl, progressChangedListener);
 
@@ -163,7 +164,7 @@ public class CatalogTab extends TreeTab {
     }
 
 
-    private void loadCategoryThemes(Forum category, String title, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private void loadCategoryThemes(Forum category, String title, OnProgressChangedListener progressChangedListener) throws IOException {
         category.getThemes().clear();
 
         String pageBody = loadPageAndCheckLogin(appCatalogUrl, progressChangedListener);
@@ -191,7 +192,7 @@ public class CatalogTab extends TreeTab {
         }
     }
 
-    private void loadGameCategoryThemes(Forum category, String title, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private void loadGameCategoryThemes(Forum category, String title, OnProgressChangedListener progressChangedListener) throws IOException {
         category.getThemes().clear();
 
         String pageBody = loadPageAndCheckLogin(gameCatalogUrl, progressChangedListener);
@@ -216,7 +217,7 @@ public class CatalogTab extends TreeTab {
         }
     }
 
-    private void loadSubCategoryThemes(Forum subCategory, String categoryTitle, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private void loadSubCategoryThemes(Forum subCategory, String categoryTitle, OnProgressChangedListener progressChangedListener) throws IOException {
         subCategory.getThemes().clear();
 
         String pageBody = loadPageAndCheckLogin(appCatalogUrl, progressChangedListener);
@@ -244,7 +245,7 @@ public class CatalogTab extends TreeTab {
 
 
 
-    private void loadGameSubCategoryThemes(Forum subCategory, String categoryTitle, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private void loadGameSubCategoryThemes(Forum subCategory, String categoryTitle, OnProgressChangedListener progressChangedListener) throws IOException {
         subCategory.getThemes().clear();
 
 
@@ -271,7 +272,7 @@ public class CatalogTab extends TreeTab {
         }
     }
 
-    private String loadPageAndCheckLogin(String url, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private String loadPageAndCheckLogin(String url, OnProgressChangedListener progressChangedListener) throws IOException {
         return Client.INSTANCE.loadPageAndCheckLogin(url, progressChangedListener);
     }
 }

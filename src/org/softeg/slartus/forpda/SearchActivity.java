@@ -15,6 +15,7 @@ import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
 import org.softeg.slartus.forpda.classes.Forum;
 import org.softeg.slartus.forpda.classes.ForumsAdapter;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -137,7 +138,7 @@ public class SearchActivity extends BaseActivity {
         new Thread(new Runnable() {
             public void run() {
                 try {
-                    Client.INSTANCE.loadForums(new Client.OnProgressChangedListener() {
+                    Client.INSTANCE.loadForums(new OnProgressChangedListener() {
                         public void onProgressChanged(final String state) {
                             mHandler.post(new Runnable() {
                                 public void run() {

@@ -5,10 +5,11 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import org.softeg.slartus.forpda.Client;
-import org.softeg.slartus.forpda.classes.Topic;
 import org.softeg.slartus.forpda.classes.Themes;
+import org.softeg.slartus.forpda.classes.Topic;
 import org.softeg.slartus.forpda.classes.common.Functions;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -48,7 +49,7 @@ public class SearchTab extends ThemesTab {
 
 
     @Override
-    public void getThemes(Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    public void getThemes(OnProgressChangedListener progressChangedListener) throws IOException {
         String params = "&source=" + m_Source;
         params += "&sort=" + m_Sort;
         Enumeration<String> keys = m_CheckedIds.keys();
@@ -129,7 +130,7 @@ public class SearchTab extends ThemesTab {
     }
 
 
-    private void getSearchThemes(Themes themes, String query, String userName, String params, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private void getSearchThemes(Themes themes, String query, String userName, String params, OnProgressChangedListener progressChangedListener) throws IOException {
 
 
         String pageBody = Client.INSTANCE.loadPageAndCheckLogin("http://4pda.ru/forum/index.php?act=search&query=" + URLEncoder.encode(query, "windows-1251") + "&username=" + URLEncoder.encode(userName, "windows-1251") + "&subforums=1&result=topics" + params + "&st=" + themes.size()

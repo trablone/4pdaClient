@@ -3,8 +3,9 @@ package org.softeg.slartus.forpda.Tabs;
 import android.content.Context;
 import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.classes.Forum;
-import org.softeg.slartus.forpda.classes.Topic;
 import org.softeg.slartus.forpda.classes.Themes;
+import org.softeg.slartus.forpda.classes.Topic;
+import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -46,7 +47,7 @@ public class FirstHelpTab extends TreeTab {
     }
 
     @Override
-    protected void loadForum(Forum forum, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    protected void loadForum(Forum forum, OnProgressChangedListener progressChangedListener) throws IOException {
         if(forum.getParent()==null)
             parse(forum, progressChangedListener);
         else
@@ -54,14 +55,14 @@ public class FirstHelpTab extends TreeTab {
     }
 
      @Override
-    protected void getThemes(Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    protected void getThemes(OnProgressChangedListener progressChangedListener) throws IOException {
 
         if (m_ForumForLoadThemes.LoadMore || m_Themes.size() == 0) {
 
             ForumTreeTab.loadThemes(m_ForumForLoadThemes, progressChangedListener);
         }
     }
-    public void parse(Forum forum, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    public void parse(Forum forum, OnProgressChangedListener progressChangedListener) throws IOException {
 
         String pageBody = Client.INSTANCE.loadPageAndCheckLogin("http://4pda.ru/forum/index.php?showforum=282", progressChangedListener);
 

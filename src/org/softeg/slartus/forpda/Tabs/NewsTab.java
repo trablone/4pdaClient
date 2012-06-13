@@ -16,6 +16,7 @@ import org.softeg.slartus.forpda.NewsActivity;
 import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
 import org.softeg.slartus.forpda.classes.Topic;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -76,7 +77,7 @@ public class NewsTab extends ThemesTab {
 
 
     @Override
-    public void getThemes(Client.OnProgressChangedListener progressChangedListener) throws Exception {
+    public void getThemes(OnProgressChangedListener progressChangedListener) throws Exception {
         getRssItems(progressChangedListener);
     }
     
@@ -84,7 +85,7 @@ public class NewsTab extends ThemesTab {
         return body.replaceAll("&(?!amp;)","&amp;");
     }
 
-    private void getRssItems(Client.OnProgressChangedListener progressChangedListener) throws Exception {
+    private void getRssItems(OnProgressChangedListener progressChangedListener) throws Exception {
         try {
             Client.INSTANCE.doOnOnProgressChanged(progressChangedListener, "Получение данных...");
             Client.INSTANCE.checkLogin(Client.INSTANCE.performGet("http://4pda.ru/forum/"));

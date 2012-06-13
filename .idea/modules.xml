@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/4pda.iml" filepath="$PROJECT_DIR$/4pda.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../4pdaApi/4pdaApi.iml" filepath="$PROJECT_DIR$/../4pdaApi/4pdaApi.iml" />
       <module fileurl="file://$PROJECT_DIR$/Externals/ActionBarSherlock/library/ActionBarSherlock.iml" filepath="$PROJECT_DIR$/Externals/ActionBarSherlock/library/ActionBarSherlock.iml" />
       <module fileurl="file://$PROJECT_DIR$/Externals/FileExplorer/FileExplorer.iml" filepath="$PROJECT_DIR$/Externals/FileExplorer/FileExplorer.iml" />
       <module fileurl="file://$PROJECT_DIR$/Externals/chrisbanes-Android-PullToRefresh/library/PullToRefresh.iml" filepath="$PROJECT_DIR$/Externals/chrisbanes-Android-PullToRefresh/library/PullToRefresh.iml" />

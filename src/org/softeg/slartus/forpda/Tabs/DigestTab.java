@@ -5,6 +5,7 @@ import android.text.Html;
 import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.classes.Forum;
 import org.softeg.slartus.forpda.classes.Topic;
+import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -33,7 +34,7 @@ public class DigestTab extends TreeTab {
     }
 
     @Override
-    protected void loadForum(Forum forum, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    protected void loadForum(Forum forum, OnProgressChangedListener progressChangedListener) throws IOException {
 
         loadDigest(forum, progressChangedListener);
 
@@ -59,7 +60,7 @@ public class DigestTab extends TreeTab {
 
 
     @Override
-    protected void getThemes(Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    protected void getThemes(OnProgressChangedListener progressChangedListener) throws IOException {
 
         if (m_ForumForLoadThemes.getTag().equals("app")) {
             if (m_ForumForLoadThemes.getParent().getId().equals(m_ForumForLoadThemes.getId()))
@@ -73,7 +74,7 @@ public class DigestTab extends TreeTab {
     }
 
 
-    public void loadDigest(final Forum digest, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    public void loadDigest(final Forum digest, OnProgressChangedListener progressChangedListener) throws IOException {
         Client.INSTANCE.doOnOnProgressChanged(progressChangedListener, "Получение данных...");
         String body = Client.INSTANCE.performGet("http://4pda.ru/forum/index.php?showtopic=127361");
         String bodyGames = Client.INSTANCE.performGet("http://4pda.ru/forum/index.php?showtopic=131725");
@@ -163,7 +164,7 @@ public class DigestTab extends TreeTab {
 
     }
 
-    private String getAppDigestMsgSubCategory(String dateTitle, String newOldTitle, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private String getAppDigestMsgSubCategory(String dateTitle, String newOldTitle, OnProgressChangedListener progressChangedListener) throws IOException {
 
         String body = Client.INSTANCE.loadPageAndCheckLogin("http://4pda.ru/forum/index.php?showtopic=127361", progressChangedListener);
 
@@ -183,7 +184,7 @@ public class DigestTab extends TreeTab {
     }
 
     // новые/обновления
-    public void getAppDigestCategoryThemes(final Forum category, String dateTitle, String newOldTitle, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    public void getAppDigestCategoryThemes(final Forum category, String dateTitle, String newOldTitle, OnProgressChangedListener progressChangedListener) throws IOException {
         String msgSubCategory = getAppDigestMsgSubCategory(dateTitle, newOldTitle, progressChangedListener);
         if (msgSubCategory == null) return;
 
@@ -212,7 +213,7 @@ public class DigestTab extends TreeTab {
         }
     }
 
-    public void getAppDigestSubCategoryThemes(final Forum subCategory, String dateTitle, String newOldTitle, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    public void getAppDigestSubCategoryThemes(final Forum subCategory, String dateTitle, String newOldTitle, OnProgressChangedListener progressChangedListener) throws IOException {
         String msgSubCategory = getAppDigestMsgSubCategory(dateTitle, newOldTitle, progressChangedListener);
         if (msgSubCategory == null) return;
 
@@ -241,7 +242,7 @@ public class DigestTab extends TreeTab {
         }
     }
 
-    private String getGameDigestMsgSubCategory(String dateTitle, String newOldTitle, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private String getGameDigestMsgSubCategory(String dateTitle, String newOldTitle, OnProgressChangedListener progressChangedListener) throws IOException {
 
         String body = Client.INSTANCE.loadPageAndCheckLogin("http://4pda.ru/forum/index.php?showtopic=131725", progressChangedListener);
 
@@ -260,7 +261,7 @@ public class DigestTab extends TreeTab {
         return m.group(1);
     }
 
-    public void getGameDigestCategoryThemes(final Forum category, String dateTitle, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    public void getGameDigestCategoryThemes(final Forum category, String dateTitle, OnProgressChangedListener progressChangedListener) throws IOException {
         String msgSubCategory = getGameDigestMsgSubCategory(dateTitle, category.getTitle(), progressChangedListener);
         if (msgSubCategory == null) return;
 

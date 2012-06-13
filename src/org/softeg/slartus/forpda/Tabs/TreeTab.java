@@ -9,11 +9,11 @@ import android.view.ContextMenu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.R;
 import org.softeg.slartus.forpda.classes.Forum;
 import org.softeg.slartus.forpda.classes.Forums;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
 import java.io.IOException;
 
@@ -133,7 +133,7 @@ public abstract class TreeTab extends ThemesTab {
             super.onCreateContextMenu(menu, v, menuInfo, handler);
     }
 
-    protected abstract void loadForum(Forum forum, Client.OnProgressChangedListener progressChangedListener) throws IOException;
+    protected abstract void loadForum(Forum forum, OnProgressChangedListener progressChangedListener) throws IOException;
 
     private class ShowForumsTask extends AsyncTask<Forum, String, Boolean> {
         Context mContext;
@@ -152,7 +152,7 @@ public abstract class TreeTab extends ThemesTab {
             try {
                 m_LoadForum = forums[0];
                 m_LoadForum.clearChildren();
-                loadForum(m_LoadForum, new Client.OnProgressChangedListener() {
+                loadForum(m_LoadForum, new OnProgressChangedListener() {
                     public void onProgressChanged(String state) {
                         publishProgress(state);
                     }

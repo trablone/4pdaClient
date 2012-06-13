@@ -13,11 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import org.softeg.slartus.forpda.classes.Reputation;
-import org.softeg.slartus.forpda.classes.Reputations;
 import org.softeg.slartus.forpda.classes.Topic;
 import org.softeg.slartus.forpda.classes.common.ExtPreferences;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
+import org.softeg.slartus.forpdaapi.Reputation;
+import org.softeg.slartus.forpdaapi.Reputations;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -218,7 +219,7 @@ public class ReputationActivity extends Activity {
         @Override
         protected Boolean doInBackground(String... params) {
             try {
-                Client.INSTANCE.loadUserReputation(m_Reputations, new Client.OnProgressChangedListener() {
+                Client.INSTANCE.loadUserReputation(m_Reputations, new OnProgressChangedListener() {
                     public void onProgressChanged(String state) {
                         publishProgress(state);
                     }
