@@ -166,8 +166,7 @@ public class ThemeActivity extends BaseFragmentActivity  {
             Log.e(null, ex);
         }
 
-        webView.setWebViewClient(new MyWebViewClient());
-        webView.setPictureListener(new MyPictureListener());
+
 
         Intent intent = getIntent();
         if (intent != null && intent.getData() != null) {
@@ -182,9 +181,10 @@ public class ThemeActivity extends BaseFragmentActivity  {
         if (extras.containsKey("Params"))
             m_Params = extras.getString("Params");
 
-
-        String url = "showtopic=" + m_ThemeUrl + (TextUtils.isEmpty(m_Params) ? "" : ("&" + m_Params));
-        showTheme(url);
+        s_ThemeId=m_ThemeUrl;
+        s_Params=m_Params;
+//        String url = "showtopic=" + m_ThemeUrl + (TextUtils.isEmpty(m_Params) ? "" : ("&" + m_Params));
+//        showTheme(url);
     }
 
     @Override
@@ -202,6 +202,7 @@ public class ThemeActivity extends BaseFragmentActivity  {
 
         return true;
     }
+
 
     private void userChanged() {
         mHandler.post(new Runnable() {
@@ -241,6 +242,9 @@ public class ThemeActivity extends BaseFragmentActivity  {
     @Override
     public void onResume() {
         super.onResume();
+        webView.setWebViewClient(new MyWebViewClient());
+        webView.setPictureListener(new MyPictureListener());
+
         if (s_ThemeId != null) {
             String url = "showtopic=" + s_ThemeId + (TextUtils.isEmpty(s_Params) ? "" : ("&" + s_Params));
             s_ThemeId = null;
@@ -605,15 +609,11 @@ public class ThemeActivity extends BaseFragmentActivity  {
     private class MyPictureListener implements WebView.PictureListener {
         Thread m_ScrollThread;
         public void onNewPicture(WebView view, Picture arg1) {
-            if(TextUtils.isEmpty(m_ScrollElement)||m_ScrollX==0)return;
+            if(TextUtils.isEmpty(m_ScrollElement)&&m_ScrollX==0)return;
             if(m_ScrollThread==null)
             m_ScrollThread=new Thread(new Runnable() {
                 public void run() {
-                    try {
-                        Thread.sleep(800);
-                    } catch (InterruptedException ignoredEx) {
 
-                    }
                     mHandler.post(new Runnable() {
                         public void run() {
                             tryScrollToElement();
@@ -621,7 +621,15 @@ public class ThemeActivity extends BaseFragmentActivity  {
                     });
                 }
             });
-            m_ScrollThread.stop();
+            synchronized (m_ScrollThread) {
+                try {
+                    m_ScrollThread.wait(800);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
+
+
             m_ScrollThread.start();
         }
 
@@ -633,7 +641,9 @@ public class ThemeActivity extends BaseFragmentActivity  {
                 webView.scrollTo(0, 0);
                 webView.loadUrl("javascript: scrollToElement('entry" + m_ScrollElement + "');");
                 m_ScrollElement = null;
+
             }
+            webView.setPictureListener(null);
         }
     }
 
@@ -1596,5 +1606,32 @@ public class ThemeActivity extends BaseFragmentActivity  {
 
 
         }
+    }
+
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        webView.setWebViewClient(null);
+        webView.setPictureListener(null);
+    }
+
+
+    @Override
+    public void onStop(){
+        super.onStop();
+
+        webView.setWebViewClient(null);
+        webView.setPictureListener(null);
+    }
+
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+
+        webView.setWebViewClient(null);
+        webView.setPictureListener(null);
     }
 }

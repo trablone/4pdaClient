@@ -56,6 +56,7 @@ public class NewsActivity extends BaseFragmentActivity {
     private ImageButton btnPrevSearch, btnNextSearch, btnCloseSearch;
     private EditText txtSearch;
     private String m_NewsUrl;
+    public static String s_NewsUrl = null;
     private Uri m_Data = null;
     private ArrayList<History> m_History = new ArrayList<History>();
     private MenuFragment mFragment1;
@@ -142,7 +143,8 @@ public class NewsActivity extends BaseFragmentActivity {
         Bundle extras = intent.getExtras();
 
         m_NewsUrl = extras.getString(URL_KEY);
-        showNews(m_NewsUrl);
+        s_NewsUrl=m_NewsUrl;
+
     }
 
     private void createActionMenu() {
@@ -160,6 +162,14 @@ public class NewsActivity extends BaseFragmentActivity {
     @Override
     public void onResume() {
         super.onResume();
+
+        webView.setWebViewClient(new MyWebViewClient());
+
+        if (s_NewsUrl != null) {
+
+            s_NewsUrl = null;
+            showNews(m_NewsUrl);
+        }
 
         if (m_Data != null) {
             String url = m_Data.toString();
@@ -715,5 +725,31 @@ public class NewsActivity extends BaseFragmentActivity {
                     }
                 })
                 .create().show();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        webView.setWebViewClient(null);
+        webView.setPictureListener(null);
+    }
+
+
+    @Override
+    public void onStop(){
+        super.onStop();
+
+        webView.setWebViewClient(null);
+        webView.setPictureListener(null);
+    }
+
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+
+        webView.setWebViewClient(null);
+        webView.setPictureListener(null);
     }
 }
