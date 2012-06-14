@@ -610,10 +610,15 @@ public class ThemeActivity extends BaseFragmentActivity  {
         Thread m_ScrollThread;
         public void onNewPicture(WebView view, Picture arg1) {
             if(TextUtils.isEmpty(m_ScrollElement)&&m_ScrollX==0)return;
-            if(m_ScrollThread==null)
+            if(m_ScrollThread!=null)return;
+
             m_ScrollThread=new Thread(new Runnable() {
                 public void run() {
-
+                    try {
+                        Thread.sleep(800);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
                     mHandler.post(new Runnable() {
                         public void run() {
                             tryScrollToElement();
@@ -621,13 +626,7 @@ public class ThemeActivity extends BaseFragmentActivity  {
                     });
                 }
             });
-            synchronized (m_ScrollThread) {
-                try {
-                    m_ScrollThread.wait(800);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-            }
+
 
 
             m_ScrollThread.start();
