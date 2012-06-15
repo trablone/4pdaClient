@@ -243,7 +243,6 @@ public class ThemeActivity extends BaseFragmentActivity  {
     public void onResume() {
         super.onResume();
         webView.setWebViewClient(new MyWebViewClient());
-        webView.setPictureListener(new MyPictureListener());
 
         if (s_ThemeId != null) {
             String url = "showtopic=" + s_ThemeId + (TextUtils.isEmpty(s_Params) ? "" : ("&" + s_Params));
@@ -609,7 +608,10 @@ public class ThemeActivity extends BaseFragmentActivity  {
     private class MyPictureListener implements WebView.PictureListener {
         Thread m_ScrollThread;
         public void onNewPicture(WebView view, Picture arg1) {
-            if(TextUtils.isEmpty(m_ScrollElement)&&m_ScrollX==0)return;
+            if(TextUtils.isEmpty(m_ScrollElement)&&m_ScrollX==0){
+                webView.setPictureListener(null);
+                return;
+            }
             if(m_ScrollThread!=null)return;
 
             m_ScrollThread=new Thread(new Runnable() {
@@ -754,7 +756,7 @@ public class ThemeActivity extends BaseFragmentActivity  {
 
     public void showTheme(String url) {
         closeSearch();
-
+        webView.setPictureListener(new MyPictureListener());
         GetThemeTask getThemeTask = new GetThemeTask(this);
         getThemeTask.execute(url.replace("|", ""));
     }
@@ -1245,6 +1247,7 @@ public class ThemeActivity extends BaseFragmentActivity  {
                     return;
                 }
                 webView.loadUrl("javascript:clearPostBody();");
+
                 showTheme("showtopic=" + m_Topic.getId() + "&view=getnewpost");
 
 
