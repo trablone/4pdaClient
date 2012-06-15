@@ -1,10 +1,8 @@
 package org.softeg.slartus.forpda.classes;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
@@ -13,6 +11,7 @@ import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.LoginDialog;
 import org.softeg.slartus.forpda.Mail.MailBoxActivity;
 import org.softeg.slartus.forpda.R;
+import org.softeg.slartus.forpda.qms.QmsContactsActivity;
 
 /**
  * User: slinkin
@@ -109,6 +108,19 @@ public class ProfileMenuFragment extends SherlockFragment {
 
                 public boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem item) {
                     Intent intent = new Intent(getActivity(), MailBoxActivity.class);
+
+                    intent.putExtra("activity", getActivity().getClass().toString());
+                    getActivity().startActivity(intent);
+
+
+                    return true;
+                }
+            });
+
+            mUserMenuItem.add("QMS").setOnMenuItemClickListener(new com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener() {
+
+                public boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem item) {
+                    Intent intent = new Intent(getActivity(), QmsContactsActivity.class);
 
                     intent.putExtra("activity", getActivity().getClass().toString());
                     getActivity().startActivity(intent);

@@ -117,11 +117,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ThemeActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/ThemeActivity.java">
+      <file leaf-file-name="QmsChatActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/qms/QmsChatActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="645" column="24" selection-start="22930" selection-end="22930" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="65" column="4" selection-start="1909" selection-end="1909" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="class#LoadTask#0;class#QmsChatActivity#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -129,7 +132,43 @@
       <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="139" selection-start="828" selection-end="828" vertical-scroll-proportion="0.35416666">
+            <state line="12" column="51" selection-start="691" selection-end="691" vertical-scroll-proportion="0.40881765">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="293" column="91" selection-start="9338" selection-end="9407" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MailActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/Mail/MailActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="96" column="16" selection-start="2678" selection-end="2885" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ThemeActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/ThemeActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="159" column="63" selection-start="5930" selection-end="6045" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="qms_chat.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/qms_chat.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="12" selection-start="432" selection-end="432" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -150,22 +189,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/org/softeg/slartus/forpda/Tabs/AppsTab.java" />
-        <option value="$PROJECT_DIR$/src/org/softeg/slartus/forpda/ReputationActivity.java" />
-        <option value="$PROJECT_DIR$/src/org/softeg/slartus/forpda/SearchActivity.java" />
-        <option value="$PROJECT_DIR$/../4pdaApi/src/org/softeg/slartus/forpdaapi/IHttpClient.java" />
-        <option value="$PROJECT_DIR$/../4pdaApi/src/org/softeg/slartus/forpdaapi/User.java" />
-        <option value="$PROJECT_DIR$/src/org/softeg/slartus/forpda/Tabs/TabDataSettingsActivity.java" />
-        <option value="$PROJECT_DIR$/src/org/softeg/slartus/forpda/Client.java" />
-        <option value="$PROJECT_DIR$/res/values/arrays.xml" />
-        <option value="$PROJECT_DIR$/src/org/softeg/slartus/forpda/MyApp.java" />
-        <option value="$PROJECT_DIR$/assets/history.txt" />
-        <option value="$PROJECT_DIR$/src/org/softeg/slartus/forpda/NewsActivity.java" />
-        <option value="$PROJECT_DIR$/src/org/softeg/slartus/forpda/classes/AdvWebView.java" />
         <option value="$PROJECT_DIR$/src/org/softeg/slartus/forpda/Tabs/SearchTab.java" />
         <option value="$PROJECT_DIR$/src/org/softeg/slartus/forpda/Tabs/ThemesTab.java" />
         <option value="$PROJECT_DIR$/src/org/softeg/slartus/forpda/ThemeActivity.java" />
+        <option value="$PROJECT_DIR$/Externals/4pdaApi/src/org/softeg/slartus/forpdaapi/User.java" />
+        <option value="$PROJECT_DIR$/Externals/4pdaApi/src/org/softeg/slartus/forpdaapi/Users.java" />
+        <option value="$PROJECT_DIR$/Externals/4pdaApi/src/org/softeg/slartus/forpdaapi/QmsUsers.java" />
+        <option value="$PROJECT_DIR$/src/org/softeg/slartus/forpda/Mail/MailsListFragment.java" />
+        <option value="$PROJECT_DIR$/src/org/softeg/slartus/forpda/classes/ProfileMenuFragment.java" />
+        <option value="$PROJECT_DIR$/res/layout/qms_contacts_list.xml" />
+        <option value="$PROJECT_DIR$/Externals/4pdaApi/src/org/softeg/slartus/forpdaapi/QmsUser.java" />
+        <option value="$PROJECT_DIR$/res/layout/qms_contact_item.xml" />
+        <option value="$PROJECT_DIR$/Externals/4pdaApi/src/org/softeg/slartus/forpdaapi/Qms.java" />
+        <option value="$PROJECT_DIR$/src/org/softeg/slartus/forpda/qms/QmsContactsActivity.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/res/layout/qms_chat.xml" />
+        <option value="$PROJECT_DIR$/src/org/softeg/slartus/forpda/qms/QmsChatActivity.java" />
       </list>
     </option>
   </component>
@@ -208,8 +247,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -224,6 +261,34 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="4pdaApi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="4pda" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="4pdaApi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forpdaapi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="4pda" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="4pda" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -264,12 +329,46 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Tabs" />
+              <option name="myItemId" value="Mail" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="4pda" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="4pda" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="4pda" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="4pda" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -279,7 +378,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="ExportedApkPath" value="d:\projects\Dropbox\!Projects\!android\4pda\4pda files\4pda_v1.5.5.apk" />
+    <property name="ExportedApkPath" value="d:\projects\Dropbox\!Projects\!android\4pda\4pda files\4pda_v1.5.6beta1.apk" />
     <property name="ExportedModule" value="4pda" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="emulator-5554" />
@@ -360,24 +459,6 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -403,6 +484,24 @@
       <envs />
       <properties />
       <listeners />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
@@ -533,9 +632,10 @@
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292357" sideWeight="0.6011429" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20114286" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39885715" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -544,11 +644,10 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16835916" sideWeight="0.79885715" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1758418" sideWeight="0.6011429" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32914287" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Android Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924107" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292357" sideWeight="0.9257143" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.074285716" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24959914" sideWeight="0.5577143" order="2" side_tool="false" content_ui="combo" />
@@ -611,90 +710,123 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/Tabs/TabDataSettingsActivity.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/qms_contact_item.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="249" column="49" selection-start="9800" selection-end="9800" vertical-scroll-proportion="0.0" />
+        <state line="12" column="67" selection-start="590" selection-end="590" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/EditPostPlusActivity.java">
+    <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/BaseActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="545" column="33" selection-start="18378" selection-end="18378" vertical-scroll-proportion="0.0" />
+        <state line="13" column="25" selection-start="314" selection-end="326" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/history.txt">
+    <entry file="file://$PROJECT_DIR$/Externals/4pdaApi/src/org/softeg/slartus/forpdaapi/QmsUser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="61" selection-start="263" selection-end="263" vertical-scroll-proportion="0.0" />
+        <state line="19" column="36" selection-start="439" selection-end="439" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/MainActivity.java">
+    <entry file="jar://D:/android-sdk-windows/platforms/android-15/android.jar!/android/graphics/Color.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="39" selection-start="1175" selection-end="1175" vertical-scroll-proportion="0.0" />
+        <state line="19" column="11" selection-start="721" selection-end="721" vertical-scroll-proportion="0.026052104">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/BaseFragmentActivity.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/theme.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="50" selection-start="381" selection-end="381" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Externals/ActionBarSherlock/library/src/com/actionbarsherlock/app/SherlockFragmentActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="49" selection-start="1023" selection-end="1023" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="jar://D:/android-sdk-windows/platforms/android-15/android.jar!/android/webkit/WebChromeClient.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="11" selection-start="187" selection-end="187" vertical-scroll-proportion="0.12215569" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/Tabs/ITab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="17" selection-start="209" selection-end="209" vertical-scroll-proportion="0.18042453" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/search_activity.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="53" selection-start="2364" selection-end="2364" vertical-scroll-proportion="-0.4914586" />
+        <state line="16" column="18" selection-start="311" selection-end="729" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/classes/AdvWebView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="9" selection-start="1184" selection-end="1184" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/NewsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="133" column="75" selection-start="4772" selection-end="4772" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/SearchActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="40" selection-start="2915" selection-end="2915" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/Tabs/SearchTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="77" selection-start="2249" selection-end="2249" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="method#getTitle#0;class#SearchTab#0" expanded="false" />
-          </folding>
+        <state line="17" column="13" selection-start="413" selection-end="413" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/Tabs/ThemesTab.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="2" selection-start="1986" selection-end="1986" vertical-scroll-proportion="0.0" />
+        <state line="178" column="86" selection-start="6233" selection-end="6348" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/classes/ProfileMenuFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="112" column="84" selection-start="4384" selection-end="4594" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Externals/4pdaApi/src/org/softeg/slartus/forpdaapi/Qms.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="0" selection-start="639" selection-end="639" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/qms/QmsContactsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="116" column="71" selection-start="3966" selection-end="3966" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#onResume#0;class#QmsContactsActivity#0" expanded="false" />
+            <element signature="class#QmsUsersLoader#0;class#QmsContactsActivity#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/qms_chat.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="12" selection-start="432" selection-end="432" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/ThemeActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="645" column="24" selection-start="22930" selection-end="22930" vertical-scroll-proportion="0.0">
+        <state line="159" column="63" selection-start="5930" selection-end="6045" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="293" column="91" selection-start="9338" selection-end="9407" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/Mail/MailActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="96" column="16" selection-start="2678" selection-end="2885" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/softeg/slartus/forpda/qms/QmsChatActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="65" column="4" selection-start="1909" selection-end="1909" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="class#LoadTask#0;class#QmsChatActivity#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="139" selection-start="828" selection-end="828" vertical-scroll-proportion="0.35416666">
+        <state line="12" column="51" selection-start="691" selection-end="691" vertical-scroll-proportion="0.40881765">
           <folding />
         </state>
       </provider>

@@ -16,7 +16,24 @@ import java.util.regex.Pattern;
  * Time: 11:56
  */
 public class User {
+    private String nick;
+    private String mid;
 
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }
+
+    public String getMid() {
+        return mid;
+    }
+
+    public void setMid(String mid) {
+        this.mid = mid;
+    }
 
     private static final Pattern checkLoginPattern = Pattern.compile("<a href=\"(http://4pda.ru)?/forum/index.php\\?showuser=(\\d+)\">(.*?)</a></b> \\( <a href=\"(http://4pda.ru)?/forum/index.php\\?act=Login&amp;CODE=03&amp;k=([a-z0-9]{32})\">Выход</a>");
 
@@ -200,6 +217,7 @@ public class User {
 
 
     }
+
 
 
 }
