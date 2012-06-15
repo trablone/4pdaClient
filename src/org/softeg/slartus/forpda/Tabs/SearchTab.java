@@ -48,6 +48,32 @@ public class SearchTab extends ThemesTab {
     }
 
 
+
+
+    public void loadSettings() {
+        String tabTag = getTabId();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        m_Source = preferences.getString(tabTag + ".Template.Source", "all");
+        m_Name = preferences.getString(tabTag + ".Template.Name", "Последние");
+
+        m_Sort = preferences.getString(tabTag + ".Template.Sort", "dd");
+        m_UserName = preferences.getString(tabTag + ".Template.UserName", "");
+        m_Query = preferences.getString(tabTag + ".Template.Query", "");
+
+        loadChecks(preferences.getString(tabTag + ".Template.Forums", ""));
+        m_Subforums = preferences.getBoolean(tabTag + ".Template.Subforums", true);
+
+        if (TextUtils.isEmpty(m_Name)) {
+            if (m_Source.equals("all") && m_Sort.equals("dd") && TextUtils.isEmpty(m_UserName)
+                    && (m_CheckedIds.size() == 0) && m_Subforums)
+                m_Name = "Последние";
+            else
+                m_Name = "Поиск";
+        }
+
+    }
+
+
     @Override
     public void getThemes(OnProgressChangedListener progressChangedListener) throws IOException {
         String params = "&source=" + m_Source;
@@ -89,28 +115,6 @@ public class SearchTab extends ThemesTab {
     }
 
 
-    private void loadSettings() {
-        String tabTag = getTabId();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        m_Source = preferences.getString(tabTag + ".Template.Source", "all");
-        m_Name = preferences.getString(tabTag + ".Template.Name", "Последние");
-
-        m_Sort = preferences.getString(tabTag + ".Template.Sort", "dd");
-        m_UserName = preferences.getString(tabTag + ".Template.UserName", "");
-        m_Query = preferences.getString(tabTag + ".Template.Query", "");
-
-        loadChecks(preferences.getString(tabTag + ".Template.Forums", ""));
-        m_Subforums = preferences.getBoolean(tabTag + ".Template.Subforums", true);
-
-        if (TextUtils.isEmpty(m_Name)) {
-            if (m_Source.equals("all") && m_Sort.equals("dd") && TextUtils.isEmpty(m_UserName)
-                    && (m_CheckedIds.size() == 0) && m_Subforums)
-                m_Name = "Последние";
-            else
-                m_Name = "Поиск";
-        }
-
-    }
 
     private void loadChecks(String checksString) {
         m_CheckedIds = new Hashtable<String, CharSequence>();

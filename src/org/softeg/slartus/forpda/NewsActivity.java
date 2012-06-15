@@ -131,8 +131,8 @@ public class NewsActivity extends BaseFragmentActivity {
         int sdk = new Integer(Build.VERSION.SDK).intValue();
         if (sdk > 7)
             webView.getSettings().setPluginState(WebSettings.PluginState.ON);
-        webView.setWebViewClient(new MyWebViewClient());
 
+       // webView.setWebChromeClient(new WebChromeClient() );
         Intent intent = getIntent();
         if (intent != null && intent.getData() != null) {
             m_Data = intent.getData();
@@ -163,7 +163,7 @@ public class NewsActivity extends BaseFragmentActivity {
     public void onResume() {
         super.onResume();
 
-        webView.setWebViewClient(new MyWebViewClient());
+
 
         if (s_NewsUrl != null) {
 
@@ -366,6 +366,7 @@ public class NewsActivity extends BaseFragmentActivity {
     }
 
     private void showNews(String url) {
+        webView.setWebViewClient(new MyWebViewClient());
         saveHistory(url);
         m_NewsUrl = url;
         closeSearch();

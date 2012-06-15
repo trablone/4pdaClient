@@ -609,7 +609,7 @@ public class ThemeActivity extends BaseFragmentActivity  {
         Thread m_ScrollThread;
         public void onNewPicture(WebView view, Picture arg1) {
             if(TextUtils.isEmpty(m_ScrollElement)&&m_ScrollX==0){
-                webView.setPictureListener(null);
+                //webView.setPictureListener(null);
                 return;
             }
             if(m_ScrollThread!=null)return;
