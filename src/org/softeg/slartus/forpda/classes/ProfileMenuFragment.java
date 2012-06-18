@@ -11,6 +11,7 @@ import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.LoginDialog;
 import org.softeg.slartus.forpda.Mail.MailBoxActivity;
 import org.softeg.slartus.forpda.R;
+import org.softeg.slartus.forpda.ReputationActivity;
 import org.softeg.slartus.forpda.qms.QmsContactsActivity;
 
 /**
@@ -124,6 +125,16 @@ public class ProfileMenuFragment extends SherlockFragment {
 
                     intent.putExtra("activity", getActivity().getClass().toString());
                     getActivity().startActivity(intent);
+
+
+                    return true;
+                }
+            });
+
+            mUserMenuItem.add("Репутация").setOnMenuItemClickListener(new com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener() {
+
+                public boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem item) {
+                    ReputationActivity.showRep(getActivity(), Client.INSTANCE.UserId);
 
 
                     return true;

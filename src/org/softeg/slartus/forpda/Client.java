@@ -42,6 +42,7 @@ public class Client implements IHttpClient {
 
     public static final String SITE = "4pda.ru";
     public static final String MASTER_PASSWORD = "sx2AvOCPjXFhKoyWJMAqSiiPwaS2Z3Pc";
+    public String UserId = "0";
     private String m_User = "гость";
 
     private String m_K = "";
@@ -450,6 +451,7 @@ public class Client implements IHttpClient {
 
         Matcher m = checkLoginPattern.matcher(pageBody);
         if (m.find()) {
+            UserId= m.group(2);
             m_User = m.group(3);
             m_K = m.group(5);
             m_Logined = true;

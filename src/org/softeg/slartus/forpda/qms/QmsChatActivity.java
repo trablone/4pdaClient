@@ -1,5 +1,6 @@
 package org.softeg.slartus.forpda.qms;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -78,6 +79,14 @@ public class QmsChatActivity extends BaseFragmentActivity {
         m_Nick = extras.getString("UserNick");
         setTitle(m_Nick + " - QMS");
 
+    }
+    
+    public static void openChat(Activity activity,String userId, String userNick){
+        Intent intent = new Intent(activity, QmsChatActivity.class);
+        intent.putExtra("UserId", userId);
+        intent.putExtra("UserNick", userNick);
+
+        activity.startActivity(intent);
     }
 
 

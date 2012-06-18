@@ -40,6 +40,7 @@ import org.softeg.slartus.forpda.classes.common.Functions;
 import org.softeg.slartus.forpda.classes.common.StringUtils;
 import org.softeg.slartus.forpda.common.HelpTask;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpda.qms.QmsChatActivity;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -822,6 +823,7 @@ public class ThemeActivity extends BaseFragmentActivity  {
     }
 
     public void showUserMenu(final String userId, final String userNick) {
+        // не забыть менять в ForumUser
         final QuickAction mQuickAction = new QuickAction(ThemeActivity.this);
 
         int insertNickPosition = -1;
@@ -841,10 +843,20 @@ public class ThemeActivity extends BaseFragmentActivity  {
             sendLSPosition = mQuickAction.addActionItem(actionItem);
         }
 
+        int sendQmsPosition = -1;
+        if (Client.INSTANCE.getLogined()) {
+            ActionItem actionItem = new ActionItem();
+            // actionItem.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_edit));
+            actionItem.setTitle("Связаться через QMS");
+
+            sendQmsPosition = mQuickAction.addActionItem(actionItem);
+        }
+
         if (mQuickAction.getItemsCount() == 0) return;
 
         final int finalInsertNickPosition = insertNickPosition;
         final int finalSendLSPosition = sendLSPosition;
+        final int finalSendQmsPosition = sendQmsPosition;
         mQuickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
             public void onItemClick(int pos) {
                 try {
@@ -860,6 +872,8 @@ public class ThemeActivity extends BaseFragmentActivity  {
                         intent.putExtra(EditMailActivity.KEY_USER, userNick);
                         intent.putExtra(EditMailActivity.KEY_RETERN_BACK, true);
                         startActivity(intent);
+                    } else if (pos == finalSendQmsPosition) {
+                        QmsChatActivity.openChat(ThemeActivity.this, userId, userNick);
                     }
                 } catch (Exception ex) {
                     Log.e(ThemeActivity.this, ex);
@@ -1008,10 +1022,7 @@ public class ThemeActivity extends BaseFragmentActivity  {
     }
 
     public void showRep(final String userId) {
-        Intent intent = new Intent(ThemeActivity.this, ReputationActivity.class);
-        intent.putExtra("userId", userId);
-
-        ThemeActivity.this.startActivity(intent);
+        ReputationActivity.showRep(this,userId);
     }
 
     public void showRepMenu(final String postId, final String userId, final String userNick, String canPlus, String canMinus) {

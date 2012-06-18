@@ -1,7 +1,6 @@
 package org.softeg.slartus.forpda.qms;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -109,12 +108,8 @@ public class QmsContactsActivity extends BaseFragmentActivity implements Adapter
         l = ListViewMethodsBridge.getItemId(this, i, l);
         if (l < 0||mAdapter.getCount()<=l) return;
 
+        QmsChatActivity.openChat(this,m_QmsUsers.get((int)l).getMid(),m_QmsUsers.get((int)l).getNick());
 
-        Intent intent = new Intent(this, QmsChatActivity.class);
-        intent.putExtra("UserId", m_QmsUsers.get((int)l).getMid());
-        intent.putExtra("UserNick", m_QmsUsers.get((int)l).getNick());
-        intent.putExtra("activity", this.getClass().toString());
-        startActivity(intent);
     }
 
     private static class QmsUsersLoader extends AsyncTaskLoader<QmsUsers> {
