@@ -1,6 +1,8 @@
 package org.softeg.slartus.forpdaapi;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,4 +42,22 @@ public class Qms {
         }
         return res;
     }
+    
+    public static String getLastMessageId(String chatBody){
+        Matcher m= Pattern.compile("<body onload=\"top.han_result \\( \\d+, 1 \\);\">").matcher(chatBody);
+        if(m.find()){
+            return m.group(1); 
+        }
+        return null;
+    }
+
+    public static String sendMessage(IHttpClient httpClient, String userId, String message, String lastMessageId, String msgCount) throws IOException {
+        Map<String, String> additionalHeaders = new HashMap<String, String>();
+
+        additionalHeaders.put("msg", message);
+        additionalHeaders.put("from", lastMessageId);
+        String pageBody = httpClient.performPost("http://4pda.ru/forum/index.php?autocom=qms&a=load&mid="+userId+"&num="+msgCount,additionalHeaders);
+        return pageBody;
+    }
+
 }

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.softeg.slartus.forpda"
           android:versionCode="102"
-          android:versionName="1.5.6 beta 1" android:installLocation="auto"
+          android:versionName="1.5.6 beta 2" android:installLocation="auto"
         >
     <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="14"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -77,6 +77,8 @@
         <activity android:name=".qms.QmsContactsActivity" android:label="QMS абоненты"
                   android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
         <activity android:name=".qms.QmsChatActivity" android:label="QMS"
+                  android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
+        <activity android:name=".qms.QmsPreferencesActivity" android:label="Настройки QMS"
                   android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
         <activity android:name=".EditPostPlusActivity" android:label="Редактирование сообщения"
                   android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>

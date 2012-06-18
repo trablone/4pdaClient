@@ -2,7 +2,6 @@ package org.softeg.slartus.forpda.qms;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -19,6 +18,7 @@ import org.softeg.slartus.forpda.BaseFragmentActivity;
 import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.R;
 import org.softeg.slartus.forpda.Tabs.ListViewMethodsBridge;
+import org.softeg.slartus.forpda.classes.common.ExtColor;
 import org.softeg.slartus.forpda.common.Log;
 import org.softeg.slartus.forpdaapi.Qms;
 import org.softeg.slartus.forpdaapi.QmsUser;
@@ -60,7 +60,6 @@ public class QmsContactsActivity extends BaseFragmentActivity implements Adapter
         super.onResume();
         refreshData();
     }
-
 
     public void refreshData() {
         m_QmsUsers.clear();
@@ -261,7 +260,13 @@ public class QmsContactsActivity extends BaseFragmentActivity implements Adapter
 
             holder.txtCount.setText(user.getMessagesCount());
             holder.txtNick.setText(user.getNick());
-            holder.txtNick.setTextColor(Color.parseColor(user.getHtmlColor()));
+            try {
+                holder.txtNick.setTextColor(ExtColor.parseColor(user.getHtmlColor()));
+            }catch (Exception ex){
+                Log.e(getContext(),new Exception("Не умею цвет: " + user.getHtmlColor()) );
+            }
+                
+            
             holder.txtDateTime.setText(user.getLastMessageDateTime());
 
             if (!TextUtils.isEmpty(user.getNewMessagesCount())) {
