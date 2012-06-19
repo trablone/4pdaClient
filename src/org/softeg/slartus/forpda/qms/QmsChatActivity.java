@@ -54,7 +54,7 @@ public class QmsChatActivity extends BaseFragmentActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.qms_chat);
-
+// мы можем подгружать нужный нам id для edittext взависимости от белой или черной темы?
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
