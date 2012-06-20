@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
+import org.softeg.slartus.forpda.classes.common.ArrayUtils;
 import org.softeg.slartus.forpda.classes.common.ExtPreferences;
 
 /**
@@ -14,18 +15,20 @@ import org.softeg.slartus.forpda.classes.common.ExtPreferences;
  * Time: 8:03
  */
 public class MyApp extends android.app.Application {
-    public static final int THEME_WHITE=0;
-    public static final int THEME_BLACK=1;
+    public static final int THEME_WHITE = 0;
+    public static final int THEME_BLACK = 1;
 
-    public static final int THEME_WHITE_REMIE=2;
-    public static final int THEME_BLACK_REMIE=3;
-    public static final int THEME_WHITE_BEZIPHONA=4;
-    public static final int THEME_WHITER_REMIE=5;
-    public static final int THEME_GRAY_REMIE=6;
-    public static final int THEME_WHITE_VETALORLOV=7;
+    public static final int THEME_WHITE_REMIE = 2;
+    public static final int THEME_BLACK_REMIE = 3;
+    public static final int THEME_WHITE_BEZIPHONA = 4;
+    public static final int THEME_WHITER_REMIE = 5;
+    public static final int THEME_GRAY_REMIE = 6;
+    public static final int THEME_WHITE_VETALORLOV = 7;
 
-    public static final int THEME_GRAY_BEZIPHONA=9;
-    public static final int THEME_CUSTOM_CSS=99;
+    public static final int THEME_GRAY_BEZIPHONA = 9;
+    public static final int THEME_CUSTOM_CSS = 99;
+
+    private final Integer[] WHITE_THEMES = {THEME_WHITE_BEZIPHONA, THEME_WHITE_VETALORLOV, THEME_WHITE_REMIE, THEME_WHITER_REMIE, THEME_WHITE};
 
     private static boolean m_IsDebugModeLoaded = false;
     private static boolean m_IsDebugMode = false;
@@ -38,11 +41,11 @@ public class MyApp extends android.app.Application {
         }
         return m_IsDebugMode;
     }
-    
-    public static void showMainActivityWithoutBack(Activity activity){
+
+    public static void showMainActivityWithoutBack(Activity activity) {
         Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
-        intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
         activity.finish();
     }
@@ -50,79 +53,31 @@ public class MyApp extends android.app.Application {
     public static MyApp INSTANCE = new MyApp();
 
     public int getThemeStyleResID() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        switch (ExtPreferences.parseInt(preferences, "appstyle", THEME_WHITE)){
-            case THEME_WHITE_BEZIPHONA:
-            case THEME_WHITE_VETALORLOV:
+        return isWhiteTheme() ? R.style.Theme_White : R.style.Theme_Black;
+    }
 
-            case THEME_WHITE_REMIE:
-            case THEME_WHITER_REMIE:
+    public boolean isWhiteTheme() {
 
-            case THEME_WHITE:
-                return R.style.Theme_White;
-            case THEME_BLACK_REMIE:
-            case THEME_GRAY_REMIE:
-            case THEME_GRAY_BEZIPHONA:
-            case THEME_BLACK:
-                return R.style.Theme_Black;
-            default:
-                return R.style.Theme_White;
-        }
+        return ArrayUtils.indexOf(getCurrentTheme(),WHITE_THEMES ) != -1;
     }
 
     public int getThemeStyleWebViewBackground() {
-        switch (getCurrentTheme()){
-            case THEME_WHITE_BEZIPHONA:
-            case THEME_WHITE_VETALORLOV:
-
-            case THEME_WHITE_REMIE:
-            case THEME_WHITER_REMIE:
-
-            case THEME_WHITE:
-                return getResources().getColor(R.color.white_theme_webview_background) ;
-            case THEME_BLACK_REMIE:
-            case THEME_GRAY_BEZIPHONA:
-            case THEME_GRAY_REMIE:
-            case THEME_BLACK:
-                return Color.BLACK;
-            default:
-                return Color.WHITE;
-        }
+        return isWhiteTheme() ? getResources().getColor(R.color.white_theme_webview_background) : Color.BLACK;
     }
 
 
-    public int getCurrentTheme(){
+    public int getCurrentTheme() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        return ExtPreferences.parseInt(preferences, "appstyle", THEME_WHITE) ;
+        return ExtPreferences.parseInt(preferences, "appstyle", THEME_WHITE);
 
     }
 
-    public String getCurrentThemeName(){
-        String cssFile = "white";
-        int theme = MyApp.INSTANCE.getCurrentTheme();
-        switch (theme) {
-            case THEME_WHITE_BEZIPHONA:
-            case THEME_WHITE_VETALORLOV:
-
-            case THEME_WHITE_REMIE:
-            case THEME_WHITER_REMIE:
-
-            case THEME_WHITE:
-                cssFile = "white";
-                break;
-            case THEME_GRAY_BEZIPHONA:
-            case THEME_BLACK_REMIE:
-            case THEME_GRAY_REMIE:
-            case THEME_BLACK:
-                cssFile = "black";
-                break;
-        }
-        return cssFile;
-
+    public String getCurrentThemeName() {
+        return isWhiteTheme() ?"white":"black";
     }
 
-    public String getThemeCssFileName(){
-        String path="/android_asset/forum/css/";
+    public String getThemeCssFileName() {
+        String path = "/android_asset/forum/css/";
         String cssFile = "white.css";
         int theme = MyApp.INSTANCE.getCurrentTheme();
         switch (theme) {
@@ -158,18 +113,17 @@ public class MyApp extends android.app.Application {
                 return "/mnt/sdcard/style.css";
 
         }
-        return path+cssFile;
+        return path + cssFile;
 
     }
-
 
 
     public MyApp() {
         INSTANCE = this;
 
     }
-    
-    public void showPromo(final Context context){
+
+    public void showPromo(final Context context) {
 //        new AlertDialog.Builder(context)
 //                .setTitle("Просьба")
 //                .setMessage("Прошу проголосовать ВКонтакте за моего друга Мисс Крисс.\nЭто сообщение больше не будет вам показано")

@@ -22,6 +22,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import org.softeg.slartus.forpda.BaseFragmentActivity;
 import org.softeg.slartus.forpda.Client;
+import org.softeg.slartus.forpda.MyApp;
 import org.softeg.slartus.forpda.R;
 import org.softeg.slartus.forpda.classes.common.ExtPreferences;
 import org.softeg.slartus.forpda.common.Log;
@@ -71,7 +72,10 @@ public class QmsChatActivity extends BaseFragmentActivity {
         wvChat = (WebView) findViewById(R.id.wvChat);
         wvChat.getSettings().setBuiltInZoomControls(true);
         wvChat.getSettings().setSupportZoom(true);
-
+        if(!MyApp.INSTANCE.isWhiteTheme()){
+            wvChat.setBackgroundColor(MyApp.INSTANCE.getThemeStyleWebViewBackground());
+            wvChat.loadData("<html><head></head><body bgcolor="+MyApp.INSTANCE.getCurrentThemeName()+"></body></html>","text/html", "UTF-8");
+        }
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
@@ -136,6 +140,13 @@ public class QmsChatActivity extends BaseFragmentActivity {
         m_UpdateTimeout= ExtPreferences.parseInt(preferences,"qms.chat.update_timer",15)*1000;
     }
 
+    private String transformChatBody(String chatBody){
+        if(MyApp.INSTANCE.isWhiteTheme())
+            return chatBody;
+        // черный фон+серый текст
+        return chatBody.replace("<body ","<body bgcolor=\"black\" text=\"#a0a0a0\" ");
+    }
+    
     private void reLoadChatSafe() {
         uiHandler.post(new Runnable() {
             public void run() {
@@ -145,7 +156,7 @@ public class QmsChatActivity extends BaseFragmentActivity {
         String chatBody = null;
         Exception ex = null;
         try {
-            chatBody = Qms.getChat(Client.INSTANCE, m_Id, m_MessagesCount);
+            chatBody = transformChatBody(Qms.getChat(Client.INSTANCE, m_Id, m_MessagesCount));
         } catch (IOException e) {
             ex = e;
         }
@@ -221,7 +232,7 @@ public class QmsChatActivity extends BaseFragmentActivity {
         protected Boolean doInBackground(String... params) {
             try {
 
-                m_ChatBody = Qms.sendMessage(Client.INSTANCE, m_Id, m_MessageText, m_LastMessageId, m_MessagesCount);
+                m_ChatBody = transformChatBody(Qms.sendMessage(Client.INSTANCE, m_Id, m_MessageText, m_LastMessageId, m_MessagesCount));
 
                 return true;
             } catch (Exception e) {
@@ -274,7 +285,12 @@ public class QmsChatActivity extends BaseFragmentActivity {
             com.actionbarsherlock.view.MenuItem item = menu.add("Обновить").setIcon(R.drawable.ic_menu_refresh);
             item.setOnMenuItemClickListener(new com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener() {
                 public boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem menuItem) {
-                    ((QmsChatActivity) getActivity()).reLoadChatSafe();
+                    new Thread(new Runnable() {
+                        public void run() {
+                            ((QmsChatActivity) getActivity()).reLoadChatSafe();
+                        }
+                    }).start();
+
                     return true;
                 }
             });

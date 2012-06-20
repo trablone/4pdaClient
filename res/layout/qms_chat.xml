@@ -4,7 +4,8 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:orientation="vertical"
-              style="?defaultColors">
+              style="?defaultColors"
+        android:padding="5dip">
     <RelativeLayout android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical">
@@ -18,7 +19,7 @@
                   android:singleLine="false"
                   android:capitalize="sentences"
                   android:layout_toLeftOf="@+id/btnSend"
-                  />
+                  style="?defaultColors"/>
         <Button android:id="@+id/btnSend"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
