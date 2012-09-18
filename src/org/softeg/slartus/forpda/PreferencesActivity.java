@@ -21,6 +21,7 @@ import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import org.softeg.slartus.forpda.Tabs.Tabs;
 import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
 import org.softeg.slartus.forpda.classes.ForumUser;
+import org.softeg.slartus.forpda.classes.common.FileUtils;
 import org.softeg.slartus.forpda.classes.common.StringUtils;
 import org.softeg.slartus.forpda.common.Log;
 
@@ -191,10 +192,15 @@ public class PreferencesActivity extends SherlockPreferenceActivity {
         downloadsPathPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             public boolean onPreferenceChange(Preference preference, Object o) {
                 try{
-                    String dirPath=DownloadsService.getDownloadDir(PreferencesActivity.this);
+                    String dirPath=o.toString();
                     if(!dirPath.endsWith(File.separator))
                         dirPath+=File.separator;
-                    File file=new File(dirPath+"4pda.tmp");
+                    File dir=new File(dirPath);
+                    File file=new File(FileUtils.getUniqueFilePath(dirPath,"4pda.tmp"));
+                    
+                    if(!dir.exists()&&!dir.mkdirs())
+                        throw new NotReportException("Не удалось создать папку по указанному пути");
+
                     if(!file.createNewFile())
                         throw new NotReportException("Не удалось создать файл по указанному пути");
                     file.delete();
