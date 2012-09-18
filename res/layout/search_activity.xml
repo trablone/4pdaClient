@@ -17,9 +17,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 style="?defaultColors"
+                android:hint="Ключевые слова"
                 android:scrollHorizontally="true"
                 android:capitalize="none"
                 android:autoText="false"
+                android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/btnSearch"
                 android:layout_toRightOf="@+id/btnSettins"/>
         <ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content"

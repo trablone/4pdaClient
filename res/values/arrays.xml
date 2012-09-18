@@ -61,14 +61,15 @@
         <item>Black от Remie-l</item>
         <item>WhiteR от Remie-l</item>
         <item>Gray от Remie-l</item>
+        <item>Green от Remie-l</item>
 
         <item>White от bezIPHONa</item>
-        <item>Light от bezIPHONa</item>
+        <item>Gray от bezIPHONa</item>
 
         <item>White от vetalorlov</item>
 
 
-        <item>Custom for css debug</item>
+        <item>Свой стиль</item>
     </string-array>
 
     <string-array name="appthemesValues">
@@ -79,6 +80,7 @@
         <item>3</item>
         <item>5</item>
         <item>6</item>
+        <item>10</item>
 
         <item>4</item>
         <item>9</item>

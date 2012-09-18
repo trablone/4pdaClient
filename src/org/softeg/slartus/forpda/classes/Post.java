@@ -147,6 +147,10 @@ public class Post {
     public void setUserGroup(String value) {
         m_UserGroup = value;
     }
+    
+    public String getUserGroup(){
+        return m_UserGroup;
+    }
 
     public void setUserReputation(String value) {
         m_UserReputation = value;
@@ -286,6 +290,7 @@ public class Post {
 
     private static void changePostReputation(final ThemeActivity themeActivity,final Handler handler, final String postId, final String direction) {
         Toast.makeText(themeActivity, "Запрос на изменение репутации отправлен", Toast.LENGTH_SHORT).show();
+        // http://s.4pda.ru/forum/jscripts/karma3.js
         new Thread(new Runnable() {
             public void run() {
                 Exception ex = null;

@@ -89,11 +89,18 @@
     color: #267F00!important;
 }
 
+.user_group
+{
+	color: #8F8F8F;
+	font-size: 8px;
+}
+
 .post_date
 {
 	color: #8F8F8F;
 	font-size: 10px;
-}.post_body
+}
+.post_body
 {
 	color: #CCC;
 	background: #232323;

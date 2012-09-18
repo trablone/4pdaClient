@@ -76,6 +76,8 @@ public final class Log {
     }
 
     public static void e(Context context, String message, Throwable ex, Boolean sendReport) {
+        android.util.Log.e(TAG, getLocation() + ex);
+
         if (ex.getClass() == java.net.UnknownHostException.class ||
                 ex.getClass() == HttpHostConnectException.class ||
                 ex.getClass() == ClientProtocolException.class) {
@@ -94,7 +96,7 @@ public final class Log {
             return;
         }
         
-        android.util.Log.e(TAG, getLocation() + ex);
+
         if (TextUtils.isEmpty(message))
             message = ex.getMessage();
         if (TextUtils.isEmpty(message))
@@ -142,6 +144,27 @@ public final class Log {
         } catch (Exception e) {
             e(null, e, false);
         }
+    }
+    
+    public static void sendMail(final Handler handler,final Context context, final String theme, final String body, final String attachText){
+
+
+        Thread th = new Thread(new Runnable() {
+            public void run() {
+                final Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{EMAIL});
+                intent.putExtra(Intent.EXTRA_SUBJECT, theme);
+                intent.putExtra(Intent.EXTRA_TEXT, body.toString());
+                intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + createLogFile(context,attachText)));
+                handler.post(new Runnable() {
+                    public void run() {
+                        context.startActivity(Intent.createChooser(intent, "Отправка сообщения"));
+                    }
+                });
+            }
+        });
+        th.start();
     }
 
     public static void sendReport(final Context context, final String fullExceptionText, final Throwable ex) {

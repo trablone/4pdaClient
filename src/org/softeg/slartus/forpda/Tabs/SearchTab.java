@@ -5,10 +5,11 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import org.softeg.slartus.forpda.Client;
-import org.softeg.slartus.forpda.classes.Topic;
 import org.softeg.slartus.forpda.classes.Themes;
+import org.softeg.slartus.forpda.classes.Topic;
 import org.softeg.slartus.forpda.classes.common.Functions;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -47,48 +48,9 @@ public class SearchTab extends ThemesTab {
     }
 
 
-    @Override
-    public void getThemes(Client.OnProgressChangedListener progressChangedListener) throws IOException {
-        String params = "&source=" + m_Source;
-        params += "&sort=" + m_Sort;
-        Enumeration<String> keys = m_CheckedIds.keys();
-        for (int i = 0; i < m_CheckedIds.size(); i++) {
-            String key = keys.nextElement();
-
-            params += "&forums%5B%5D=" + key;
-        }
-        if (m_CheckedIds.size() == 0) {
-            params += "&forums%5B%5D=all";
-        }
-        params += "&subforums=" + (m_Subforums ? "1" : "0");
-
-        getSearchThemes(super.m_Themes, m_Query, m_UserName, params, progressChangedListener);
-    }
-
-    private String m_Query;
-    private String m_UserName;
-
-    private String m_Source;
-    private String m_Name = "Поиск";
-    private String m_Sort;
-    private Boolean m_Subforums;
 
 
-    private Hashtable<String, CharSequence> m_CheckedIds = new Hashtable<String, CharSequence>();
-
-    public void search(String query, String userName, String source, String sort, Boolean subforums,
-                       Hashtable<String, CharSequence> checkedIds) {
-        m_Query = query;
-        m_UserName = userName;
-        m_Source = source;
-        m_Sort = sort;
-        m_Subforums = subforums;
-        m_CheckedIds = checkedIds;
-        refresh();
-    }
-
-
-    private void loadSettings() {
+    public void loadSettings() {
         String tabTag = getTabId();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         m_Source = preferences.getString(tabTag + ".Template.Source", "all");
@@ -108,8 +70,83 @@ public class SearchTab extends ThemesTab {
             else
                 m_Name = "Поиск";
         }
-
     }
+
+    public void saveSettings(){
+        String tabTag = getTabId();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences.Editor editor=preferences.edit();
+        editor.putString(tabTag + ".Template.Source",m_Source);
+        editor.putString(tabTag + ".Template.Name",m_Name);
+
+        editor.putString(tabTag + ".Template.Sort",m_Sort);
+        editor.putString(tabTag + ".Template.UserName",m_UserName);
+        editor.putString(tabTag + ".Template.Query",m_Query);
+
+//        editor.putString(tabTag + ".Template.Forums",m_Source);
+        editor.putBoolean(tabTag + ".Template.Subforums",m_Subforums);
+//
+
+        editor.commit();
+    }
+
+
+    @Override
+    public void getThemes(OnProgressChangedListener progressChangedListener) throws IOException {
+        String params = "&source=" + m_Source;
+        params += "&sort=" + m_Sort;
+        Enumeration<String> keys = m_CheckedIds.keys();
+        for (int i = 0; i < m_CheckedIds.size(); i++) {
+            String key = keys.nextElement();
+
+            params += "&forums%5B%5D=" + key;
+        }
+        if (m_CheckedIds.size() == 0) {
+            params += "&forums%5B%5D=all";
+        }
+        params += "&subforums=" + (m_Subforums ? "1" : "0");
+
+        getSearchThemes(super.m_Themes, m_Query, m_UserName, params, progressChangedListener);
+    }
+
+    private String m_Query;
+    public String getQuery(){
+        return m_Query;
+    }
+    private String m_UserName;
+    public String getUserName(){
+        return m_UserName;
+    }
+    private String m_Source;
+    public String getSource(){
+        return m_Source;
+    }
+    private String m_Name = "Поиск";
+    private String m_Sort="dd";
+    public String getSort(){
+        return m_Sort;
+    }
+    private Boolean m_Subforums;
+    public Boolean Subforums(){
+        return m_Subforums;
+    }
+
+
+    private Hashtable<String, CharSequence> m_CheckedIds = new Hashtable<String, CharSequence>();
+
+    public void search(String query, String userName, String source, String sort, Boolean subforums,
+                       Hashtable<String, CharSequence> checkedIds) {
+        m_Query = query;
+        m_UserName = userName;
+        m_Source = source;
+        m_Sort = sort;
+        m_Subforums = subforums;
+        m_CheckedIds = checkedIds;
+        saveSettings();
+        refresh();
+    }
+
+
 
     private void loadChecks(String checksString) {
         m_CheckedIds = new Hashtable<String, CharSequence>();
@@ -129,7 +166,7 @@ public class SearchTab extends ThemesTab {
     }
 
 
-    private void getSearchThemes(Themes themes, String query, String userName, String params, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private void getSearchThemes(Themes themes, String query, String userName, String params, OnProgressChangedListener progressChangedListener) throws IOException {
 
 
         String pageBody = Client.INSTANCE.loadPageAndCheckLogin("http://4pda.ru/forum/index.php?act=search&query=" + URLEncoder.encode(query, "windows-1251") + "&username=" + URLEncoder.encode(userName, "windows-1251") + "&subforums=1&result=topics" + params + "&st=" + themes.size()

@@ -160,7 +160,7 @@ public class IntentActivity extends Activity {
                     .setMessage("Начать закачку файла?")
                     .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            DownloadsActivity.download(handler, activity.getApplicationContext(), url);
+                            DownloadsActivity.download(activity, url);
                             dialogInterface.dismiss();
                             if (finish)
                                 activity.finish();
@@ -174,7 +174,7 @@ public class IntentActivity extends Activity {
                     })
                     .create().show();
         } else {
-            DownloadsActivity.download(handler, activity.getApplicationContext(), url);
+            DownloadsActivity.download(activity, url);
             if (finish)
                 activity.finish();
         }

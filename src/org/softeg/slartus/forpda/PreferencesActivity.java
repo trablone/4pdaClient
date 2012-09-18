@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.text.Html;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import org.softeg.slartus.forpda.Tabs.Tabs;
+import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
 import org.softeg.slartus.forpda.classes.ForumUser;
 import org.softeg.slartus.forpda.classes.common.StringUtils;
 import org.softeg.slartus.forpda.common.Log;
@@ -179,6 +181,28 @@ public class PreferencesActivity extends SherlockPreferenceActivity {
             public boolean onPreferenceChange(Preference preference, Object o) {
                 Toast.makeText(PreferencesActivity.this, "Необходимо перезапустить программу для применения темы!", Toast.LENGTH_SHORT).show();
                 return true;
+            }
+        });
+
+        Preference downloadsPathPreference=findPreference("downloads.path");
+        downloadsPathPreference.setSummary(DownloadsService.getDownloadDir(getApplicationContext()));
+        ((EditTextPreference)downloadsPathPreference)
+                .setText(DownloadsService.getDownloadDir(getApplicationContext()));
+        downloadsPathPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                try{
+                    String dirPath=DownloadsService.getDownloadDir(PreferencesActivity.this);
+                    if(!dirPath.endsWith(File.separator))
+                        dirPath+=File.separator;
+                    File file=new File(dirPath+"4pda.tmp");
+                    if(!file.createNewFile())
+                        throw new NotReportException("Не удалось создать файл по указанному пути");
+                    file.delete();
+                    return true;
+                }catch (Exception ex){
+                    Log.e(PreferencesActivity.this, new NotReportException(ex.toString()));
+                }
+                return false;
             }
         });
 

@@ -1,6 +1,5 @@
 package org.softeg.slartus.forpda;
 
-import android.os.Environment;
 import org.apache.http.*;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -22,6 +21,7 @@ import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.entity.HttpEntityWrapper;
+import org.apache.http.entity.mime.FormBodyPart;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
@@ -39,18 +39,20 @@ import org.apache.http.protocol.ExecutionContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.softeg.slartus.forpda.classes.AppHttpStatus;
-import org.softeg.slartus.forpda.classes.DownloadTask;
 import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
 import org.softeg.slartus.forpda.classes.SerializableCookie;
 import org.softeg.slartus.forpda.classes.common.FileUtils;
+import org.softeg.slartus.forpda.classes.common.Translit;
 import org.softeg.slartus.forpda.common.Log;
 
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -66,8 +68,8 @@ public class HttpHelper {
     private static final int POST_TYPE = 1;
     private static final int GET_TYPE = 2;
     private static final int DOWNLOAD_TYPE = 3;
-    private static final String GZIP = "gzip";
-    private static final String ACCEPT_ENCODING = "Accept-Encoding";
+    public static final String GZIP = "gzip";
+    public static final String ACCEPT_ENCODING = "Accept-Encoding";
 
     public static String HTTP_CONTENT_CHARSET = "windows-1251";
     public static String USER_AGENT = "Android";
@@ -190,7 +192,7 @@ public class HttpHelper {
         schemeRegistry.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
         ThreadSafeClientConnManager cm = new ThreadSafeClientConnManager(params, schemeRegistry);
         client = new DefaultHttpClient(cm, params);
-        
+
         client.setCookieStore(new CookieStore() {
             private List<Cookie> m_Cookies = null;
 
@@ -263,15 +265,23 @@ public class HttpHelper {
 
                 }
 
-                String location = locationHeader.getValue().replaceAll(" ", "%20");
-                if(location.indexOf("/#")!=-1)
-                    location=location.substring(0,location.indexOf("#"));
+                String location = locationHeader.getValue();
+
+                Matcher matcher = Pattern.compile("(http://sdl\\d+.4pda.ru/\\d+/)(.*?)(\\?.*)").matcher(location);
+                if (matcher.find()) {
+                    location = matcher.group(1) + URLEncoder.encode(matcher.group(2)) + matcher.group(3);
+                }else
+                    location = location.replaceAll(" ", "%20");
+
+                if (location.indexOf("/#") != -1)
+                    location = location.substring(0, location.indexOf("#"));
                 URI uri = null;
                 try {
                     uri = new URI(location);
                 } catch (URISyntaxException ex) {
 
                 }
+
 
                 HttpParams params = response.getParams();
                 // rfc2616 demands the location value be a complete URI
@@ -345,11 +355,11 @@ public class HttpHelper {
      * Perform a simple HTTP GET operation.
      */
     public String performGet(final String url, final String acceptEncoding) throws IOException {
-        return performRequest(null, url, null, null, null, null, HttpHelper.GET_TYPE, acceptEncoding,HTTP_CONTENT_CHARSET);
+        return performRequest(null, url, null, null, null, null, HttpHelper.GET_TYPE, acceptEncoding, HTTP_CONTENT_CHARSET);
     }
 
     public String performGet(final String url) throws IOException {
-        return performRequest(null, url, null, null, null, null, HttpHelper.GET_TYPE, HttpHelper.GZIP,HTTP_CONTENT_CHARSET);
+        return performRequest(null, url, null, null, null, null, HttpHelper.GET_TYPE, HttpHelper.GZIP, HTTP_CONTENT_CHARSET);
     }
 
     /**
@@ -357,18 +367,18 @@ public class HttpHelper {
      */
     public String performGet(final String url, final String user, final String pass,
                              final Map<String, String> additionalHeaders) throws IOException {
-        return performRequest(null, url, user, pass, additionalHeaders, null, HttpHelper.GET_TYPE, HttpHelper.GZIP,HTTP_CONTENT_CHARSET);
+        return performRequest(null, url, user, pass, additionalHeaders, null, HttpHelper.GET_TYPE, HttpHelper.GZIP, HTTP_CONTENT_CHARSET);
     }
 
     /**
      * Perform a simplified HTTP POST operation.
      */
     public String performPost(final String url, final Map<String, String> params) throws IOException {
-        return performRequest(HttpHelper.MIME_FORM_ENCODED, url, null, null, null, params, HttpHelper.POST_TYPE, HttpHelper.GZIP,HTTP_CONTENT_CHARSET);
+        return performRequest(HttpHelper.MIME_FORM_ENCODED, url, null, null, null, params, HttpHelper.POST_TYPE, HttpHelper.GZIP, HTTP_CONTENT_CHARSET);
     }
 
     public String performPost(final String url, final Map<String, String> params, String encoding) throws IOException {
-        return performRequest(HttpHelper.MIME_FORM_ENCODED, url, null, null, null, params, HttpHelper.POST_TYPE, HttpHelper.GZIP,encoding);
+        return performRequest(HttpHelper.MIME_FORM_ENCODED, url, null, null, null, params, HttpHelper.POST_TYPE, HttpHelper.GZIP, encoding);
     }
 
     /**
@@ -379,7 +389,7 @@ public class HttpHelper {
     public String performPost(final String url, final String user, final String pass,
                               final Map<String, String> additionalHeaders, final Map<String, String> params) throws IOException {
         return performRequest(HttpHelper.MIME_FORM_ENCODED, url, user, pass, additionalHeaders, params,
-                HttpHelper.POST_TYPE, HttpHelper.GZIP,HTTP_CONTENT_CHARSET);
+                HttpHelper.POST_TYPE, HttpHelper.GZIP, HTTP_CONTENT_CHARSET);
     }
 
     /**
@@ -388,7 +398,7 @@ public class HttpHelper {
      */
     public String performPost(final String contentType, final String url, final String user, final String pass,
                               final Map<String, String> additionalHeaders, final Map<String, String> params) throws IOException {
-        return performRequest(contentType, url, user, pass, additionalHeaders, params, HttpHelper.POST_TYPE, HttpHelper.GZIP,HTTP_CONTENT_CHARSET);
+        return performRequest(contentType, url, user, pass, additionalHeaders, params, HttpHelper.POST_TYPE, HttpHelper.GZIP, HTTP_CONTENT_CHARSET);
     }
 
     private static URI m_RedirectUri;
@@ -479,7 +489,7 @@ public class HttpHelper {
         } catch (UnknownHostException ex) {
             throw new NotReportException("Сервер не найден: " + ex.getMessage());
         } catch (Exception ex) {
-            throw new NotReportException(ex.getMessage());
+            throw new NotReportException("ошипка: " + ex.getMessage());
         }
 
 
@@ -490,7 +500,8 @@ public class HttpHelper {
 
         // process headers using request interceptor
         final Map<String, String> sendHeaders = new HashMap<String, String>();
-        sendHeaders.put(HttpHelper.CONTENT_TYPE, "multipart/form-data");
+        sendHeaders.put(HttpHelper.CONTENT_TYPE, "multipart/form-data;");
+        // sendHeaders.put(CoreProtocolPNames.HTTP_CONTENT_CHARSET, HTTP_CONTENT_CHARSET);
         // add encoding cat_name for gzip if not present
         if (!sendHeaders.containsKey(HttpHelper.ACCEPT_ENCODING)) {
             sendHeaders.put(HttpHelper.ACCEPT_ENCODING, HttpHelper.GZIP);
@@ -511,8 +522,10 @@ public class HttpHelper {
         File file = new File(filePath);
 
         MultipartEntity mpEntity = new MultipartEntity();
-        ContentBody cbFile = new FileBody(file);
-        mpEntity.addPart("FILE_UPLOAD", cbFile);
+        ContentBody cbFile = new FileBody(file, Translit.translit(FileUtils.getFileNameFromUrl(filePath)).replace(' ', '_'), "text/plain", "UTF-8");
+        FormBodyPart formBodyPart = new FormBodyPart("FILE_UPLOAD", cbFile);
+
+        mpEntity.addPart(formBodyPart);
         m_RedirectUri = null;
 
         HttpPost httppost = new HttpPost(url);
@@ -533,97 +546,142 @@ public class HttpHelper {
         return res;
     }
 
-    public void downloadFile(DownloadTask downloadTask) {
-        try {
-            String url = downloadTask.getUrl();
-            // url = "http://4pda.ru/forum/dl/post/944795/PolarisOffice_3.0.3047Q_SGS.apk"; //9.5Mb
+//    public void downloadFile(String dirPath, DownloadTask downloadTask) {
+//        try {
+//            String url = downloadTask.getUrl();
+//            url = "http://4pda.ru/forum/dl/post/944795/PolarisOffice_3.0.3047Q_SGS.apk"; //9.5Mb
+//
+//            // process headers using request interceptor
+//            final Map<String, String> sendHeaders = new HashMap<String, String>();
+//            // add encoding cat_name for gzip if not present
+//            if (!sendHeaders.containsKey(HttpHelper.ACCEPT_ENCODING)) {
+//                sendHeaders.put(HttpHelper.ACCEPT_ENCODING, HttpHelper.GZIP);
+//            }
+//
+//            if (sendHeaders.size() > 0) {
+//                client.addRequestInterceptor(new HttpRequestInterceptor() {
+//                    public void process(final HttpRequest request, final HttpContext context) throws HttpException, IOException {
+//                        for (String key : sendHeaders.keySet()) {
+//                            if (!request.containsHeader(key)) {
+//                                request.addHeader(key, sendHeaders.get(key));
+//                            }
+//                        }
+//                    }
+//                });
+//            }
+//
+//            HttpGet request = new HttpGet(url);
+//            HttpResponse response = client.execute(request);
+//            // Check if server response is valid
+//            StatusLine status = response.getStatusLine();
+//            if (status.getStatusCode() != HttpStatus.SC_OK) {
+//                downloadTask.setEx(new Exception(Integer.toString(status.getStatusCode())));
+//                return;
+//            }
+//
+//
+//            String fileName = downloadTask.getFileName();
+//            String saveDir = dirPath;
+//
+//            String filePath = FileUtils.getUniqueFilePath(saveDir, fileName);
+//            String downloadingFilePath = filePath + "_download";
+//
+//            FileUtils.mkDirs(downloadingFilePath);
+//            new File(downloadingFilePath).createNewFile();
+//
+//            downloadTask.setOutputFile(downloadingFilePath);
+//
+//
+//            long contentLength = response.getEntity().getContentLength();
+//            downloadTask.setProgressState(0, contentLength);
+//
+//
+//            long total  = 0;
+//            int count;
+//            int percent = 0;
+//            int prevPercent = 0;
+//
+//            Date lastUpdateTime = new Date();
+//            Boolean first = true;
+//
+//            InputStream in = new BufferedInputStream(response.getEntity().getContent());
+//            OutputStream output = new FileOutputStream(downloadingFilePath, true);
+//
+//            byte data[] = new byte[1024];
+//            try {
+//                while ((count = in.read(data)) != -1) {
+//                    if (downloadTask.getState() == DownloadTask.STATE_CANCELED)
+//                        return;
+//                    output.write(data, 0, count);
+//                    total += count;
+//
+//                    percent = (int) ((float) total / contentLength * 100);
+//
+//                    long diffInMs = new Date().getTime() - lastUpdateTime.getTime();
+//                    long diffInSec = TimeUnit.MILLISECONDS.toSeconds(diffInMs);
+//
+//                    if ((percent != prevPercent && diffInSec > 1) || first) {
+//                        lastUpdateTime = new Date();
+//                        downloadTask.setProgressState(total, contentLength);
+//                        first = false;
+//                    }
+//                    prevPercent = percent;
+//                    if (downloadTask.getState() == DownloadTask.STATE_CANCELED)
+//                        return;
+//                }
+//                downloadTask.setProgressState(contentLength, contentLength);
+//            } finally {
+//                output.flush();
+//                output.close();
+//                in.close();
+//            }
+//            File downloadingFile = new File(downloadingFilePath);
+//            File downloadedFile = new File(filePath);
+//            if (!downloadingFile.renameTo(downloadedFile)) {
+//                throw new NotReportException("Не могу переименовать файл: " + downloadingFilePath + " в " + filePath);
+//            }
+//            downloadTask.setState(downloadTask.STATE_SUCCESSFULL);
+//        } catch (Exception ex) {
+//            downloadTask.setEx(ex);
+//        }
+//
+//
+//    }
 
-            // process headers using request interceptor
-            final Map<String, String> sendHeaders = new HashMap<String, String>();
-            // add encoding cat_name for gzip if not present
-            if (!sendHeaders.containsKey(HttpHelper.ACCEPT_ENCODING)) {
-                sendHeaders.put(HttpHelper.ACCEPT_ENCODING, HttpHelper.GZIP);
-            }
+    public HttpEntity getDownloadResponse(String url, long range) throws Exception {
 
-            if (sendHeaders.size() > 0) {
-                client.addRequestInterceptor(new HttpRequestInterceptor() {
-                    public void process(final HttpRequest request, final HttpContext context) throws HttpException, IOException {
-                        for (String key : sendHeaders.keySet()) {
-                            if (!request.containsHeader(key)) {
-                                request.addHeader(key, sendHeaders.get(key));
-                            }
+        // String url = downloadTask.getUrl();
+        //url = "http://4pda.ru/forum/dl/post/944795/PolarisOffice_3.0.3047Q_SGS.apk"; //9.5Mb
+
+        // process headers using request interceptor
+        final Map<String, String> sendHeaders = new HashMap<String, String>();
+        sendHeaders.put(HttpHelper.ACCEPT_ENCODING, HttpHelper.GZIP);
+        if (range != 0)
+            sendHeaders.put("Range", "bytes=" + range + "-");
+
+        if (sendHeaders.size() > 0) {
+            client.addRequestInterceptor(new HttpRequestInterceptor() {
+                public void process(final HttpRequest request, final HttpContext context) throws HttpException, IOException {
+                    for (String key : sendHeaders.keySet()) {
+                        if (!request.containsHeader(key)) {
+                            request.addHeader(key, sendHeaders.get(key));
                         }
                     }
-                });
-            }
-            URI redirectUrl = m_RedirectUri;
-            HttpGet request = new HttpGet(url);
-            HttpResponse response = client.execute(request);
-            // Check if server response is valid
-            StatusLine status = response.getStatusLine();
-            if (status.getStatusCode() != HttpStatus.SC_OK) {
-                downloadTask.setEx(new Exception(Integer.toString(status.getStatusCode())));
-                return;
-            }
-
-
-            String fileName = downloadTask.getFileName();
-            String saveDir = Environment.getExternalStorageDirectory() + "/download/4pda/".replace("/", File.separator);
-
-            String filePath = FileUtils.getUniqueFilePath(saveDir, fileName);
-            FileUtils.mkDirs(filePath);
-            new File(filePath).createNewFile();
-
-            downloadTask.setOutputFile(filePath);
-
-            InputStream in = response.getEntity().getContent();
-            long contentLength = response.getEntity().getContentLength();
-            downloadTask.setProgressState(0, contentLength);
-
-            byte[] buffer = new byte[128];
-            long downloadedSize = 0;
-            int bufferLength;
-            int percent = 0;
-            int prevPercent = 0;
-
-            Date lastUpdateTime = new Date();
-            Boolean first = true;
-
-            FileOutputStream fw = new FileOutputStream(filePath, true);
-            try {
-                while ((bufferLength = in.read(buffer, 0, 128)) > 0) {
-                    if (downloadTask.getState() == DownloadTask.STATE_CANCELED)
-                        return;
-                    fw.write(buffer, 0, bufferLength);
-                    downloadedSize += bufferLength;
-
-                    percent = (int) ((float) downloadedSize / contentLength * 100);
-
-                    long diffInMs = new Date().getTime() - lastUpdateTime.getTime();
-                    long diffInSec = TimeUnit.MILLISECONDS.toSeconds(diffInMs);
-
-                    if ((percent != prevPercent && diffInSec > 1) || first) {
-                        lastUpdateTime = new Date();
-                        downloadTask.setProgressState(downloadedSize, contentLength);
-                        first = false;
-                    }
-                    prevPercent = percent;
-                    if (downloadTask.getState() == DownloadTask.STATE_CANCELED)
-                        return;
                 }
-                downloadTask.setProgressState(contentLength, contentLength);
-            } finally {
-                fw.close();
-            }
+            });
+        }
 
-            downloadTask.setState(downloadTask.STATE_SUCCESSFULL);
-        } catch (Exception ex) {
-            downloadTask.setEx(ex);
+        HttpGet request = new HttpGet(url);
+        HttpResponse response = client.execute(request);
+        // Check if server response is valid
+        StatusLine status = response.getStatusLine();
+        if (status.getStatusCode() != HttpStatus.SC_OK && status.getStatusCode() != HttpStatus.SC_PARTIAL_CONTENT) {
+            throw new Exception(Integer.toString(status.getStatusCode()));
         }
 
 
+        return response.getEntity();
     }
-
 
     public InputStream getImageStream(String url) throws IOException {
         // process headers using request interceptor

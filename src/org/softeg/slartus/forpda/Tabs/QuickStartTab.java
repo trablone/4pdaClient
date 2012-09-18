@@ -2,7 +2,7 @@ package org.softeg.slartus.forpda.Tabs;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
-import org.softeg.slartus.forpda.Client;
+import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,7 +39,7 @@ public class QuickStartTab extends ThemesTab {
 
 
     @Override
-    public void getThemes(Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    public void getThemes(OnProgressChangedListener progressChangedListener) throws IOException {
 
     }
 

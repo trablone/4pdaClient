@@ -4,6 +4,7 @@ import android.content.Context;
 import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.classes.ThemeOpenParams;
 import org.softeg.slartus.forpda.classes.Topic;
+import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
 import java.io.IOException;
 import java.util.Comparator;
@@ -30,7 +31,7 @@ public class FavoritesTab extends ThemesTab {
     }
 
     @Override
-    public void getThemes(Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    public void getThemes(OnProgressChangedListener progressChangedListener) throws IOException {
         Client client = Client.INSTANCE;
         client.getFavoritesThemes(m_Themes,progressChangedListener);
 

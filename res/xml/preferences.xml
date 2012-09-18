@@ -112,6 +112,8 @@
                             android:defaultValue="true"
                             android:title="Использовать скрипты в просмотре темы"
                             android:summary="Снимите галочку, если программа падает при вызове меню в просмотре темы"/>
+        <EditTextPreference android:key="downloads.path"
+                            android:title="Путь к папке загрузки файлов"/>
     </PreferenceScreen>
     <PreferenceScreen android:title="Просмотр темы">
         <CheckBoxPreference android:key="theme.SpoilFirstPost"

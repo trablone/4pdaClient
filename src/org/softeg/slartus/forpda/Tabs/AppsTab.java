@@ -5,11 +5,15 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import org.softeg.slartus.forpda.Client;
-import org.softeg.slartus.forpda.classes.Topic;
 import org.softeg.slartus.forpda.classes.Themes;
+import org.softeg.slartus.forpda.classes.Topic;
+import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,7 +50,7 @@ public class AppsTab extends ThemesTab {
 
 
     @Override
-    public void getThemes(Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    public void getThemes(OnProgressChangedListener progressChangedListener) throws IOException {
         if (progressChangedListener != null) {
             progressChangedListener.onProgressChanged("Получение списка приложений...");
         }
@@ -110,7 +114,7 @@ public class AppsTab extends ThemesTab {
     private static final String appCatalogUrl = "http://4pda.ru/forum/index.php?showtopic=112220";
     private static final String gameCatalogUrl = "http://4pda.ru/forum/index.php?showtopic=117270";
 
-    private void getCatalogThemes(Themes apps, ArrayList<String> appsName, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private void getCatalogThemes(Themes apps, ArrayList<String> appsName, OnProgressChangedListener progressChangedListener) throws IOException {
         Client.INSTANCE.doOnOnProgressChanged(progressChangedListener, "Получение данных...");
         Pattern pattern = Pattern.compile("<a href=\"http://4pda.ru/forum/index.php\\?showtopic=(\\d+).*?\" target=\"_blank\">(.*?)</a>(.*?)</li>");
 

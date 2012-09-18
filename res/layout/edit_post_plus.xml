@@ -38,7 +38,7 @@
 
         <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
             <TextView
@@ -52,31 +52,37 @@
 
 
             <Button
-                android:id="@+id/btnSelectFile"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/textView1"
-                android:layout_toLeftOf="@+id/btnAddFile"
-                android:spinnerMode="dropdown"
-                android:drawableRight="@drawable/expander_ic_minimized"
-                android:text="Управление текущими файлами (0)"
-                />
+                    android:id="@+id/btnSelectFile"
 
-
-            <Button
-                    android:id="@+id/btnAddFile"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:layout_below="@+id/textView1"
-                    android:text=" + "/>
-             <Button
-                    android:id="@+id/btnAddImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@+id/btnAddFile"
-                    android:text="[+]"/>
+                    android:layout_toLeftOf="@+id/lnrAddButtons"
+                    android:spinnerMode="dropdown"
+                    android:drawableRight="@drawable/expander_ic_minimized"
+                    android:text="Управление текущими файлами (0)"
+                    />
+
+            <LinearLayout android:id="@+id/lnrAddButtons"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentRight="true"
+                          android:layout_below="@+id/textView1"
+                          android:orientation="vertical">
+                <Button
+                        android:id="@+id/btnAddFile"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+
+                        android:text=" + "/>
+                <!--<Button-->
+                        <!--android:id="@+id/btnAddImage"-->
+                        <!--android:layout_width="fill_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+
+                        <!--android:text="+Image"/>-->
+            </LinearLayout>
+
 
         </RelativeLayout>
 
@@ -95,20 +101,20 @@
                 android:text="Включить подпись"/>
 
         <!--<TextView-->
-                <!--android:id="@+id/textView2"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_alignParentTop="true"-->
-                <!--android:text="Причина редактирования:"-->
-                <!--android:textAppearance="?android:attr/textAppearanceSmall"/>-->
+        <!--android:id="@+id/textView2"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:text="Причина редактирования:"-->
+        <!--android:textAppearance="?android:attr/textAppearanceSmall"/>-->
         <!--<EditText-->
-                <!--android:id="@+id/txtEditReason"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:gravity="top"-->
-                <!--android:scrollHorizontally="false"-->
-                <!--android:singleLine="false"/>-->
+        <!--android:id="@+id/txtEditReason"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="top"-->
+        <!--android:scrollHorizontally="false"-->
+        <!--android:singleLine="false"/>-->
 
     </LinearLayout>
 

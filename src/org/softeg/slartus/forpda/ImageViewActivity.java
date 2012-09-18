@@ -57,7 +57,7 @@ public class ImageViewActivity extends BaseActivity {
 
                     public boolean onMenuItemClick(MenuItem item) {
 
-                        DownloadsActivity.download(mHandler, getApplicationContext(), mUrl);
+                        DownloadsActivity.download( ImageViewActivity.this, mUrl);
                         return true;
                     }
                 });

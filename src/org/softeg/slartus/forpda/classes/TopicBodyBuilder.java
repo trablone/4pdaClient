@@ -178,6 +178,8 @@ public class TopicBodyBuilder {
         sb.append("\t\t\t<td><div align=\"right\"><span class=\"post_date\">" + msg.getDate() + "|<a "
                 + getHtmlout("showPostLinkMenu", msg.getId()) + ">#" + msg.getNumber() + "</a></span></div></td>\n");
         sb.append("\t\t</tr>\n");
+        sb.append("<tr>\n" +
+                "\t\t\t<td colspan=\"2\"><span  class=\"user_group\">"+msg.getUserGroup()+"</span></td></tr>");
         sb.append("\t\t<tr>\n");
         sb.append("\t\t\t<td>" + getReputation(msg) + "</td>\n");
         if (Client.INSTANCE.getLogined())

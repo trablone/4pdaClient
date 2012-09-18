@@ -8,9 +8,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -53,6 +56,7 @@ public class EditPostPlusActivity extends BaseFragmentActivity {
     private Boolean m_Enablesig = true;
     private Boolean m_EnableEmo = true;
     private int REQUEST_SAVE = 0;
+    private int REQUEST_SAVE_IMAGE = 1;
     private MenuFragment mFragment1;
     private String postText;
 
@@ -89,10 +93,32 @@ public class EditPostPlusActivity extends BaseFragmentActivity {
                     Toast.makeText(EditPostPlusActivity.this, "Вы должны ввести сообщение", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Intent intent = new Intent(EditPostPlusActivity.this.getBaseContext(),
-                        FileDialog.class);
-                intent.putExtra(FileDialog.START_PATH, lastSelectDirPath);
-                EditPostPlusActivity.this.startActivityForResult(intent, REQUEST_SAVE);
+
+
+                CharSequence[] items=new CharSequence[]{"Файл","Изображение"};
+                new AlertDialog
+                        .Builder(EditPostPlusActivity.this)
+                        .setSingleChoiceItems(items,-1,new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                switch (i){
+                                    case 0://файл
+                                        Intent intent = new Intent(EditPostPlusActivity.this.getBaseContext(),
+                                                FileDialog.class);
+                                        intent.putExtra(FileDialog.START_PATH, lastSelectDirPath);
+                                        EditPostPlusActivity.this.startActivityForResult(intent, REQUEST_SAVE);
+                                        break;
+                                    case 1:// Изображение
+                                        Intent imageintent = new Intent(
+                                                Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                                        startActivityForResult(imageintent,  REQUEST_SAVE_IMAGE);
+                                        break;
+                                }
+                            }
+                        }).create().show();
+
+                
             }
         });
 
@@ -148,18 +174,40 @@ public class EditPostPlusActivity extends BaseFragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
+        try{
+            if (resultCode == Activity.RESULT_OK) {
 
-            if (requestCode == REQUEST_SAVE) {
-                attachFilePath = data.getStringExtra(FileDialog.RESULT_PATH);
+                if (requestCode == REQUEST_SAVE) {
+                    attachFilePath = data.getStringExtra(FileDialog.RESULT_PATH);
 
-                saveAttachDirPath();
+                    saveAttachDirPath();
 
-                m_Enablesig = chkEnablesig.isChecked();
-                m_EnableEmo = chkEnableEmo.isChecked();
-                new UpdateTask(EditPostPlusActivity.this).execute(txtPost.getText().toString());
+                    m_Enablesig = chkEnablesig.isChecked();
+                    m_EnableEmo = chkEnableEmo.isChecked();
+                    new UpdateTask(EditPostPlusActivity.this).execute(txtPost.getText().toString());
+                }
+                else if (requestCode ==REQUEST_SAVE_IMAGE) {
+
+                    Uri selectedImage = data.getData();
+                    String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+                    Cursor cursor = getContentResolver().query(selectedImage,
+                            filePathColumn, null, null, null);
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    attachFilePath = cursor.getString(columnIndex);
+                    cursor.close();
+
+                    m_Enablesig = chkEnablesig.isChecked();
+                    m_EnableEmo = chkEnableEmo.isChecked();
+                    new UpdateTask(EditPostPlusActivity.this).execute(txtPost.getText().toString());
+                }
             }
+        }catch (Exception ex){
+            Log.e(this,ex);
         }
+
     }
 
     private void saveAttachDirPath() {
@@ -201,13 +249,13 @@ public class EditPostPlusActivity extends BaseFragmentActivity {
         parseAttaches(body);
     }
 
-    private ArrayList<Attach> attaches = new ArrayList<Attach>();
+    private Attaches attaches = new Attaches();
 
     private void parseAttaches(String body) {
         Pattern pattern = Pattern.compile("onclick=\"insText\\('\\[attachment=(\\d+):(.*?)\\]'\\)");
         Pattern attachBodyPattern = Pattern.compile("<!-- ATTACH -->([\\s\\S]*?)</i>", Pattern.MULTILINE);
         Matcher m = attachBodyPattern.matcher(body);
-        attaches = new ArrayList<Attach>();
+        attaches =new Attaches();
         if (m.find()) {
             Matcher m1 = pattern.matcher(m.group(1));
             while (m1.find()) {
@@ -304,7 +352,7 @@ public class EditPostPlusActivity extends BaseFragmentActivity {
         protected Boolean doInBackground(String... params) {
             try {
                 body = Client.INSTANCE.attachFilePost(forumId, themeId, authKey, attachPostKey,
-                        postId, m_Enablesig,m_EnableEmo, params[0], attachFilePath);
+                        postId, m_Enablesig,m_EnableEmo, params[0], attachFilePath,attaches.getFileList());
                 return true;
             } catch (Exception e) {
                 ex = e;
@@ -355,9 +403,9 @@ public class EditPostPlusActivity extends BaseFragmentActivity {
         @Override
         protected Boolean doInBackground(String... params) {
             try {
-                body = Client.INSTANCE.deleteAttachFilePost(forumId, themeId, authKey, attachPostKey, postId, m_Enablesig,
+                body = Client.INSTANCE.deleteAttachFilePost(forumId, themeId, authKey, postId, m_Enablesig,m_EnableEmo,
                         params[0],
-                        attachFilePath);
+                        attachFilePath, attaches.getFileList());
                 return true;
             } catch (Exception e) {
                 ex = e;
@@ -407,7 +455,7 @@ public class EditPostPlusActivity extends BaseFragmentActivity {
         protected Boolean doInBackground(String... params) {
             try {
                 Client.INSTANCE.editPost(forumId, themeId, authKey, postId, m_Enablesig, m_EnableEmo,
-                        params[0]);
+                        params[0],attaches.getFileList());
                 return true;
             } catch (Exception e) {
 
@@ -513,7 +561,7 @@ public class EditPostPlusActivity extends BaseFragmentActivity {
         protected Boolean doInBackground(String... params) {
             try {
                 mPostResult = Client.INSTANCE.reply(forumId, themeId, authKey, attachPostKey,
-                        params[0], m_Enablesig, m_EnableEmo);
+                        params[0], m_Enablesig, m_EnableEmo,false,attaches.getFileList());
 
                 return true;
             } catch (Exception e) {
@@ -662,6 +710,16 @@ public class EditPostPlusActivity extends BaseFragmentActivity {
         @Override
         public String toString() {
             return mName;
+        }
+    }
+
+    private class Attaches extends ArrayList<Attach> {
+        public String getFileList(){
+            String res="0";
+            for (Attach attach : this) {
+                res += ","+attach.getId();
+            }
+            return res;
         }
     }
 }

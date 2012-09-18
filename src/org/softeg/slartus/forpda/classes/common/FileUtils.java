@@ -1,8 +1,7 @@
 package org.softeg.slartus.forpda.classes.common;
 
 import java.io.*;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.net.URLDecoder;
 
 /**
  * User: slinkin
@@ -37,9 +36,23 @@ public class FileUtils {
         }
     }
 
+    private static final char[] ILLEGAL_CHARACTERS = {'/', '\n', '\r', '\t', '\0', '\f', '`', '?', '*', '\\', '<', '>', '|', '\"', ':'};
+
+    /*
+    * Нормализует(уберает иллегальные символы)
+     */
+    public static String normalize(String fileName) {
+        for (char illegalChar : ILLEGAL_CHARACTERS) {
+            fileName = fileName.replace(illegalChar, '_');
+        }
+        return fileName;
+    }
+
     public static String getFileNameFromUrl(String url) {
-        int index = url.lastIndexOf("/");
-        return url.substring(index + 1, url.length());
+        String decodedUrl = URLDecoder.decode(url);
+        int index = decodedUrl.lastIndexOf("/");
+
+        return normalize(decodedUrl.substring(index + 1, decodedUrl.length()));
     }
 
     public static String getDirPath(String filePath) {
@@ -58,6 +71,13 @@ public class FileUtils {
         return ext;
     }
 
+    public static String combine(String path1, String path2) {
+
+        if (!path1.endsWith(File.separator))
+            path1 += File.separator;
+        return path1 + path2;
+    }
+
     public static String getUniqueFilePath(String dirPath, String fileName) {
         String name = fileName;
         String ext = "";
@@ -66,9 +86,11 @@ public class FileUtils {
             name = fileName.substring(0, ind);
             ext = fileName.substring(ind, fileName.length());
         }
+        if (!dirPath.endsWith(File.separator))
+            dirPath += File.separator;
         String suffix = "";
         int c = 0;
-        while (new File(dirPath + name + suffix + ext).exists()) {
+        while (new File(dirPath + name + suffix + ext).exists() || new File(dirPath + name + suffix + ext + "_download").exists()) {
             suffix = "(" + c + ")";
             c++;
         }

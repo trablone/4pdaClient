@@ -3,9 +3,11 @@ package org.softeg.slartus.forpda.Tabs;
 import android.content.Context;
 import android.text.Html;
 import android.text.TextUtils;
+import android.widget.Toast;
 import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.classes.Forum;
 import org.softeg.slartus.forpda.classes.Topic;
+import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -35,7 +37,7 @@ public class CatalogTab extends TreeTab {
     }
 
     @Override
-    protected void loadForum(Forum forum, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    protected void loadForum(Forum forum, OnProgressChangedListener progressChangedListener) throws IOException {
 
         loadCatalog(forum, progressChangedListener);
 
@@ -48,7 +50,7 @@ public class CatalogTab extends TreeTab {
 
 
     @Override
-    protected void getThemes(Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    protected void getThemes(OnProgressChangedListener progressChangedListener) throws IOException {
 
         if (m_Themes.size() == 0) {
             if (m_ForumForLoadThemes.getTag() != null && m_ForumForLoadThemes.getTag().equals("games")) {
@@ -78,7 +80,7 @@ public class CatalogTab extends TreeTab {
     private static final String appCatalogUrl = "http://4pda.ru/forum/index.php?showtopic=112220";
     private static final String gameCatalogUrl = "http://4pda.ru/forum/index.php?showtopic=117270";
 
-    private void loadCatalog(Forum catalog, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private void loadCatalog(Forum catalog, OnProgressChangedListener progressChangedListener) throws IOException {
 
         Forum appCatalog = new Forum("112220", "Программы");
         loadAppCatalog(appCatalog, progressChangedListener);
@@ -92,29 +94,30 @@ public class CatalogTab extends TreeTab {
 
     }
 
-    private void loadAppCatalog(Forum catalog, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private void loadAppCatalog(Forum catalog, OnProgressChangedListener progressChangedListener) throws IOException {
 
         String pageBody = Client.INSTANCE.loadPageAndCheckLogin(appCatalogUrl, progressChangedListener);
+        Matcher contentMatcher=Pattern.compile("<a name=\"entry7958338\">([\\s\\S]*)?<!-- TABLE FOOTER -->").matcher(pageBody);
+        if(!contentMatcher.find()){
+            throw new IOException("Не найден пост с содержанием");
 
-        //Pattern pattern = Pattern.compile("<li><b>(<!--coloro:royalblue--><span style=\"color:royalblue\"><!--/coloro-->(.*?)<!--colorc--></span><!--/colorc-->\\s*)?<a href=\"http://4pda.ru/forum/index.php\\?showtopic=(\\d+)\" target=\"_blank\">(.*?)</a></b> - (.*?)</li>");
-        Pattern pattern = Pattern.compile("(<div class=\"post_body\"><div align='center'><!--coloro:coral--><span style=\"color:coral\"><!--/coloro--><b>\\d+. (.*)</b>:<!--colorc--></span><!--/colorc--><br /><img src=\".*?.png\" class=\"linked-image\" alt=\"Прикрепленное изображение\" /></div><ol type='1'><a name=\".*?\" title=\".*?\">&#\\d+;</a>)?<!--coloro:coral--><span style=\"color:coral\"><!--/coloro--><b>(.*?)</b><!--colorc--></span><!--/colorc--></li>");
+        }
+        String contentPost=contentMatcher.group(1);
+        
+       
+        Matcher categoryMatcher=Pattern.compile("<li>.*?<b>(.*?)</b>(.*?)(<br /></li>|</ol>)").matcher(contentPost);
+        Pattern subCategoryPattern= Pattern.compile("<b>(.*?)</b>");
 
-        //catalog.addForum(new Forum(catalog.getId()," @ темы"));
-        Matcher m = pattern.matcher(pageBody);
-        pageBody = null;
-        Forum category = null;
-        Forum subcategory = null;
+       
         int id = -1;
-        while (m.find()) {
-            if (!TextUtils.isEmpty(m.group(2))) {
-                category = new Forum(Integer.toString(id++), m.group(2));
-
-                category.addForum(new Forum(category.getId(), category.getTitle() + " @ темы"));
-                catalog.addForum(category);
-            }
-
-            if (category!=null&&!TextUtils.isEmpty(m.group(3))) {
-                subcategory = new Forum(Integer.toString(id++), m.group(3));
+        while (categoryMatcher.find()) {
+            Forum category = new Forum(Integer.toString(id++), categoryMatcher.group(1));
+            category.addForum(new Forum(category.getId(), category.getTitle() + " @ темы"));
+            catalog.addForum(category);
+            
+            Matcher m=subCategoryPattern.matcher(categoryMatcher.group(2))  ;
+            while(m.find()){
+                Forum subcategory = new Forum(Integer.toString(id++), m.group(1));
 
                 category.addForum(subcategory);
             }
@@ -124,7 +127,7 @@ public class CatalogTab extends TreeTab {
 
     }
 
-    private void loadGameCatalog(Forum catalog, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private void loadGameCatalog(Forum catalog, OnProgressChangedListener progressChangedListener) throws IOException {
 
         String pageBody = Client.INSTANCE.loadPageAndCheckLogin(gameCatalogUrl, progressChangedListener);
 
@@ -163,7 +166,7 @@ public class CatalogTab extends TreeTab {
     }
 
 
-    private void loadCategoryThemes(Forum category, String title, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private void loadCategoryThemes(Forum category, String title, OnProgressChangedListener progressChangedListener) throws IOException {
         category.getThemes().clear();
 
         String pageBody = loadPageAndCheckLogin(appCatalogUrl, progressChangedListener);
@@ -191,7 +194,7 @@ public class CatalogTab extends TreeTab {
         }
     }
 
-    private void loadGameCategoryThemes(Forum category, String title, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private void loadGameCategoryThemes(Forum category, String title, OnProgressChangedListener progressChangedListener) throws IOException {
         category.getThemes().clear();
 
         String pageBody = loadPageAndCheckLogin(gameCatalogUrl, progressChangedListener);
@@ -216,7 +219,7 @@ public class CatalogTab extends TreeTab {
         }
     }
 
-    private void loadSubCategoryThemes(Forum subCategory, String categoryTitle, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private void loadSubCategoryThemes(Forum subCategory, String categoryTitle, OnProgressChangedListener progressChangedListener) throws IOException {
         subCategory.getThemes().clear();
 
         String pageBody = loadPageAndCheckLogin(appCatalogUrl, progressChangedListener);
@@ -244,7 +247,7 @@ public class CatalogTab extends TreeTab {
 
 
 
-    private void loadGameSubCategoryThemes(Forum subCategory, String categoryTitle, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private void loadGameSubCategoryThemes(Forum subCategory, String categoryTitle, OnProgressChangedListener progressChangedListener) throws IOException {
         subCategory.getThemes().clear();
 
 
@@ -271,7 +274,7 @@ public class CatalogTab extends TreeTab {
         }
     }
 
-    private String loadPageAndCheckLogin(String url, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    private String loadPageAndCheckLogin(String url, OnProgressChangedListener progressChangedListener) throws IOException {
         return Client.INSTANCE.loadPageAndCheckLogin(url, progressChangedListener);
     }
 }

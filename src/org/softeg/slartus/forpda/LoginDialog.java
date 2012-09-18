@@ -152,10 +152,22 @@ public class LoginDialog {
             if (this.dialog.isShowing()) {
                 this.dialog.dismiss();
             }
-            if (ex != null)
-                Log.e(mContext, ex);
-
             doOnUserChangedListener(m_Login, success);
+            Client.INSTANCE.doOnUserChangedListener(m_Login, success);
+            if (success) {
+                Toast.makeText(mContext, "Вход выполнен",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                if (ex != null)
+                    Log.e(mContext, ex);
+                else
+                    new AlertDialog.Builder(mContext)
+                            .setIcon(R.drawable.icon)
+                            .setTitle("Ошибка")
+                            .setMessage(Client.INSTANCE.getLoginFailedReason())
+                            .setPositiveButton(android.R.string.ok, null)
+                            .create().show();
+            }
         }
 
     }

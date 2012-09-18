@@ -38,4 +38,24 @@ public class StringUtils {
         }
     }
 
+    
+    public static void translite(CharSequence str){
+        String res="";
+         for (int i=0;i<str.length();i++){
+             char ch=str.charAt(i);
+             
+             if(ch<'А'&&ch>'я'){
+                 res+=ch;
+                 continue;
+             }
+             switch (ch){
+                 case 'А':
+                 case'а':
+                     res+='a';
+
+             }
+         }
+    }
+    
+    
 }

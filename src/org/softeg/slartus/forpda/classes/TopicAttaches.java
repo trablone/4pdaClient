@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * Time: 9:39
  */
 public class TopicAttaches extends ArrayList<TopicAttach> {
-    private final Pattern ATTACH_PATTERN = Pattern.compile("<a href=\"((http://4pda.ru)?/forum/dl/post/\\d+/.*?)\" title=\"Скачать файл\" target=\"_blank\"><img.*?/>(.*?)</a> \\( (.*?) \\)<span class=\"desc\">Кол-во скачиваний: (\\d+)");
+    private final Pattern ATTACH_PATTERN = Pattern.compile("<a href=\"((http://4pda.ru)?/forum/dl/post/\\d+/.*?)\" .*? title=\"Скачать .*?\".*?><img.*?/>(.*?)</a> \\( (.*?) \\)<span class=\"desc\">Кол-во скачиваний: (\\d+)");
 
     public void parseAttaches(String postId, String postNum, String postBody) {
         final Matcher matcher = ATTACH_PATTERN.matcher(postBody);

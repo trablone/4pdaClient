@@ -21,6 +21,7 @@ import org.softeg.slartus.forpda.classes.Forums;
 import org.softeg.slartus.forpda.classes.Topic;
 import org.softeg.slartus.forpda.classes.common.Functions;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
 import java.io.IOException;
 import java.util.Hashtable;
@@ -230,7 +231,7 @@ public class ForumTreeTab extends ThemesTab {
             try {
                 m_StartForum = null;
                 Client client = Client.INSTANCE;
-                client.loadForums(new Client.OnProgressChangedListener() {
+                client.loadForums(new OnProgressChangedListener() {
                     public void onProgressChanged(String state) {
                         publishProgress(state);
                     }
@@ -353,7 +354,7 @@ public class ForumTreeTab extends ThemesTab {
     private Forum m_ForumForLoadThemes;
 
     @Override
-    protected void getThemes(Client.OnProgressChangedListener progressChangedListener) throws Exception {
+    protected void getThemes(OnProgressChangedListener progressChangedListener) throws Exception {
 
         if (m_ForumForLoadThemes.LoadMore || m_Themes.size() == 0) {
 
@@ -392,7 +393,7 @@ public class ForumTreeTab extends ThemesTab {
         }
     }
 
-    public static void loadThemes(Forum forum, Client.OnProgressChangedListener progressChangedListener) throws IOException {
+    public static void loadThemes(Forum forum, OnProgressChangedListener progressChangedListener) throws IOException {
 
 
         int start = forum.getThemes().size();

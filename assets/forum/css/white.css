@@ -91,7 +91,13 @@
   	color: #267F00;
 }.post_nick_online a{
     color: #267F00!important;
-}.post_date{
+}
+.user_group
+{
+	color: #8F8F8F;
+	font-size: 8px;
+}
+.post_date{
 	color: #8F8F8F;
 	font-size: 9px;
 }.post_body{

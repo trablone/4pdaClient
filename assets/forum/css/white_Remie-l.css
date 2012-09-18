@@ -87,6 +87,15 @@ position: relative;
 font-size: 11px;
 color: #fff;
 }
+.user_group{
+display: block;
+margin-top: -5px;
+margin-bottom: auto;
+position: relative;
+font-size: 9px;
+line-height:0.8;
+color: #fff;
+}
 .post_header a{
 text-decoration: none!important;
 color: #fff;

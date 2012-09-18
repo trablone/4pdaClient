@@ -38,6 +38,7 @@
     <orderEntry type="module" module-name="PullToRefresh" />
     <orderEntry type="module" module-name="QuickActions" />
     <orderEntry type="library" name="android-support-v4" level="project" />
+    <orderEntry type="module" module-name="4pdaApi" />
   </component>
 </module>
 

@@ -86,6 +86,15 @@ margin-bottom: auto;
 position: relative;
 font-size: 11px;
 }
+.user_group{
+display: block;
+margin-top: -5px;
+margin-bottom: auto;
+position: relative;
+font-size: 9px;
+line-height:0.8;
+color: #707070;
+}
 .post_header a, .post_footer a{
 text-decoration: none!important;
 color: #a0a0a0;

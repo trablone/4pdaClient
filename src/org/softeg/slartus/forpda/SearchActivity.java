@@ -15,6 +15,7 @@ import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
 import org.softeg.slartus.forpda.classes.Forum;
 import org.softeg.slartus.forpda.classes.ForumsAdapter;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -60,10 +61,15 @@ public class SearchActivity extends BaseActivity {
 
         spnrSource = (Spinner) findViewById(R.id.spnrSource);
         spnrSort = (Spinner) findViewById(R.id.spnrSort);
-        spnrSort.setSelection(1);
+        //spnrSort.setSelection(ArrayUtils.indexOf(m_SearchTab.getSort(),getResources().getStringArray(R.array.SearchSortValues)));
+
         lnrSettings = (LinearLayout) findViewById(R.id.lnrSettings);
+
         username_edit = (EditText) findViewById(R.id.username_edit);
+        //username_edit.setText(m_SearchTab.getUserName());
+
         query_edit = (EditText) findViewById(R.id.query_edit);
+        //query_edit.setText(m_SearchTab.getQuery());
         query_edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 if (actionId == EditorInfo.IME_NULL || actionId == EditorInfo.IME_ACTION_DONE) {
@@ -137,7 +143,7 @@ public class SearchActivity extends BaseActivity {
         new Thread(new Runnable() {
             public void run() {
                 try {
-                    Client.INSTANCE.loadForums(new Client.OnProgressChangedListener() {
+                    Client.INSTANCE.loadForums(new OnProgressChangedListener() {
                         public void onProgressChanged(final String state) {
                             mHandler.post(new Runnable() {
                                 public void run() {

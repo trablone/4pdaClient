@@ -56,6 +56,7 @@ public class NewsActivity extends BaseFragmentActivity {
     private ImageButton btnPrevSearch, btnNextSearch, btnCloseSearch;
     private EditText txtSearch;
     private String m_NewsUrl;
+    public static String s_NewsUrl = null;
     private Uri m_Data = null;
     private ArrayList<History> m_History = new ArrayList<History>();
     private MenuFragment mFragment1;
@@ -130,8 +131,8 @@ public class NewsActivity extends BaseFragmentActivity {
         int sdk = new Integer(Build.VERSION.SDK).intValue();
         if (sdk > 7)
             webView.getSettings().setPluginState(WebSettings.PluginState.ON);
-        webView.setWebViewClient(new MyWebViewClient());
 
+       // webView.setWebChromeClient(new WebChromeClient() );
         Intent intent = getIntent();
         if (intent != null && intent.getData() != null) {
             m_Data = intent.getData();
@@ -142,7 +143,8 @@ public class NewsActivity extends BaseFragmentActivity {
         Bundle extras = intent.getExtras();
 
         m_NewsUrl = extras.getString(URL_KEY);
-        showNews(m_NewsUrl);
+        s_NewsUrl=m_NewsUrl;
+
     }
 
     private void createActionMenu() {
@@ -160,6 +162,14 @@ public class NewsActivity extends BaseFragmentActivity {
     @Override
     public void onResume() {
         super.onResume();
+
+
+
+        if (s_NewsUrl != null) {
+
+            s_NewsUrl = null;
+            showNews(m_NewsUrl);
+        }
 
         if (m_Data != null) {
             String url = m_Data.toString();
@@ -356,6 +366,7 @@ public class NewsActivity extends BaseFragmentActivity {
     }
 
     private void showNews(String url) {
+        webView.setWebViewClient(new MyWebViewClient());
         saveHistory(url);
         m_NewsUrl = url;
         closeSearch();
@@ -601,7 +612,7 @@ public class NewsActivity extends BaseFragmentActivity {
             if (m.find()) {
                 return header + normalizeCommentUrls(m.group(1)) + getNavi(body) + footer;
             }
-            m = Pattern.compile("<div id=\"main\">([\\s\\S]*?)<form action=\"http://4pda.ru/wp-comments-post.php\" method=\"post\" id=\"commentform\">").matcher(body);
+            m = Pattern.compile("<div id=\"main\">([\\s\\S]*?)<form action=\"(http://4pda.ru)?/wp-comments-post.php\" method=\"post\" id=\"commentform\">").matcher(body);
             if (m.find()) {
                 return header + normalizeCommentUrls(m.group(1)) + getNavi(body) + footer;
             }
@@ -715,5 +726,31 @@ public class NewsActivity extends BaseFragmentActivity {
                     }
                 })
                 .create().show();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        webView.setWebViewClient(null);
+        webView.setPictureListener(null);
+    }
+
+
+    @Override
+    public void onStop(){
+        super.onStop();
+
+        webView.setWebViewClient(null);
+        webView.setPictureListener(null);
+    }
+
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+
+        webView.setWebViewClient(null);
+        webView.setPictureListener(null);
     }
 }

@@ -13,11 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import org.softeg.slartus.forpda.classes.Reputation;
-import org.softeg.slartus.forpda.classes.Reputations;
+import org.softeg.slartus.forpda.Tabs.ListViewMethodsBridge;
+import org.softeg.slartus.forpda.classes.ForumUser;
 import org.softeg.slartus.forpda.classes.Topic;
 import org.softeg.slartus.forpda.classes.common.ExtPreferences;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
+import org.softeg.slartus.forpdaapi.Reputation;
+import org.softeg.slartus.forpdaapi.Reputations;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -28,7 +31,7 @@ import java.util.regex.Pattern;
  * Date: 25.10.11
  * Time: 9:53
  */
-public class ReputationActivity extends Activity {
+public class ReputationActivity extends Activity implements AdapterView.OnItemLongClickListener{
     protected PullToRefreshListView listView;
     private Reputations m_Reputations = new Reputations();
     private RepsAdapter m_Adapter;
@@ -74,6 +77,7 @@ public class ReputationActivity extends Activity {
         });
         listView.getRefreshableView().addFooterView(m_Footer);
         listView.getRefreshableView().addHeaderView(m_Header);
+        listView.getRefreshableView().setOnItemLongClickListener(this);
         m_EmptyView = factory.inflate(R.layout.empty_view, null);
         addContentView(m_EmptyView,
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
@@ -104,10 +108,28 @@ public class ReputationActivity extends Activity {
         refresh();
     }
 
-    private void refresh() {
-        new LoadTask(this).execute();
+    public static void showRep(Activity actiovity, final String userId) {
+        Intent intent = new Intent(actiovity, ReputationActivity.class);
+        intent.putExtra("userId", userId);
+
+        actiovity.startActivity(intent);
     }
 
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        l = ListViewMethodsBridge.getItemId(this, i, l);
+        if (l < 0||m_Adapter.getCount()<=l) return false;
+        Reputation rep = m_Reputations.get((int) l);
+        ForumUser.showUserMenu(this,m_Header,rep.userId,rep.user);
+
+
+        return true;
+
+    }
+
+    private void refresh() {
+        m_Reputations.clear();
+        new LoadTask(this).execute();
+    }
 
     private class RepsAdapter extends ArrayAdapter<Reputation> {
         private LayoutInflater m_Inflater;
@@ -218,7 +240,7 @@ public class ReputationActivity extends Activity {
         @Override
         protected Boolean doInBackground(String... params) {
             try {
-                Client.INSTANCE.loadUserReputation(m_Reputations, new Client.OnProgressChangedListener() {
+                Client.INSTANCE.loadUserReputation(m_Reputations, new OnProgressChangedListener() {
                     public void onProgressChanged(String state) {
                         publishProgress(state);
                     }

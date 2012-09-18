@@ -40,6 +40,7 @@ import org.softeg.slartus.forpda.classes.common.Functions;
 import org.softeg.slartus.forpda.classes.common.StringUtils;
 import org.softeg.slartus.forpda.common.HelpTask;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpda.qms.QmsChatActivity;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -166,8 +167,7 @@ public class ThemeActivity extends BaseFragmentActivity  {
             Log.e(null, ex);
         }
 
-        webView.setWebViewClient(new MyWebViewClient());
-        webView.setPictureListener(new MyPictureListener());
+
 
         Intent intent = getIntent();
         if (intent != null && intent.getData() != null) {
@@ -182,9 +182,10 @@ public class ThemeActivity extends BaseFragmentActivity  {
         if (extras.containsKey("Params"))
             m_Params = extras.getString("Params");
 
-
-        String url = "showtopic=" + m_ThemeUrl + (TextUtils.isEmpty(m_Params) ? "" : ("&" + m_Params));
-        showTheme(url);
+        s_ThemeId=m_ThemeUrl;
+        s_Params=m_Params;
+//        String url = "showtopic=" + m_ThemeUrl + (TextUtils.isEmpty(m_Params) ? "" : ("&" + m_Params));
+//        showTheme(url);
     }
 
     @Override
@@ -202,6 +203,7 @@ public class ThemeActivity extends BaseFragmentActivity  {
 
         return true;
     }
+
 
     private void userChanged() {
         mHandler.post(new Runnable() {
@@ -241,6 +243,8 @@ public class ThemeActivity extends BaseFragmentActivity  {
     @Override
     public void onResume() {
         super.onResume();
+        webView.setWebViewClient(new MyWebViewClient());
+
         if (s_ThemeId != null) {
             String url = "showtopic=" + s_ThemeId + (TextUtils.isEmpty(s_Params) ? "" : ("&" + s_Params));
             s_ThemeId = null;
@@ -603,14 +607,20 @@ public class ThemeActivity extends BaseFragmentActivity  {
     }
 
     private class MyPictureListener implements WebView.PictureListener {
-
+        Thread m_ScrollThread;
         public void onNewPicture(WebView view, Picture arg1) {
-            new Thread(new Runnable() {
+            if(TextUtils.isEmpty(m_ScrollElement)&&m_ScrollX==0){
+                //webView.setPictureListener(null);
+                return;
+            }
+            if(m_ScrollThread!=null)return;
+
+            m_ScrollThread=new Thread(new Runnable() {
                 public void run() {
                     try {
                         Thread.sleep(800);
-                    } catch (InterruptedException ignoredEx) {
-
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
                     mHandler.post(new Runnable() {
                         public void run() {
@@ -618,7 +628,11 @@ public class ThemeActivity extends BaseFragmentActivity  {
                         }
                     });
                 }
-            }).start();
+            });
+
+
+
+            m_ScrollThread.start();
         }
 
         private void tryScrollToElement() {
@@ -629,7 +643,9 @@ public class ThemeActivity extends BaseFragmentActivity  {
                 webView.scrollTo(0, 0);
                 webView.loadUrl("javascript: scrollToElement('entry" + m_ScrollElement + "');");
                 m_ScrollElement = null;
+
             }
+            webView.setPictureListener(null);
         }
     }
 
@@ -741,7 +757,7 @@ public class ThemeActivity extends BaseFragmentActivity  {
 
     public void showTheme(String url) {
         closeSearch();
-
+        webView.setPictureListener(new MyPictureListener());
         GetThemeTask getThemeTask = new GetThemeTask(this);
         getThemeTask.execute(url.replace("|", ""));
     }
@@ -807,6 +823,7 @@ public class ThemeActivity extends BaseFragmentActivity  {
     }
 
     public void showUserMenu(final String userId, final String userNick) {
+        // не забыть менять в ForumUser
         final QuickAction mQuickAction = new QuickAction(ThemeActivity.this);
 
         int insertNickPosition = -1;
@@ -826,10 +843,20 @@ public class ThemeActivity extends BaseFragmentActivity  {
             sendLSPosition = mQuickAction.addActionItem(actionItem);
         }
 
+        int sendQmsPosition = -1;
+        if (Client.INSTANCE.getLogined()) {
+            ActionItem actionItem = new ActionItem();
+            // actionItem.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_edit));
+            actionItem.setTitle("Связаться через QMS");
+
+            sendQmsPosition = mQuickAction.addActionItem(actionItem);
+        }
+
         if (mQuickAction.getItemsCount() == 0) return;
 
         final int finalInsertNickPosition = insertNickPosition;
         final int finalSendLSPosition = sendLSPosition;
+        final int finalSendQmsPosition = sendQmsPosition;
         mQuickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
             public void onItemClick(int pos) {
                 try {
@@ -845,6 +872,8 @@ public class ThemeActivity extends BaseFragmentActivity  {
                         intent.putExtra(EditMailActivity.KEY_USER, userNick);
                         intent.putExtra(EditMailActivity.KEY_RETERN_BACK, true);
                         startActivity(intent);
+                    } else if (pos == finalSendQmsPosition) {
+                        QmsChatActivity.openChat(ThemeActivity.this, userId, userNick);
                     }
                 } catch (Exception ex) {
                     Log.e(ThemeActivity.this, ex);
@@ -993,10 +1022,7 @@ public class ThemeActivity extends BaseFragmentActivity  {
     }
 
     public void showRep(final String userId) {
-        Intent intent = new Intent(ThemeActivity.this, ReputationActivity.class);
-        intent.putExtra("userId", userId);
-
-        ThemeActivity.this.startActivity(intent);
+        ReputationActivity.showRep(this,userId);
     }
 
     public void showRepMenu(final String postId, final String userId, final String userNick, String canPlus, String canMinus) {
@@ -1202,7 +1228,7 @@ public class ThemeActivity extends BaseFragmentActivity  {
         protected Boolean doInBackground(String... params) {
             try {
                 mPostResult = Client.INSTANCE.reply(m_Topic.getForumId(), m_Topic.getId(), m_Topic.getAuthKey(),
-                        Post, m_Enablesig, m_EnableEmo);
+                        Post, m_Enablesig, m_EnableEmo, true,null);
 
                 return true;
             } catch (Exception e) {
@@ -1232,6 +1258,7 @@ public class ThemeActivity extends BaseFragmentActivity  {
                     return;
                 }
                 webView.loadUrl("javascript:clearPostBody();");
+
                 showTheme("showtopic=" + m_Topic.getId() + "&view=getnewpost");
 
 
@@ -1421,7 +1448,7 @@ public class ThemeActivity extends BaseFragmentActivity  {
                             public boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem item) {
                                 final TopicAttaches topicAttaches=getInterface().getTopicAttaches();
                                 if(topicAttaches==null||topicAttaches.size()==0){
-                                    Toast.makeText(getActivity(),"Тема не имеет вложений",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(),"Страница не имеет вложений",Toast.LENGTH_SHORT).show();
                                     return true;
                                 }
                                 final boolean[] selection=new boolean[topicAttaches.size()];
@@ -1438,7 +1465,7 @@ public class ThemeActivity extends BaseFragmentActivity  {
 
                                                 for (int j=0;j<selection.length;j++){
                                                     if(!selection[j])continue;
-                                                    DownloadsActivity.download(getInterface().getHandler(), getActivity().getApplicationContext(), topicAttaches.get(j).getUri());                                                    
+                                                    DownloadsActivity.download(getActivity(), topicAttaches.get(j).getUri());
                                                 }
                                             }
                                         })
@@ -1489,7 +1516,9 @@ public class ThemeActivity extends BaseFragmentActivity  {
                                     Intent marketIntent = new Intent(
                                             Intent.ACTION_VIEW,
                                             Uri.parse("http://" + Client.SITE + "/forum/index.php?" + getInterface().getLastUrl()));
-                                    startActivity(marketIntent);
+                                    startActivity(Intent.createChooser(marketIntent, "Выберите"));
+
+
                                 } catch (ActivityNotFoundException e) {
                                     Log.e(getActivity(), e);
                                 }
@@ -1590,5 +1619,32 @@ public class ThemeActivity extends BaseFragmentActivity  {
 
 
         }
+    }
+
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        webView.setWebViewClient(null);
+        webView.setPictureListener(null);
+    }
+
+
+    @Override
+    public void onStop(){
+        super.onStop();
+
+        webView.setWebViewClient(null);
+        webView.setPictureListener(null);
+    }
+
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+
+        webView.setWebViewClient(null);
+        webView.setPictureListener(null);
     }
 }

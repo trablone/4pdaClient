@@ -1,16 +1,13 @@
 package org.softeg.slartus.forpda;
 
-import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+import android.app.*;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +19,7 @@ import org.softeg.slartus.forpda.classes.common.FileUtils;
 import org.softeg.slartus.forpda.classes.common.Functions;
 import org.softeg.slartus.forpda.common.Log;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -35,7 +33,6 @@ public class DownloadsActivity extends BaseActivity {
     private android.os.Handler mHandler = new android.os.Handler();
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +43,7 @@ public class DownloadsActivity extends BaseActivity {
         m_Adapter = new DownloadTasksAdapter(this, R.layout.download_task_item, Client.INSTANCE.getDownloadTasks());
         m_Adapter.sort(new Comparator<DownloadTask>() {
             public int compare(DownloadTask downloadTask, DownloadTask downloadTask1) {
-                return -1*downloadTask.getCreateDate().compareTo(downloadTask1.getCreateDate());
+                return -1 * downloadTask.getCreateDate().compareTo(downloadTask1.getCreateDate());
             }
         });
         getListView().setAdapter(m_Adapter);
@@ -56,6 +53,7 @@ public class DownloadsActivity extends BaseActivity {
                     if (l < 0) return;
                     final DownloadTask downloadTask = m_Adapter.getItem((int) l);
                     switch (downloadTask.getState()) {
+                        case DownloadTask.STATE_PENDING:
                         case DownloadTask.STATE_CONNECTING:
                         case DownloadTask.STATE_DOWNLOADING:
                             new AlertDialog.Builder(DownloadsActivity.this)
@@ -73,25 +71,41 @@ public class DownloadsActivity extends BaseActivity {
                             break;
                         case DownloadTask.STATE_ERROR:
                         case DownloadTask.STATE_CANCELED:
+                            CharSequence[] items=new CharSequence[]{"Повторить загрузку", "Докачать файл"};
                             new AlertDialog.Builder(DownloadsActivity.this)
-                                    .setTitle("Действие")
-                                    .setMessage("Повторить загрузку?")
-                                    .setCancelable(true)
-                                    .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                                    .setTitle("Выберите действие")
+                                    .setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            Client.INSTANCE.getDownloadTasks().remove(downloadTask);
-                                            download(mHandler, DownloadsActivity.this.getApplicationContext(), downloadTask.getUrl());
-                                            mHandler.post(new Runnable() {
-                                                public void run() {
-                                                    m_Adapter.notifyDataSetChanged();
-                                                }
-                                            });
+                                            switch (i) {
+                                                case 0: // Повторить загрузку
+                                                    dialogInterface.dismiss();
+                                                    Client.INSTANCE.getDownloadTasks().remove(downloadTask);
+                                                    download(DownloadsActivity.this, downloadTask.getUrl());
 
-                                            dialogInterface.dismiss();
+                                                    mHandler.post(new Runnable() {
+                                                        public void run() {
+                                                            m_Adapter.notifyDataSetChanged();
+                                                        }
+                                                    });
+                                                    break;
+                                                case 1: // Докачать файл
+                                                    dialogInterface.dismiss();
+                                                    Client.INSTANCE.getDownloadTasks().remove(downloadTask);
+                                                    download(DownloadsActivity.this, downloadTask.getUrl(),
+                                                            downloadTask.getDownloadingFilePath(),downloadTask.getId());
 
+                                                    mHandler.post(new Runnable() {
+                                                        public void run() {
+                                                            m_Adapter.notifyDataSetChanged();
+                                                        }
+                                                    });
+
+                                                    break;
+                                            }
                                         }
                                     })
-                                    .setNegativeButton("Нет", null)
+                                    .setCancelable(true)
+                                    .setNegativeButton("Отмена", null)
                                     .create().show();
                             break;
                         case DownloadTask.STATE_SUCCESSFULL:
@@ -107,7 +121,7 @@ public class DownloadsActivity extends BaseActivity {
             }
         });
         Client.INSTANCE.getDownloadTasks().setOnStateListener(new Client.OnProgressPositionChangedListener() {
-            public void onProgressChanged(int state, Exception ex) {
+            public void onProgressChanged(Context context, DownloadTask downloadTask, Exception ex) {
                 mHandler.post(new Runnable() {
                     public void run() {
                         m_Adapter.notifyDataSetChanged();
@@ -191,7 +205,8 @@ public class DownloadsActivity extends BaseActivity {
                     + Functions.getSizeText(downloadTask.getContentLength()) + ")");
             int state = downloadTask.getState();
 
-            Boolean processing = state == DownloadTask.STATE_CONNECTING || state == DownloadTask.STATE_DOWNLOADING;
+            Boolean processing = state == DownloadTask.STATE_CONNECTING || state == DownloadTask.STATE_DOWNLOADING
+                    || state == DownloadTask.STATE_PENDING;
             holder.progress.setIndeterminate(state == downloadTask.STATE_CONNECTING);
             holder.progress.setProgress(downloadTask.getPercents());
 
@@ -212,79 +227,68 @@ public class DownloadsActivity extends BaseActivity {
 
     }
 
-    public static void download(final Handler handler, final Context context, final String url) {
-        Toast.makeText(context, "Загрузка начата", Toast.LENGTH_SHORT).show();
-        final String fileName = FileUtils.getFileNameFromUrl(url);
-        final int notificationId = Functions.getUniqueDateInt();
-        final String notificationTag = url;
+    public static void download(final Activity context1, final String url){
+        download(context1,url,null,-1);
+    }
 
+    public static void download(final Activity context1, final String url, final String tempFilePath, final int notificationId) {
+        final String fileName = FileUtils.getFileNameFromUrl(url);
+        
+        if(TextUtils.isEmpty(tempFilePath)){
+            final String filePath=FileUtils.combine(DownloadsService.getDownloadDir(context1), FileUtils.getFileNameFromUrl(url)+"_download");
+            final File file= new File(filePath);
+            if(file.exists()){
+                new AlertDialog.Builder(context1)
+                        .setTitle("Внимание!")
+                        .setMessage("Имеется недокачанный файл с таким же названием.\nДокачать?")
+                        .setPositiveButton("Докачать",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                startDownload(context1, url, filePath, notificationId, fileName);
+                            }
+                        })
+                        .setNegativeButton("Перекачать",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                file.delete();
+                                startDownload(context1, url, null, notificationId, fileName);
+                            }
+                        }).create().show();
+                return;
+            }
+        }
+
+        startDownload(context1, url, tempFilePath, notificationId, fileName);
+    }
+
+    private static void startDownload(Context context1, String url, String tempFilePath, int notificationId, String fileName) {
+        Toast.makeText(context1, "Загрузка начата", Toast.LENGTH_SHORT).show();
+        if(notificationId==-1)
+            notificationId = Functions.getUniqueDateInt();
         final Notification notification = new Notification(R.drawable.icon, "Скачивание файла", System.currentTimeMillis());
-        final RemoteViews notification_view = new RemoteViews(context.getPackageName(), R.layout.download_task_notification);
+        final RemoteViews notification_view = new RemoteViews(context1.getPackageName(), R.layout.download_task_notification);
         notification_view.setImageViewResource(R.id.imgIcon, R.drawable.icon);
         notification_view.setTextViewText(R.id.txtFileName, fileName);
         notification_view.setProgressBar(R.id.progress, 100, 0, true);
         notification.contentView = notification_view;
 
 
-        Intent newIntent = new Intent(context,
+        Intent newIntent = new Intent(context1,
                 DownloadsActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, newIntent, 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(context1, 0, newIntent, 0);
         notification.contentIntent = contentIntent;
-        // notification.flags |= Notification.FLAG_NO_CLEAR;
+        notification.flags = Notification.FLAG_AUTO_CANCEL;
 
-        final NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-
-        mNotificationManager.notify(notificationTag, notificationId, notification);
-
-        new Thread(new Runnable() {
-            public void run() {
-
-                final DownloadTask downloadTask = Client.INSTANCE.downloadFile(url, new Client.OnProgressPositionChangedListener() {
-                    public void onProgressChanged(final int state, final Exception ex) {
-                        handler.post(new Runnable() {
-                            public void run() {
-                                if (state == DownloadTask.STATE_ERROR || state == DownloadTask.STATE_CANCELED) {
-                                    Intent intent = new Intent(context, DownloadsActivity.class);
-
-                                    Notification notification = new Notification(R.drawable.icon, "Загрузка завершена", System.currentTimeMillis());
-                                    PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, 0);
-
-                                    notification.setLatestEventInfo(context, fileName, DownloadTask.getStateMessage(state, ex),
-                                            contentIntent);
-                                    notification.flags = Notification.FLAG_AUTO_CANCEL;
-                                    mNotificationManager.notify(notificationTag, notificationId, notification);
-                                    return;
-                                }
-                                notification_view.setProgressBar(R.id.progress, 100, state, false);
-                                mNotificationManager.notify(notificationTag, notificationId, notification);
-                            }
-                        });
-                    }
-                });
-
-                handler.post(new Runnable() {
-                    public void run() {
-                        // mNotificationManager.cancel(notificationTag,notificationId);
-                        Intent intent = new Intent(context,
-                                DownloadsActivity.class);
-                        if (downloadTask.getState() == DownloadTask.STATE_SUCCESSFULL) {
-                            intent = getRunFileIntent(downloadTask.getOutputFile());
-                        }
-                        Notification notification = new Notification(R.drawable.icon, "Загрузка завершена", System.currentTimeMillis());
-                        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, 0);
-                        notification.setLatestEventInfo(context, fileName, downloadTask.getStateMessage(),
-                                contentIntent);
-                        notification.flags = Notification.FLAG_AUTO_CANCEL;
-                        mNotificationManager.notify(notificationTag, notificationId, notification);
-                        Toast.makeText(context, "Загрузка завершена", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        NotificationManager nm = (NotificationManager) context1.getSystemService(Context.NOTIFICATION_SERVICE);
 
 
-            }
-        }).start();
+        nm.notify(url, notificationId, notification);
+
+
+        Client.INSTANCE.downloadFile(context1, url, notificationId, tempFilePath);
     }
 
-
 }
+
+
+

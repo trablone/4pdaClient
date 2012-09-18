@@ -15,10 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.R;
-import org.softeg.slartus.forpda.classes.*;
+import org.softeg.slartus.forpda.classes.ForumItem;
+import org.softeg.slartus.forpda.classes.ThemeOpenParams;
+import org.softeg.slartus.forpda.classes.Themes;
+import org.softeg.slartus.forpda.classes.Topic;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
 import java.util.Comparator;
 
@@ -56,6 +59,8 @@ public class ThemesTab extends LinearLayout implements ITab {
     public void setOnTabTitleChangedListener(OnTabTitleChangedListener p) {
         m_OnTabTitleChangedListener = p;
     }
+
+
 
 
     public ThemesTab(Context context, String tabTag) {
@@ -269,7 +274,7 @@ public class ThemesTab extends LinearLayout implements ITab {
     }
 
 
-    protected void getThemes(Client.OnProgressChangedListener progressChangedListener) throws Exception {
+    protected void getThemes(OnProgressChangedListener progressChangedListener) throws Exception {
 
     }
 
@@ -299,7 +304,7 @@ public class ThemesTab extends LinearLayout implements ITab {
                 m_SelectedIndex = Math.max(Math.min(m_Themes.size(), lstTree.getRefreshableView().getFirstVisiblePosition()), 0);
 
 
-                getThemes(new Client.OnProgressChangedListener() {
+                getThemes(new OnProgressChangedListener() {
                     public void onProgressChanged(String state) {
                         publishProgress(state);
                     }
