@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.NewsActivity;
-import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
+import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.classes.Topic;
 import org.softeg.slartus.forpda.common.Log;
 import org.softeg.slartus.forpdaapi.OnProgressChangedListener;

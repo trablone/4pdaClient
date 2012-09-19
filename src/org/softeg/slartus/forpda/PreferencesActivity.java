@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import org.softeg.slartus.forpda.Tabs.Tabs;
-import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
+import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.classes.ForumUser;
 import org.softeg.slartus.forpda.classes.common.FileUtils;
 import org.softeg.slartus.forpda.classes.common.StringUtils;

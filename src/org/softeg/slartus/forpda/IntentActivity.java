@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import org.softeg.slartus.forpda.Mail.MailActivity;
-import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
+import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.common.Log;
 
 import java.util.regex.Matcher;

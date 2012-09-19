@@ -60,7 +60,7 @@ public class SearchTab extends ThemesTab {
         m_UserName = preferences.getString(tabTag + ".Template.UserName", "");
         m_Query = preferences.getString(tabTag + ".Template.Query", "");
 
-        loadChecks(preferences.getString(tabTag + ".Template.Forums", ""));
+        loadChecks(preferences.getString(tabTag + ".Template.Forums", "281µAndroid¶"));
         m_Subforums = preferences.getBoolean(tabTag + ".Template.Subforums", true);
 
         if (TextUtils.isEmpty(m_Name)) {
@@ -82,7 +82,7 @@ public class SearchTab extends ThemesTab {
         editor.putString(tabTag + ".Template.Sort",m_Sort);
         editor.putString(tabTag + ".Template.UserName",m_UserName);
         editor.putString(tabTag + ".Template.Query",m_Query);
-
+        editor.putString(tabTag + ".Template.Forums", TabDataSettingsActivity. getCheckedIdsString(m_CheckedIds));
 //        editor.putString(tabTag + ".Template.Forums",m_Source);
         editor.putBoolean(tabTag + ".Template.Subforums",m_Subforums);
 //
@@ -134,6 +134,10 @@ public class SearchTab extends ThemesTab {
 
     private Hashtable<String, CharSequence> m_CheckedIds = new Hashtable<String, CharSequence>();
 
+    public Hashtable<String, CharSequence> getCheckedIds(){
+        return m_CheckedIds;
+
+    }
     public void search(String query, String userName, String source, String sort, Boolean subforums,
                        Hashtable<String, CharSequence> checkedIds) {
         m_Query = query;

@@ -8,7 +8,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import org.softeg.slartus.forpda.Tabs.Tabs;
 import org.softeg.slartus.forpda.Tabs.ThemesTab;
-import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
+import org.softeg.slartus.forpdaapi.NotReportException;
 
 /**
  * User: slinkin

@@ -7,7 +7,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
+import org.softeg.slartus.forpdaapi.NotReportException;
 
 /**
  * User: slinkin

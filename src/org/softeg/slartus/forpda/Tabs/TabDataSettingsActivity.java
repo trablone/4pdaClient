@@ -18,7 +18,7 @@ import android.widget.*;
 import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.MyApp;
 import org.softeg.slartus.forpda.R;
-import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
+import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.classes.Forum;
 import org.softeg.slartus.forpda.classes.ForumsAdapter;
 import org.softeg.slartus.forpda.common.Log;
@@ -178,7 +178,7 @@ public class TabDataSettingsActivity extends Activity {
         editor.putString(tabTag + ".Template.Sort", getSpinnerValue(spnrSort, R.array.SearchSortValues));
         editor.putString(tabTag + ".Template.UserName", username_edit.getText().toString());
         editor.putString(tabTag + ".Template.Query", query_edit.getText().toString());
-        editor.putString(tabTag + ".Template.Forums", getCheckedIdsString());
+        editor.putString(tabTag + ".Template.Forums", getCheckedIdsString(m_CheckedIds));
         editor.putBoolean(tabTag + ".Template.Subforums", chkSubforums.isChecked());
         editor.commit();
     }
@@ -217,10 +217,10 @@ public class TabDataSettingsActivity extends Activity {
         return res;
     }
 
-    private String getCheckedIdsString() {
+    public static String getCheckedIdsString(Hashtable<String, CharSequence> checkedIds ) {
         StringBuilder sb = new StringBuilder();
-        Enumeration<String> keys = m_CheckedIds.keys();
-        for (int k = 0; k < m_CheckedIds.size(); k++) {
+        Enumeration<String> keys = checkedIds.keys();
+        for (int k = 0; k < checkedIds.size(); k++) {
             String key = keys.nextElement();
             sb.append(key + pairValuesDelimiter);
             if (key.equals("all")) {
@@ -228,7 +228,7 @@ public class TabDataSettingsActivity extends Activity {
             } else {
 
 
-                sb.append(m_CheckedIds.get(key) + pairsDelimiter);
+                sb.append(checkedIds.get(key).toString().trim() + pairsDelimiter);
             }
 
         }

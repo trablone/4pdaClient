@@ -34,7 +34,7 @@ import org.softeg.slartus.forpda.Mail.EditMailActivity;
 import org.softeg.slartus.forpda.Tabs.ForumTreeTab;
 import org.softeg.slartus.forpda.Tabs.Tabs;
 import org.softeg.slartus.forpda.classes.*;
-import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
+import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.classes.common.ExtPreferences;
 import org.softeg.slartus.forpda.classes.common.Functions;
 import org.softeg.slartus.forpda.classes.common.StringUtils;

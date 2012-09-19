@@ -20,7 +20,7 @@ import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.HttpHostConnectException;
 import org.softeg.slartus.forpda.MyApp;
 import org.softeg.slartus.forpda.classes.Exceptions.AdditionalInfoException;
-import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
+import org.softeg.slartus.forpdaapi.NotReportException;
 
 import java.io.*;
 import java.lang.reflect.Field;

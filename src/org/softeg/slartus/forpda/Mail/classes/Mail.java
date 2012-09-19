@@ -4,7 +4,7 @@ import android.text.Html;
 import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.EditPostActivity;
 import org.softeg.slartus.forpda.classes.Exceptions.AdditionalInfoException;
-import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
+import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.classes.common.Functions;
 
 import java.io.IOException;

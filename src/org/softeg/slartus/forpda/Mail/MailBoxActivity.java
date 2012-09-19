@@ -20,7 +20,7 @@ import com.actionbarsherlock.view.MenuItem;
 import org.softeg.slartus.forpda.*;
 import org.softeg.slartus.forpda.Mail.classes.MailFolder;
 import org.softeg.slartus.forpda.Mail.classes.MailFolders;
-import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
+import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.common.Log;
 
 import java.io.IOException;

@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.*;
 import org.softeg.slartus.forpda.classes.DownloadTask;
-import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
+import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.classes.common.FileUtils;
 import org.softeg.slartus.forpda.classes.common.Functions;
 import org.softeg.slartus.forpda.common.Log;

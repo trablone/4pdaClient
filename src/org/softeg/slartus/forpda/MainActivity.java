@@ -22,7 +22,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import org.softeg.slartus.forpda.Tabs.ITab;
 import org.softeg.slartus.forpda.Tabs.Tabs;
 import org.softeg.slartus.forpda.Tabs.ThemesTab;
-import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
+import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.classes.ProfileMenuFragment;
 import org.softeg.slartus.forpda.common.Log;
 
@@ -38,6 +38,7 @@ public class MainActivity extends BaseFragmentActivity {
     TabHost mTabHost;
 
     MenuFragment mFragment1;
+
 
     public TabHost getTabHost() {
         return mTabHost;
@@ -218,9 +219,9 @@ public class MainActivity extends BaseFragmentActivity {
     private void userChanged() {
         mHandler.post(new Runnable() {
             public void run() {
-
+                
                 mFragment1.setUserMenu();
-
+                mFragment1.setOtherMenu();
             }
         });
 
@@ -249,6 +250,10 @@ public class MainActivity extends BaseFragmentActivity {
         super.onCreateContextMenu(menu, v, menuInfo);
         ((ITab) mTabHost.getCurrentView()).onCreateContextMenu(menu, v, menuInfo, mHandler);
 
+    }
+
+    public Handler getHandler() {
+        return mHandler;
     }
 
 
@@ -296,6 +301,11 @@ public class MainActivity extends BaseFragmentActivity {
             if (getActivity() == null) return null;
             return ((MainActivity) getActivity()).getTabHost();
         }
+        
+        private Handler getHandler(){
+            if (getActivity() == null) return null;
+            return ((MainActivity) getActivity()).getHandler();
+        }
 
         public MenuFragment() {
             super();
@@ -306,6 +316,75 @@ public class MainActivity extends BaseFragmentActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setHasOptionsMenu(true);
+        }
+
+        private  com.actionbarsherlock.view.SubMenu m_miOther;
+        public void setOtherMenu(){
+            if(m_miOther==null)return ;
+            m_miOther.clear();
+            com.actionbarsherlock.view.MenuItem item;
+            if(Client.INSTANCE.getLogined()){
+                item = m_miOther.add("Отменить весь форум прочитанным");
+                item.setOnMenuItemClickListener(new com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem item) {
+                        Toast.makeText(getActivity(), "Запрос отправлен", Toast.LENGTH_SHORT).show();
+
+                        new Thread(new Runnable() {
+                            public void run() {
+
+                                Exception ex = null;
+
+                                String res = null;
+                                try {
+                                    Client.INSTANCE.markAllForumAsRead();
+                                } catch (Exception e) {
+                                    ex = e;
+                                }
+
+                                final Exception finalEx = ex;
+
+                                getHandler().post(new Runnable() {
+                                    public void run() {
+                                        try {
+                                            if (finalEx != null) {
+                                                Toast.makeText(getActivity(), "Ошибка", Toast.LENGTH_SHORT).show();
+                                                Log.e(getActivity(), finalEx);
+                                            } else {
+                                                Toast.makeText(getActivity(), "Форум отмечен прочитанным", Toast.LENGTH_SHORT).show();
+                                            }
+                                        } catch (Exception ex) {
+                                            Log.e(getActivity(), ex);
+                                        }
+
+                                    }
+                                });
+                            }
+                        }).start();
+
+                        return true;
+                    }
+                });
+            }
+
+
+            com.actionbarsherlock.view.SubMenu miQuickStart = m_miOther.addSubMenu("Быстрый доступ").setIcon(android.R.drawable.ic_menu_view);
+            for (final String template : Tabs.templates) {
+                try {
+                    miQuickStart.add(Tabs.getDefaultTemplateName(template))
+                            .setOnMenuItemClickListener(new com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener() {
+                                public boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem menuItem) {
+                                    Intent intent = new Intent(getActivity(), QuickStartActivity.class);
+
+                                    intent.putExtra("template", template);
+
+                                    getActivity().startActivity(intent);
+                                    return true;
+                                }
+                            });
+                } catch (NotReportException e) {
+                    Log.e(getActivity(), e);
+                }
+            }
         }
 
         @Override
@@ -356,26 +435,9 @@ public class MainActivity extends BaseFragmentActivity {
             });
             item.setShowAsAction(com.actionbarsherlock.view.MenuItem.SHOW_AS_ACTION_NEVER);
 
+            m_miOther = menu.addSubMenu("Другое..").setIcon(android.R.drawable.ic_menu_more);
+            
 
-            com.actionbarsherlock.view.SubMenu miQuickStart = menu.addSubMenu("Быстрый доступ").setIcon(android.R.drawable.ic_menu_view);
-
-            for (final String template : Tabs.templates) {
-                try {
-                    miQuickStart.add(Tabs.getDefaultTemplateName(template))
-                            .setOnMenuItemClickListener(new com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener() {
-                                public boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem menuItem) {
-                                    Intent intent = new Intent(getActivity(), QuickStartActivity.class);
-
-                                    intent.putExtra("template", template);
-
-                                    getActivity().startActivity(intent);
-                                    return true;
-                                }
-                            });
-                } catch (NotReportException e) {
-                    Log.e(getActivity(), e);
-                }
-            }
 
             menu.add("Закрыть программу")
                     .setIcon(android.R.drawable.ic_menu_close_clear_cancel)

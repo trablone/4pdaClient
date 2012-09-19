@@ -22,6 +22,8 @@
                 android:capitalize="none"
                 android:autoText="false"
                 android:layout_centerVertical="true"
+                android:imeOptions="actionSearch"
+                android:imeActionLabel="Поиск"
                 android:layout_toLeftOf="@+id/btnSearch"
                 android:layout_toRightOf="@+id/btnSettins"/>
         <ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content"

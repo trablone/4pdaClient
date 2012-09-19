@@ -39,7 +39,7 @@ import org.apache.http.protocol.ExecutionContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.softeg.slartus.forpda.classes.AppHttpStatus;
-import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
+import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.classes.SerializableCookie;
 import org.softeg.slartus.forpda.classes.common.FileUtils;
 import org.softeg.slartus.forpda.classes.common.Translit;

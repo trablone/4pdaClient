@@ -15,7 +15,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import org.apache.http.cookie.Cookie;
 import org.softeg.slartus.forpda.classes.*;
-import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
+import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.classes.common.Functions;
 import org.softeg.slartus.forpda.common.Log;
 import org.softeg.slartus.forpdaapi.IHttpClient;
@@ -1023,6 +1023,10 @@ public class Client implements IHttpClient {
                     topic.setTitle(m.group(1));
             }
         }
+    }
+
+    public void markAllForumAsRead() throws Exception{
+        org.softeg.slartus.forpdaapi.Forums.markAllAsRead(this);
     }
 
     public String getThemeForumId(String themeId) throws IOException {

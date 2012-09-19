@@ -30,7 +30,7 @@ import org.softeg.slartus.forpda.BaseFragmentActivity;
 import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.R;
 import org.softeg.slartus.forpda.classes.BbCodesPanel;
-import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
+import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.common.HtmlUtils;
 import org.softeg.slartus.forpda.common.Log;
 

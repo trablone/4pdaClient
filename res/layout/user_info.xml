@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical"
+              android:padding="5dip">
+    <TextView android:text="bezIPHONa"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/txtUserNick"/>
+    <TextView android:text="Друзья 4PDA"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/txtUserGroup"/>
+    <ImageView android:id="@+id/imgAvatar"
+               android:layout_width="100dip"
+               android:layout_height="100dip" />
+</LinearLayout>

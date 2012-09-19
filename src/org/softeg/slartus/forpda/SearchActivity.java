@@ -11,7 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import org.softeg.slartus.forpda.Tabs.SearchTab;
-import org.softeg.slartus.forpda.classes.Exceptions.NotReportException;
+import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.classes.Forum;
 import org.softeg.slartus.forpda.classes.ForumsAdapter;
 import org.softeg.slartus.forpda.common.Log;
@@ -74,12 +74,17 @@ public class SearchActivity extends BaseActivity {
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 if (actionId == EditorInfo.IME_NULL || actionId == EditorInfo.IME_ACTION_DONE) {
                     search();
+                }  else if (keyEvent!=null&& keyEvent.getAction() == KeyEvent.KEYCODE_SEARCH ) {
+                    search();
+                }  else if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    search();
                 }
                 return true;
             }
         });
         btnAddForum = (Button) findViewById(R.id.btnAddForum);
-
+        m_CheckedIds=m_SearchTab.getCheckedIds();
+        setForumButtonText();
         btnAddForum.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (Client.INSTANCE.MainForum == null) {
@@ -92,7 +97,7 @@ public class SearchActivity extends BaseActivity {
 
         );
         chkSubforums = (CheckBox) findViewById(R.id.chkSubforums);
-
+        chkSubforums.setChecked(m_SearchTab.Subforums());
         btnSettins = (ImageButton) findViewById(R.id.btnSettins);
 
         btnSettins.setOnClickListener(new View.OnClickListener() {
@@ -202,24 +207,29 @@ public class SearchActivity extends BaseActivity {
                 .setView(view)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        StringBuilder sb = new StringBuilder();
-                        Enumeration<String> keys = m_CheckedIds.keys();
-                        for (int k = 0; k < m_CheckedIds.size(); k++) {
-                            String key = keys.nextElement();
-                            if (key.equals("all")) {
-                                sb.append("Все форумы;");
-                            } else {
-                                Forum forum = Client.INSTANCE.MainForum.findById(key, true, false);
-                                sb.append(forum.getTitle() + ";");
-                            }
-                        }
-                        if (sb.toString().equals(""))
-                            sb.append("Все форумы");
-                        btnAddForum.setText(sb.toString());
+                        setForumButtonText();
                     }
                 })
                 .create().show();
 
+    }
+    
+    private void setForumButtonText(){
+        StringBuilder sb = new StringBuilder();
+        Enumeration<String> keys = m_CheckedIds.keys();
+        for (int k = 0; k < m_CheckedIds.size(); k++) {
+            String key = keys.nextElement();
+            if (key.equals("all")) {
+                sb.append("Все форумы;");
+            } else {
+                sb.append(m_CheckedIds.get(key));
+//                Forum forum = Client.INSTANCE.MainForum.findById(key, true, false);
+//                sb.append(forum.getTitle() + ";");
+            }
+        }
+        if (sb.toString().equals(""))
+            sb.append("Все форумы");
+        btnAddForum.setText(sb.toString());
     }
 
     private void addForumCaptions(ArrayList<CharSequence> forumCaptions, Forum forum, Forum parentForum, String node) {

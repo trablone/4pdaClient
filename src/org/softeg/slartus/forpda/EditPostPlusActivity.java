@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.MenuItem;
 import com.lamerman.FileDialog;
 import org.softeg.slartus.forpda.classes.BbCodesPanel;
 import org.softeg.slartus.forpda.classes.common.FileUtils;
@@ -302,33 +303,45 @@ public class EditPostPlusActivity extends BaseFragmentActivity {
             item.setVisible(Client.INSTANCE.getLogined());
             item.setOnMenuItemClickListener(new com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener() {
                 public boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem menuItem) {
-                    final String body = ((EditPostPlusActivity)getActivity()).getPostText();
-                    if (TextUtils.isEmpty(body))
-                        return true;
-
-                    if (((EditPostPlusActivity)getActivity()).getConfirmSend()) {
-                        new AlertDialog.Builder(getActivity())
-                                .setTitle("Уверены?")
-                                .setMessage("Подтвердите отправку")
-                                .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                        ((EditPostPlusActivity)getActivity()).sendPost(body);
-
-                                    }
-                                })
-                                .setNegativeButton("Отмена", null)
-                                .create().show();
-                    } else {
-                        ((EditPostPlusActivity)getActivity()).sendPost(body);
-                    }
-
-                    return true;
+                    return sendMail();
                 }
             });
             item.setShowAsAction(com.actionbarsherlock.view.MenuItem.SHOW_AS_ACTION_ALWAYS);
 
+            item = menu.add("Отправить").setIcon(android.R.drawable.ic_menu_send);
+            item.setVisible(Client.INSTANCE.getLogined());
+            item.setOnMenuItemClickListener(new com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener() {
+                public boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem menuItem) {
+                    return sendMail();
+                }
+            });
+            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 
+        }
+        
+        private boolean sendMail(){
+            final String body = ((EditPostPlusActivity)getActivity()).getPostText();
+            if (TextUtils.isEmpty(body))
+                return true;
+
+            if (((EditPostPlusActivity)getActivity()).getConfirmSend()) {
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("Уверены?")
+                        .setMessage("Подтвердите отправку")
+                        .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                ((EditPostPlusActivity)getActivity()).sendPost(body);
+
+                            }
+                        })
+                        .setNegativeButton("Отмена", null)
+                        .create().show();
+            } else {
+                ((EditPostPlusActivity)getActivity()).sendPost(body);
+            }
+
+            return true;
         }
 
         public NewsActivity getInterface() {
