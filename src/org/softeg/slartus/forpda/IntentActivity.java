@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import org.softeg.slartus.forpda.Mail.MailActivity;
+import org.softeg.slartus.forpda.TopicBrowser.TopicActivity;
 import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.common.Log;
 

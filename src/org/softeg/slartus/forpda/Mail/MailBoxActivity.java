@@ -17,11 +17,14 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import org.softeg.slartus.forpda.*;
+import org.softeg.slartus.forpda.BaseFragmentActivity;
+import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.Mail.classes.MailFolder;
 import org.softeg.slartus.forpda.Mail.classes.MailFolders;
-import org.softeg.slartus.forpdaapi.NotReportException;
+import org.softeg.slartus.forpda.MyApp;
+import org.softeg.slartus.forpda.R;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.NotReportException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -256,6 +259,16 @@ public class MailBoxActivity extends BaseFragmentActivity {
                 }
             });
             item.setShowAsAction(com.actionbarsherlock.view.MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+//            item = menu.add("Удалить..").setIcon(android.R.drawable.ic_menu_delete);
+//            item.setOnMenuItemClickListener(new com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener() {
+//                public boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem menuItem) {
+//                    Intent intent = new Intent(getActivity(), EditMailActivity.class);
+//
+//                    startActivity(intent);
+//                    return true;
+//                }
+//            });
 
         }
     }

@@ -34,7 +34,7 @@ public class DigestTab extends TreeTab {
     }
 
     @Override
-    protected void loadForum(Forum forum, OnProgressChangedListener progressChangedListener) throws IOException {
+    protected void loadForum(Forum forum, OnProgressChangedListener progressChangedListener) throws Exception {
 
         loadDigest(forum, progressChangedListener);
 
@@ -74,24 +74,33 @@ public class DigestTab extends TreeTab {
     }
 
 
-    public void loadDigest(final Forum digest, OnProgressChangedListener progressChangedListener) throws IOException {
-        Client.INSTANCE.doOnOnProgressChanged(progressChangedListener, "Получение данных...");
-        String body = Client.INSTANCE.performGet("http://4pda.ru/forum/index.php?showtopic=127361");
-        String bodyGames = Client.INSTANCE.performGet("http://4pda.ru/forum/index.php?showtopic=131725");
-
-        Client.INSTANCE.doOnOnProgressChanged(progressChangedListener, "Обработка данных...");
-        Client.INSTANCE.checkLogin(bodyGames);
-
+    public void loadDigest(final Forum digest, OnProgressChangedListener progressChangedListener) throws Exception {
         digest.clearChildren();
+        Exception appException = null;
+        try {
+            Client.INSTANCE.doOnOnProgressChanged(progressChangedListener, "Получение данных...");
+            String body = Client.INSTANCE.performGet("http://4pda.ru/forum/index.php?showtopic=127361");
+            Client.INSTANCE.doOnOnProgressChanged(progressChangedListener, "Обработка данных...");
+            Client.INSTANCE.checkLogin(body);
+            Forum appsDigestForum = new Forum(Integer.toString(127361), "Программы");
+            getDigest(appsDigestForum, body, "app");
+            digest.addForum(appsDigestForum);
+        } catch (Exception ex) {
+            appException = ex;
+        }
 
-        Forum appsDigestForum = new Forum(Integer.toString(127361), "Программы");
-        getDigest(appsDigestForum, body, "app");
-        Forum gamesDigestForum = new Forum(Integer.toString(131725), "Игры");
-        getDigest(gamesDigestForum, bodyGames, "game");
-
-        digest.addForum(appsDigestForum);
-        digest.addForum(gamesDigestForum);
-
+        try {
+            Client.INSTANCE.doOnOnProgressChanged(progressChangedListener, "Получение данных...");
+            String bodyGames = Client.INSTANCE.performGet("http://4pda.ru/forum/index.php?showtopic=131725");
+            Client.INSTANCE.doOnOnProgressChanged(progressChangedListener, "Обработка данных...");
+            Forum gamesDigestForum = new Forum(Integer.toString(131725), "Игры");
+            getDigest(gamesDigestForum, bodyGames, "game");
+            digest.addForum(gamesDigestForum);
+        } catch (Exception ex) {
+            throw new Exception("Дайджест игр: "+ ex.getMessage(), ex);
+        }
+        if(appException!=null)
+            throw new Exception("Дайджест программ: "+ appException.getMessage(), appException);
     }
 
     private void getDigest(final Forum digest, String body, String tag) {
@@ -193,15 +202,15 @@ public class DigestTab extends TreeTab {
         final Pattern prPattern = Pattern.compile("(.*?)\\[(.*?)\\](.*?)$");
         String[] digestPiecesOfPiece = msgSubCategory.split("<!--coloro:coral--><span style=\"color:coral\"><!--/coloro--><b>");// разбиваем на категории
         for (String digestPieceOfPiece : digestPiecesOfPiece) {
-            Matcher m = digestPieceOfPiecePattern.matcher("<!--coloro:coral--><span style=\"color:coral\"><!--/coloro--><b>"+digestPieceOfPiece);
+            Matcher m = digestPieceOfPiecePattern.matcher("<!--coloro:coral--><span style=\"color:coral\"><!--/coloro--><b>" + digestPieceOfPiece);
             if (!m.find()) continue;
             String subCategoryTitle = m.group(1);
 
 
-            m = themePattern.matcher(digestPieceOfPiece+"</li>");
+            m = themePattern.matcher(digestPieceOfPiece + "</li>");
             while (m.find()) {
-                Matcher m1= prPattern.matcher(Html.fromHtml(m.group(1)).toString().trim());
-                if(!m1.find())continue;
+                Matcher m1 = prPattern.matcher(Html.fromHtml(m.group(1)).toString().trim());
+                if (!m1.find()) continue;
                 Topic topic = new Topic(m.group(2), m1.group(1));
                 topic.setLastMessageAuthor(m1.group(2));
                 topic.setDescription(m1.group(3));
@@ -219,18 +228,18 @@ public class DigestTab extends TreeTab {
 
         final Pattern digestPieceOfPiecePattern = Pattern.compile("<!--coloro:.*?--><span style=\"color:coral\"><!--/coloro--><b>(.*?)</b>");
         final Pattern themePattern = Pattern.compile("<li>(.*?<a href=\"http://4pda.ru/forum/index.php\\?showtopic=(\\d+)\"(.*?))</li>");
-         final Pattern prPattern = Pattern.compile("(.*?)\\[(.*?)\\](.*?)$");
+        final Pattern prPattern = Pattern.compile("(.*?)\\[(.*?)\\](.*?)$");
         String[] digestPiecesOfPiece = msgSubCategory.split("<!--coloro:coral--><span style=\"color:coral\"><!--/coloro--><b>");// разбиваем на категории
         for (String digestPieceOfPiece : digestPiecesOfPiece) {
-            Matcher m = digestPieceOfPiecePattern.matcher("<!--coloro:coral--><span style=\"color:coral\"><!--/coloro--><b>"+digestPieceOfPiece);
+            Matcher m = digestPieceOfPiecePattern.matcher("<!--coloro:coral--><span style=\"color:coral\"><!--/coloro--><b>" + digestPieceOfPiece);
             if (!m.find()) continue;
             String subCategoryTitle = m.group(1);
             if (!subCategoryTitle.equals(subCategory.getTitle())) continue;
 
-            m = themePattern.matcher(digestPieceOfPiece+"</li>");
+            m = themePattern.matcher(digestPieceOfPiece + "</li>");
             while (m.find()) {
-                Matcher m1= prPattern.matcher(Html.fromHtml(m.group(1)).toString().trim());
-                if(!m1.find())continue;
+                Matcher m1 = prPattern.matcher(Html.fromHtml(m.group(1)).toString().trim());
+                if (!m1.find()) continue;
                 Topic topic = new Topic(m.group(2), m1.group(1));
                 topic.setLastMessageAuthor(m1.group(2));
                 topic.setDescription(m1.group(3));
@@ -266,7 +275,7 @@ public class DigestTab extends TreeTab {
         if (msgSubCategory == null) return;
 
 
-       // final Pattern themePattern = Pattern.compile("<li>.*?<a href=\"http://4pda.ru/forum/index.php\\?showtopic=(\\d+)\" target=\"_blank\">(.*?)</a>.*?<span style=\"color:royalblue\"><!--/coloro-->\\[(.*?)\\].*?> - (.*?)<");
+        // final Pattern themePattern = Pattern.compile("<li>.*?<a href=\"http://4pda.ru/forum/index.php\\?showtopic=(\\d+)\" target=\"_blank\">(.*?)</a>.*?<span style=\"color:royalblue\"><!--/coloro-->\\[(.*?)\\].*?> - (.*?)<");
         final Pattern themePattern = Pattern.compile("<li>(.*?<a href=\"http://4pda.ru/forum/index.php\\?showtopic=(\\d+)\"(.*?))</li>");
         final Pattern prPattern = Pattern.compile("(.*?)\\[(.*)](.*?)$");
         String[] digestPiecesOfPiece = msgSubCategory.split("<ol type='1'>");// разбиваем на категории
@@ -275,13 +284,13 @@ public class DigestTab extends TreeTab {
 
             Matcher m = themePattern.matcher(digestPieceOfPiece);
             while (m.find()) {
-                Matcher m1= prPattern.matcher(Html.fromHtml(m.group(1)).toString().trim());
-                if(!m1.find())continue;
+                Matcher m1 = prPattern.matcher(Html.fromHtml(m.group(1)).toString().trim());
+                if (!m1.find()) continue;
                 Topic topic = new Topic(m.group(2), m1.group(1));
-                String version=m1.group(2);
-                int scIndex=version.indexOf('[');
-                if(scIndex!=-1)
-                    version=version.substring(scIndex+1);
+                String version = m1.group(2);
+                int scIndex = version.indexOf('[');
+                if (scIndex != -1)
+                    version = version.substring(scIndex + 1);
                 topic.setLastMessageAuthor(version);
                 topic.setDescription(m1.group(3));
 

@@ -489,7 +489,7 @@ public class HttpHelper {
         } catch (UnknownHostException ex) {
             throw new NotReportException("Сервер не найден: " + ex.getMessage());
         } catch (Exception ex) {
-            throw new NotReportException("ошипка: " + ex.getMessage());
+            throw new NotReportException("Ошибка: " + ex.getMessage());
         }
 
 

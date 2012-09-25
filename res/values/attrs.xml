@@ -24,4 +24,11 @@
         <attr name="expandedText" format="string"/>
         <attr name="showAndHideChildren" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="ExpandablePanel">
+        <attr name="handle" format="reference" />
+        <attr name="content" format="reference" />
+        <attr name="collapsedHeight" format="dimension"/>
+        <attr name="animationDuration" format="integer"/>
+    </declare-styleable>
 </resources>

@@ -124,8 +124,8 @@ public class QmsContactsActivity extends BaseFragmentActivity implements Adapter
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         l = ListViewMethodsBridge.getItemId(this, i, l);
         if (l < 0||mAdapter.getCount()<=l) return;
-
-        QmsChatActivity.openChat(this,m_QmsUsers.get((int)l).getMid(),m_QmsUsers.get((int)l).getNick());
+        QmsUser qmsUser=mAdapter.getItem((int)l);
+        QmsChatActivity.openChat(this,qmsUser.getMid(),qmsUser.getNick());
 
     }
 
@@ -253,7 +253,7 @@ public class QmsContactsActivity extends BaseFragmentActivity implements Adapter
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-
+            
             final ViewHolder holder;
 
             if (convertView == null) {

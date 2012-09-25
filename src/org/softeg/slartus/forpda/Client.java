@@ -15,12 +15,12 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import org.apache.http.cookie.Cookie;
 import org.softeg.slartus.forpda.classes.*;
-import org.softeg.slartus.forpdaapi.NotReportException;
+import org.softeg.slartus.forpda.classes.Forum;
+import org.softeg.slartus.forpda.classes.Post;
+import org.softeg.slartus.forpda.classes.Topic;
+import org.softeg.slartus.forpdaapi.*;
 import org.softeg.slartus.forpda.classes.common.Functions;
 import org.softeg.slartus.forpda.common.Log;
-import org.softeg.slartus.forpdaapi.IHttpClient;
-import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
-import org.softeg.slartus.forpdaapi.Reputations;
 
 import java.io.IOException;
 import java.net.URI;
@@ -243,6 +243,10 @@ public class Client implements IHttpClient {
             httpHelper.close();
         }
         return res;
+    }
+
+    public UserProfile loadUserProfile(String userId) throws IOException {
+        return UserProfile.loadProfile(this, userId);
     }
 
     public interface OnUserChangedListener {
@@ -557,7 +561,14 @@ public class Client implements IHttpClient {
 //        if (progressChangedListener != null)
 //            doOnOnProgressChanged(progressChangedListener, "Обработка данных...");
 
-        checkLogin(res);
+        return parseTopic(res,handler,context,themeUrl,spoilFirstPost,enableSig,enableEmo,postBody,hidePostForm,progressChangedListener);
+    }
+    
+    public TopicBodyBuilder parseTopic(String topicPageBody,
+                                       Handler handler, Context context, String themeUrl, Boolean spoilFirstPost, Boolean enableSig,
+                                       Boolean enableEmo, String postBody, Boolean hidePostForm,
+                                       OnProgressChangedListener progressChangedListener) throws IOException, Topic.ThemeParseException {
+        checkLogin(topicPageBody);
 
         Pattern pattern = Pattern.compile("showtopic=(\\d+)(&(.*))?");
         Matcher m = pattern.matcher(themeUrl);
@@ -570,7 +581,7 @@ public class Client implements IHttpClient {
             urlParams = m.group(3);
         }
 
-        TopicBodyBuilder topicBodyBuilder = loadTopic(handler, context, topicId, res, spoilFirstPost, m_Logined,
+        TopicBodyBuilder topicBodyBuilder = loadTopic(handler, context, topicId, topicPageBody, spoilFirstPost, m_Logined,
                 urlParams, enableSig, enableEmo, postBody, hidePostForm);
         return topicBodyBuilder;
     }

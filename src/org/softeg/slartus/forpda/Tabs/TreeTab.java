@@ -15,8 +15,6 @@ import org.softeg.slartus.forpda.classes.Forums;
 import org.softeg.slartus.forpda.common.Log;
 import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
-import java.io.IOException;
-
 /**
  * User: slinkin
  * Date: 22.11.11
@@ -46,9 +44,9 @@ public abstract class TreeTab extends ThemesTab {
     protected void listItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         if (m_CurrentItem == null) return;
         if (m_CurrentItem.hasChildForums()) {
-            l = ListViewMethodsBridge.getItemId(getContext(),i, l);
+            l = ListViewMethodsBridge.getItemId(getContext(), i, l);
 
-            if (l < 0||m_ForumsAdapter.getCount()<=l) return;
+            if (l < 0 || m_ForumsAdapter.getCount() <= l) return;
             showForum(m_ForumsAdapter.getItem((int) l));
         } else {
             super.listItemClick(adapterView, view, i, l);
@@ -133,7 +131,7 @@ public abstract class TreeTab extends ThemesTab {
             super.onCreateContextMenu(menu, v, menuInfo, handler);
     }
 
-    protected abstract void loadForum(Forum forum, OnProgressChangedListener progressChangedListener) throws IOException;
+    protected abstract void loadForum(Forum forum, OnProgressChangedListener progressChangedListener) throws Exception;
 
     private class ShowForumsTask extends AsyncTask<Forum, String, Boolean> {
         Context mContext;
@@ -173,8 +171,8 @@ public abstract class TreeTab extends ThemesTab {
         // can use UI thread here
         protected void onPreExecute() {
             try {
-            this.dialog.setMessage(getContext().getResources().getString(R.string.loading));
-            this.dialog.show();
+                this.dialog.setMessage(getContext().getResources().getString(R.string.loading));
+                this.dialog.show();
             } catch (Exception ex) {
                 Log.e(null, ex);
             }
@@ -191,9 +189,10 @@ public abstract class TreeTab extends ThemesTab {
             } catch (Exception ex) {
                 Log.e(null, ex);
             }
+            showForum(m_LoadForum);
+            m_ForumsAdapter.notifyDataSetChanged();
             if (success) {
-                showForum(m_LoadForum);
-                m_ForumsAdapter.notifyDataSetChanged();
+
 
 
             } else {

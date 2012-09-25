@@ -130,6 +130,24 @@ public final class Tabs {
         throw new NotReportException("Неизвестный шаблон");
     }
 
+    /**
+     * Получаем список имён дефолтных шаблонов
+     * @return
+     */
+    public static String[] getDefaultTemplateNames() {
+        String[] res=new String[templates.length];
+        int length=templates.length;
+        for(int i=0;i<length;i++){
+            try{
+                res[i]=getDefaultTemplateName(templates[i]);
+            }catch (Exception ex){
+                res[i]=ex.getMessage();
+            }
+            
+        }
+        return res;
+    }
+
     public static String getTemplate(SharedPreferences prefs, String tabId) {
         String template = prefs.getString(tabId + ".Template", "");
         if (!TextUtils.isEmpty(template)) return template;

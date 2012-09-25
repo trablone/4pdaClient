@@ -28,6 +28,7 @@ import org.softeg.slartus.forpda.classes.BbCodesPanel;
 import org.softeg.slartus.forpda.classes.common.FileUtils;
 import org.softeg.slartus.forpda.common.HtmlUtils;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.Post;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -563,7 +564,7 @@ public class EditPostPlusActivity extends BaseFragmentActivity {
         Context mContext;
         private final ProgressDialog dialog;
         private String mPostResult = null;
-
+        private String mError = null;
         public PostTask(Context context) {
             mContext = context;
             dialog = new ProgressDialog(mContext);
@@ -576,6 +577,7 @@ public class EditPostPlusActivity extends BaseFragmentActivity {
                 mPostResult = Client.INSTANCE.reply(forumId, themeId, authKey, attachPostKey,
                         params[0], m_Enablesig, m_EnableEmo,false,attaches.getFileList());
 
+                mError= Post.checkPostErrors(mPostResult);
                 return true;
             } catch (Exception e) {
 
@@ -599,11 +601,11 @@ public class EditPostPlusActivity extends BaseFragmentActivity {
             }
 
             if (success) {
-                if (!TextUtils.isEmpty(mPostResult)) {
-                    Toast.makeText(mContext, "Ошибка: " + mPostResult, Toast.LENGTH_LONG).show();
+                if (!TextUtils.isEmpty(mError)) {
+                    Toast.makeText(mContext, "Ошибка: " + mError, Toast.LENGTH_LONG).show();
                     return;
                 }
-                ThemeActivity.s_ThemeId = themeId;
+                ThemeActivity.s_ThemeBody = mPostResult;
                 if (isNewPost())
                     ThemeActivity.s_Params = "view=getlastpost";
                 else

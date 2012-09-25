@@ -206,24 +206,28 @@ public class Post {
        // additionalHeaders.put("referer", "http://4pda.ru/forum/index.php?act=Post&CODE=03&f=" + forumId + "&t=" + topicId + "&st=20&auth_key=" + authKey + "&fast_reply_used=1");
 
         String res = httpClient.performPost("http://4pda.ru/forum/index.php", additionalHeaders);
+        
+        return res;
+
+
+    }
+    
+    public static String checkPostErrors(String page){
         Pattern checkPattern = Pattern.compile("\t\t<h4>Причина:</h4>\n" +
                 "\n" +
                 "\t\t<p>(.*?)</p>", Pattern.MULTILINE);
-        Matcher m = checkPattern.matcher(res);
+        Matcher m = checkPattern.matcher(page);
         if (m.find()) {
             return m.group(1);
         }
 
         checkPattern = Pattern.compile("<div class=\".*?\">(<b>)?ОБНАРУЖЕНЫ СЛЕДУЮЩИЕ ОШИБКИ(</b>)?</div>\n" +
                 "\\s*<div class=\".*?\">(.*?)</div>", Pattern.MULTILINE);
-        m = checkPattern.matcher(res);
+        m = checkPattern.matcher(page);
         if (m.find()) {
             return Html.fromHtml(m.group(3)).toString();
         }
-
         return null;
-
-
     }
 
     /**

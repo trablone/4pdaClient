@@ -135,6 +135,14 @@ public class EditMailActivity extends BaseFragmentActivity {
         ft.commit();
     }
 
+    public static void sendMessage(Activity activity,String params, String userNick, Boolean returnBack){
+        Intent intent = new Intent(activity, EditMailActivity.class);
+        intent.putExtra(EditMailActivity.KEY_PARAMS, params);
+        intent.putExtra(EditMailActivity.KEY_USER, userNick);
+        intent.putExtra(EditMailActivity.KEY_RETERN_BACK, returnBack);
+        activity.startActivity(intent);
+    }
+    
     private void showAddRecipientDialog() {
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

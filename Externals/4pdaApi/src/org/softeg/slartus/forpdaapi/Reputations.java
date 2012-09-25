@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class Reputations extends ArrayList<Reputation> {
     public String description;
     public String userId;
+    public String user;
     // всего на всех страницах
     public int fullListCount=0;
 

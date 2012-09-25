@@ -7,11 +7,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import org.softeg.slartus.forpda.Tabs.ListViewMethodsBridge;
 import org.softeg.slartus.forpda.classes.ForumUser;
@@ -31,7 +38,8 @@ import java.util.regex.Pattern;
  * Date: 25.10.11
  * Time: 9:53
  */
-public class ReputationActivity extends Activity implements AdapterView.OnItemLongClickListener{
+public class ReputationActivity extends BaseFragmentActivity implements AdapterView.OnItemLongClickListener{
+    private Handler mHandler = new Handler();
     protected PullToRefreshListView listView;
     private Reputations m_Reputations = new Reputations();
     private RepsAdapter m_Adapter;
@@ -44,7 +52,7 @@ public class ReputationActivity extends Activity implements AdapterView.OnItemLo
     private ImageButton btnSettings;
     private TextView txtPullToLoadMore;
     private ImageView imgPullToLoadMore;
-
+    private  MenuFragment mFragment1;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +114,23 @@ public class ReputationActivity extends Activity implements AdapterView.OnItemLo
         m_Adapter = new RepsAdapter(this, R.layout.reputation_item, m_Reputations);
         listView.getRefreshableView().setAdapter(m_Adapter);
         refresh();
+        createActionMenu();
+    }
+    
+    public String getUserId(){
+        return m_Reputations.userId;
+    }
+    
+
+    private void createActionMenu() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        mFragment1 = (MenuFragment) fm.findFragmentByTag("f1");
+        if (mFragment1 == null) {
+            mFragment1 = new MenuFragment();
+            ft.add(mFragment1, "f1");
+        }
+        ft.commit();
     }
 
     public static void showRep(Activity actiovity, final String userId) {
@@ -125,6 +150,36 @@ public class ReputationActivity extends Activity implements AdapterView.OnItemLo
         return true;
 
     }
+
+    public void plusRep() {
+        plusRep(m_Reputations.userId,m_Reputations.user);
+    }
+
+    public void minusRep() {
+        minusRep(m_Reputations.userId,m_Reputations.user);
+    }
+
+    public void plusRep(String userId, String userNick) {
+        plusRep(this,mHandler,"0",userId,userNick);
+    }
+
+    public void minusRep(String userId, String userNick) {
+        minusRep(this,mHandler,"0",userId,userNick);
+    }
+
+    public static void plusRep(Activity activity, Handler handler, String postId, String userId, String userNick) {
+        showChangeRep(activity, handler,postId, userId, userNick, "add", "Поднять репутацию");
+    }
+
+    public static void minusRep(Activity activity, Handler handler, String postId, String userId, String userNick) {
+        showChangeRep(activity, handler,postId, userId, userNick, "minus", "Опустить репутацию");
+    }
+
+    private static void showChangeRep(Activity activity, Handler handler, final String postId, String userId, String userNick, final String type, String title) {
+        ForumUser.startChangeRep(activity, handler, userId, userNick, postId, type, title);
+
+    }
+
 
     private void refresh() {
         m_Reputations.clear();
@@ -294,6 +349,53 @@ public class ReputationActivity extends Activity implements AdapterView.OnItemLo
             listView.onRefreshComplete();
         }
 
+    }
+
+
+    public static final class MenuFragment extends SherlockFragment {
+        public MenuFragment() {
+
+        }
+
+        private ReputationActivity getReputationActivity(){
+
+            return (ReputationActivity)getActivity();
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setHasOptionsMenu(true);
+        }
+
+        @Override
+        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+            if(!Client.INSTANCE.getLogined() || Client.INSTANCE.UserId.equals(getReputationActivity().getUserId()))
+                return;
+            com.actionbarsherlock.view.MenuItem item;
+
+            if(Client.INSTANCE.getLogined() &&!getReputationActivity().getUserId().equals(Client.INSTANCE.UserId)){
+                item = menu.add("Повысить репутацию");
+                item.setOnMenuItemClickListener(new com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem menuItem) {
+
+                        getReputationActivity().plusRep();
+                        return true;
+                    }
+                });
+                item.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+
+                item = menu.add("Понизить репутацию");
+                item.setOnMenuItemClickListener(new com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem menuItem) {
+                        getReputationActivity().minusRep();
+                        return true;
+                    }
+                });
+                item.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+            }
+
+        }
     }
 }
 

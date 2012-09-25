@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.softeg.slartus.forpda"
-          android:versionCode="116"
-          android:versionName="1.5.8 beta6" android:installLocation="auto"
+          android:versionCode="119"
+          android:versionName="1.5.9 beta2" android:installLocation="auto"
         >
     <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="14"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -48,6 +48,16 @@
 
 
         <activity android:name=".ThemeActivity" android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:launchMode="singleTop"   android:theme="@style/Theme.Sherlock">
+            <intent-filter>
+
+                <action android:name="android.intent.action.SEARCH"/>
+
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                       android:resource="@xml/searchable"/>
+        </activity>
+        <activity android:name=".TopicBrowser.TopicActivity" android:configChanges="orientation|keyboardHidden|screenSize"
                   android:launchMode="singleTop"   android:theme="@style/Theme.Sherlock">
             <intent-filter>
 

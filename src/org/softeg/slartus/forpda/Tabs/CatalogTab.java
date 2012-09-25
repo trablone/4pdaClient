@@ -3,7 +3,6 @@ package org.softeg.slartus.forpda.Tabs;
 import android.content.Context;
 import android.text.Html;
 import android.text.TextUtils;
-import android.widget.Toast;
 import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.classes.Forum;
 import org.softeg.slartus.forpda.classes.Topic;
@@ -37,7 +36,7 @@ public class CatalogTab extends TreeTab {
     }
 
     @Override
-    protected void loadForum(Forum forum, OnProgressChangedListener progressChangedListener) throws IOException {
+    protected void loadForum(Forum forum, OnProgressChangedListener progressChangedListener) throws Exception {
 
         loadCatalog(forum, progressChangedListener);
 
@@ -80,18 +79,29 @@ public class CatalogTab extends TreeTab {
     private static final String appCatalogUrl = "http://4pda.ru/forum/index.php?showtopic=112220";
     private static final String gameCatalogUrl = "http://4pda.ru/forum/index.php?showtopic=117270";
 
-    private void loadCatalog(Forum catalog, OnProgressChangedListener progressChangedListener) throws IOException {
-
+    private void loadCatalog(Forum catalog, OnProgressChangedListener progressChangedListener) throws Exception {
+        Exception appException=null;
         Forum appCatalog = new Forum("112220", "Программы");
-        loadAppCatalog(appCatalog, progressChangedListener);
+        try{
+            loadAppCatalog(appCatalog, progressChangedListener);
+            catalog.addForum(appCatalog);
+        }
+        catch (Exception ex){
+            appException=ex;
+            
+        }
 
         Forum gameCatalog = new Forum("117270", "Игры");
         gameCatalog.setTag("games");
-        loadGameCatalog(gameCatalog, progressChangedListener);
-
-        catalog.addForum(appCatalog);
-        catalog.addForum(gameCatalog);
-
+        try{
+            loadGameCatalog(gameCatalog, progressChangedListener);
+            catalog.addForum(gameCatalog);
+        }
+        catch (Exception ex){
+            throw new Exception("Каталог игр: "+ ex.getMessage(), ex);
+        }
+        if(appException!=null)
+            throw new Exception("Каталог программ: "+ appException.getMessage(), appException);
     }
 
     private void loadAppCatalog(Forum catalog, OnProgressChangedListener progressChangedListener) throws IOException {

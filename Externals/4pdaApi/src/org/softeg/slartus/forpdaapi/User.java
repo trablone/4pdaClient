@@ -184,10 +184,13 @@ public class User {
         String body = httpClient.performGetWithCheckLogin("http://4pda.ru/forum/index.php?act=rep&type=history&mid=" + userId + "&st=" + reputations.size(), beforeGetPage,afterGetPage);
 
         reputations.userId=userId;
-        Pattern pattern = Pattern.compile("<div class='maintitle'>(.*?)<div");
-        Matcher m = pattern.matcher(body);
-        if (m.find())
+        Pattern pattern;
+        Matcher m= Pattern.compile("<div class='maintitle'>(История репутации участника (.*?) \\[\\+\\d+/-\\d+])<div").matcher(body);
+
+        if (m.find()){
             reputations.description = m.group(1);
+            reputations.user=m.group(2);
+        }
 
         if (reputations.fullListCount == 0) {
             pattern = Pattern.compile("parseInt\\((\\d+)/\\d+\\)");
