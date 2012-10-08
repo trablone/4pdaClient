@@ -177,7 +177,7 @@ public class EditPostPlusActivity extends BaseFragmentActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         try{
-            if (resultCode == Activity.RESULT_OK) {
+            if (resultCode == RESULT_OK) {
 
                 if (requestCode == REQUEST_SAVE) {
                     attachFilePath = data.getStringExtra(FileDialog.RESULT_PATH);

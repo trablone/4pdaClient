@@ -66,6 +66,7 @@ public final class Tabs {
         configTabData(preferenceActivity,prefs, "Tab3", TAB_FAVORITES);
         configTabData(preferenceActivity,prefs, "Tab4", TAB_SUBSCRIBES);
         configTabData(preferenceActivity,prefs, "Tab5", TAB_CATALOG);
+        configTabData(preferenceActivity,prefs, "Tab6", TAB_APPS);
     }
 
     private static void configTabData(final PreferenceActivity preferenceActivity,
@@ -84,6 +85,12 @@ public final class Tabs {
         preference.setSummary(getTabName(prefs, tabId));
         preferenceActivity.findPreference("tabs." + tabId).setSummary(getTabName(prefs, tabId));
     }
+
+    public static Boolean getTabVisible(SharedPreferences prefs, String tabId) {
+        Boolean defaultValue=!tabId.equals("Tab6");
+        return  prefs.getBoolean("tabs."+tabId+".Visible",defaultValue);
+    }
+
 
     public static String getTabName(SharedPreferences prefs, String tabId) throws NotReportException {
         String template = getTemplate(prefs, tabId);
@@ -162,6 +169,8 @@ public final class Tabs {
             return TAB_SUBSCRIBES;
         else if (tabId.equals("Tab5"))
             return TAB_CATALOG;
+        else if (tabId.equals("Tab6"))
+            return TAB_APPS;
         return TAB_SEARCH;
     }
 

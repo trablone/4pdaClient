@@ -19,7 +19,8 @@ import java.util.regex.Pattern;
  * Time: 8:31
  */
 public class DigestTab extends TreeTab {
-
+    private final String APP_CATALOG_ID="127361";
+    private final String GAME_CATALOG_ID="381335";
     public String getTitle() {
         return "Дайджест";
     }
@@ -79,7 +80,7 @@ public class DigestTab extends TreeTab {
         Exception appException = null;
         try {
             Client.INSTANCE.doOnOnProgressChanged(progressChangedListener, "Получение данных...");
-            String body = Client.INSTANCE.performGet("http://4pda.ru/forum/index.php?showtopic=127361");
+            String body = Client.INSTANCE.performGet("http://4pda.ru/forum/index.php?showtopic="+APP_CATALOG_ID);
             Client.INSTANCE.doOnOnProgressChanged(progressChangedListener, "Обработка данных...");
             Client.INSTANCE.checkLogin(body);
             Forum appsDigestForum = new Forum(Integer.toString(127361), "Программы");
@@ -91,7 +92,7 @@ public class DigestTab extends TreeTab {
 
         try {
             Client.INSTANCE.doOnOnProgressChanged(progressChangedListener, "Получение данных...");
-            String bodyGames = Client.INSTANCE.performGet("http://4pda.ru/forum/index.php?showtopic=131725");
+            String bodyGames = Client.INSTANCE.performGet("http://4pda.ru/forum/index.php?showtopic="+GAME_CATALOG_ID);
             Client.INSTANCE.doOnOnProgressChanged(progressChangedListener, "Обработка данных...");
             Forum gamesDigestForum = new Forum(Integer.toString(131725), "Игры");
             getDigest(gamesDigestForum, bodyGames, "game");
@@ -175,7 +176,7 @@ public class DigestTab extends TreeTab {
 
     private String getAppDigestMsgSubCategory(String dateTitle, String newOldTitle, OnProgressChangedListener progressChangedListener) throws IOException {
 
-        String body = Client.INSTANCE.loadPageAndCheckLogin("http://4pda.ru/forum/index.php?showtopic=127361", progressChangedListener);
+        String body = Client.INSTANCE.loadPageAndCheckLogin("http://4pda.ru/forum/index.php?showtopic="+APP_CATALOG_ID, progressChangedListener);
 
         Pattern msgPattern = Pattern.compile("<div class=\"post_body\"><div align='center'><!--coloro:royalblue--><span style=\"color:royalblue\"><!--/coloro--><b><!--sizeo:4--><span style=\"font-size:14pt;line-height:100%\"><!--/sizeo-->" + Pattern.quote(dateTitle) + "<([\\s\\S]*?)((<!--Begin Msg Number)|(<!-- TABLE FOOTER -->))");
         final Pattern digestPiecePattern = Pattern.compile("<b><!--coloro:royalblue--><span style=\"color:royalblue\"><!--/coloro-->" + Pattern.quote(newOldTitle) + ":<([\\s\\S]*?)((<div align='CENTER'><b><!--coloro:royalblue--><span style=\"color:royalblue\"><!--/coloro-->)|(</div>\\Z))");
@@ -253,7 +254,7 @@ public class DigestTab extends TreeTab {
 
     private String getGameDigestMsgSubCategory(String dateTitle, String newOldTitle, OnProgressChangedListener progressChangedListener) throws IOException {
 
-        String body = Client.INSTANCE.loadPageAndCheckLogin("http://4pda.ru/forum/index.php?showtopic=131725", progressChangedListener);
+        String body = Client.INSTANCE.loadPageAndCheckLogin("http://4pda.ru/forum/index.php?showtopic="+GAME_CATALOG_ID, progressChangedListener);
 
         Pattern msgPattern = Pattern.compile("<div class=\"post_body\"><div align='center'><!--coloro:royalblue--><span style=\"color:royalblue\"><!--/coloro--><b><!--sizeo:4--><span style=\"font-size:14pt;line-height:100%\"><!--/sizeo-->" + Pattern.quote(dateTitle) + "<([\\s\\S]*?)((<!--Begin Msg Number)|(<!-- TABLE FOOTER -->))");
         final Pattern digestPiecePattern = Pattern.compile("<b><!--coloro:.*?--><span style=\"color:.*?\"><!--/coloro-->" + Pattern.quote(newOldTitle) + "<([\\s\\S]*?)((<b><!--coloro:.*?--><span style=\"color:.*?\"><!--/coloro-->)|(</div>\\Z))");

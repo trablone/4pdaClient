@@ -1,7 +1,5 @@
 package org.softeg.slartus.forpda.classes;
 
-import android.text.Spanned;
-
 /**
  * Created by IntelliJ IDEA.
  * User: Admin

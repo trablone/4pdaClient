@@ -1,53 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:orientation="vertical">
+<TabHost
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@android:id/tabhost"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <HorizontalScrollView android:layout_width="fill_parent"
-                          android:layout_height="wrap_content">
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="horizontal">
-            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                            android:layout_width="150dip"
-                            android:layout_height="150dip"
-                            android:padding="5dip">
-                <ProgressBar android:id="@+id/pgsPhoto"
-                             android:layout_width="wrap_content"
-                             android:layout_height="wrap_content"
-                             android:layout_centerHorizontal="true"
-                             android:layout_centerVertical="true"
-                             android:indeterminate="true"/>
-                <ImageView android:id="@+id/imgPhoto"
-                           android:layout_width="fill_parent" android:layout_height="fill_parent"/>
-
-            </RelativeLayout>
-            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                            android:layout_width="150dip"
-                            android:layout_height="150dip"
-                            android:padding="5dip">
-                <ProgressBar android:id="@+id/pgsAvatar"
-                             android:layout_width="wrap_content"
-                             android:layout_height="wrap_content"
-                             android:layout_centerHorizontal="true"
-                             android:layout_centerVertical="true"
-                             android:indeterminate="true"/>
-                <ImageView android:id="@+id/imgAvatar"
-                           android:layout_width="fill_parent" android:layout_height="fill_parent"/>
-
-            </RelativeLayout>
-        </LinearLayout>
-    </HorizontalScrollView>
-
-
-    <ExpandableListView
-            android:id="@+id/elvMain"
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent">
-    </ExpandableListView>
+            android:layout_height="match_parent">
 
-</LinearLayout>
+        <TabWidget
+                android:id="@android:id/tabs"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"/>
+
+        <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="0"
+                style="?themeBackground"/>
+
+        <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+    </LinearLayout>
+</TabHost>

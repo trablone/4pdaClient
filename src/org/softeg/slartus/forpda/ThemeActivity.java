@@ -34,15 +34,13 @@ import org.softeg.slartus.forpda.Mail.EditMailActivity;
 import org.softeg.slartus.forpda.Tabs.ForumTreeTab;
 import org.softeg.slartus.forpda.Tabs.Tabs;
 import org.softeg.slartus.forpda.classes.*;
-import org.softeg.slartus.forpda.classes.Post;
-import org.softeg.slartus.forpda.classes.Topic;
-import org.softeg.slartus.forpdaapi.*;
 import org.softeg.slartus.forpda.classes.common.ExtPreferences;
 import org.softeg.slartus.forpda.classes.common.Functions;
 import org.softeg.slartus.forpda.classes.common.StringUtils;
 import org.softeg.slartus.forpda.common.HelpTask;
 import org.softeg.slartus.forpda.common.Log;
 import org.softeg.slartus.forpda.qms.QmsChatActivity;
+import org.softeg.slartus.forpdaapi.NotReportException;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -66,8 +64,8 @@ public class ThemeActivity extends BaseFragmentActivity {
     private String m_ThemeUrl;
     private String m_LastUrl;
     private String m_Params;
-    private Topic m_Topic;
-    private TopicAttaches m_TopicAttaches = new TopicAttaches();
+    private org.softeg.slartus.forpda.classes.Topic m_Topic;
+
     private Boolean m_SpoilFirstPost = true;
     private Boolean m_UsePR = false;
     private Boolean m_UseVolumesScroll = false;
@@ -101,8 +99,8 @@ public class ThemeActivity extends BaseFragmentActivity {
 
         setContentView(R.layout.theme);
 
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
 
         createActionMenu();
 
@@ -296,7 +294,7 @@ public class ThemeActivity extends BaseFragmentActivity {
         return mHandler;
     }
 
-    public Topic getTopic() {
+    public org.softeg.slartus.forpda.classes.Topic getTopic() {
         return m_Topic;
     }
 
@@ -309,8 +307,44 @@ public class ThemeActivity extends BaseFragmentActivity {
         return false;
     }
 
-    public TopicAttaches getTopicAttaches() {
-        return m_TopicAttaches;
+    public void showTopicAttaches(String postBody) {
+        final TopicAttaches topicAttaches = new TopicAttaches();
+        topicAttaches.parseAttaches(postBody);
+        if (topicAttaches == null || topicAttaches.size() == 0) {
+            Toast.makeText(this, "Страница не имеет вложений", Toast.LENGTH_SHORT).show();
+            return ;
+        }
+        final boolean[] selection = new boolean[topicAttaches.size()];
+        new AlertDialog.Builder(this)
+                .setTitle("Вложения")
+                .setMultiChoiceItems(topicAttaches.getList(), selection, new DialogInterface.OnMultiChoiceClickListener() {
+                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                        selection[i] = b;
+                    }
+                })
+                .setPositiveButton("Скачать", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+
+                        for (int j = 0; j < selection.length; j++) {
+                            if (!selection[j]) continue;
+                            DownloadsActivity.download(ThemeActivity.this, topicAttaches.get(j).getUri());
+                        }
+                    }
+                })
+                .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    public void showTopicAttaches() {
+        TopicAttaches res=new TopicAttaches();
+        webView.loadUrl("javascript:window.HTMLOUT.showTopicAttaches('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+
     }
 
     public void rememberScrollX() {
@@ -354,7 +388,7 @@ public class ThemeActivity extends BaseFragmentActivity {
                 }
 
                 pnlSearch.setVisibility(View.GONE);
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(pnlSearch.getWindowToken(), 0);
             }
         });
@@ -384,7 +418,7 @@ public class ThemeActivity extends BaseFragmentActivity {
     }
 
     public void showPostLinkMenu(final String postId) {
-        showLinkMenu(Post.getLink(m_Topic.getId(), postId));
+        showLinkMenu(org.softeg.slartus.forpda.classes.Post.getLink(m_Topic.getId(), postId));
     }
 
     public void showLinkMenu(final String link) {
@@ -597,11 +631,11 @@ public class ThemeActivity extends BaseFragmentActivity {
 
                     ThemeActivity.this.startActivity(intent);
                 } else if (pos == finalClaimPosition) {
-                    Post.claim(ThemeActivity.this, mHandler, m_Topic.getId(), postId);
+                    org.softeg.slartus.forpda.classes.Post.claim(ThemeActivity.this, mHandler, m_Topic.getId(), postId);
                 } else if (pos == finalPlusOdinPosition) {
-                    Post.plusOne(ThemeActivity.this, mHandler, postId);
+                    org.softeg.slartus.forpda.classes.Post.plusOne(ThemeActivity.this, mHandler, postId);
                 } else if (pos == finalMinusOdinPosition) {
-                    Post.minusOne(ThemeActivity.this, mHandler, postId);
+                    org.softeg.slartus.forpda.classes.Post.minusOne(ThemeActivity.this, mHandler, postId);
                 }
 
 
@@ -615,8 +649,8 @@ public class ThemeActivity extends BaseFragmentActivity {
 
     private void showThemeBody(String body) {
         try {
-            ThemeActivity.this.setTitle(m_Topic.getCurrentPage() + "/" + m_Topic.getPagesCount() + " " + m_Topic.getTitle());
-
+            ThemeActivity.this.setTitle( m_Topic.getTitle());
+            getSupportActionBar().setSubtitle(m_Topic.getCurrentPage() + "/" + m_Topic.getPagesCount());
             webView.loadDataWithBaseURL("\"file:///android_asset/\"", body, "text/html", "UTF-8", null);
 
 
@@ -817,7 +851,7 @@ public class ThemeActivity extends BaseFragmentActivity {
             public void run() {
                 Exception ex = null;
                 try {
-                    Post.delete(postId, m_Topic.getForumId(), m_Topic.getId(), m_Topic.getAuthKey());
+                    org.softeg.slartus.forpda.classes.Post.delete(postId, m_Topic.getForumId(), m_Topic.getId(), m_Topic.getAuthKey());
                 } catch (Exception e) {
                     ex = e;
                 }
@@ -842,6 +876,8 @@ public class ThemeActivity extends BaseFragmentActivity {
     }
 
     public void showUserMenu(final String userId, final String userNick) {
+
+
         // не забыть менять в ForumUser
         final QuickAction mQuickAction = new QuickAction(ThemeActivity.this);
 
@@ -857,7 +893,7 @@ public class ThemeActivity extends BaseFragmentActivity {
         if (Client.INSTANCE.getLogined()) {
             ActionItem actionItem = new ActionItem();
             // actionItem.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_edit));
-            actionItem.setTitle("Отправить сообщение");
+            actionItem.setTitle("   ЛС   ");
 
             sendLSPosition = mQuickAction.addActionItem(actionItem);
         }
@@ -866,7 +902,7 @@ public class ThemeActivity extends BaseFragmentActivity {
         if (Client.INSTANCE.getLogined()) {
             ActionItem actionItem = new ActionItem();
             // actionItem.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_edit));
-            actionItem.setTitle("Связаться через QMS");
+            actionItem.setTitle("   QMS   ");
 
             sendQmsPosition = mQuickAction.addActionItem(actionItem);
         }
@@ -901,10 +937,7 @@ public class ThemeActivity extends BaseFragmentActivity {
                     } else if (pos == finalSendQmsPosition) {
                         QmsChatActivity.openChat(ThemeActivity.this, userId, userNick);
                     } else if (pos == finalShowProfilePosition) {
-                        Intent intent = new Intent(ThemeActivity.this, ProfileActivity.class);
-                        intent.putExtra(ProfileActivity.USER_ID_KEY, userId);
-                        intent.putExtra("activity", ThemeActivity.this.getClass().toString());
-                        ThemeActivity.this.startActivity(intent);
+                        ProfileActivity.startActivity(ThemeActivity.this,userId,userNick);
                     }
                 } catch (Exception ex) {
                     Log.e(ThemeActivity.this, ex);
@@ -933,6 +966,8 @@ public class ThemeActivity extends BaseFragmentActivity {
 //        }
 
 
+
+
     public void setPostBody(String postBody) {
         m_PostBody = postBody;
     }
@@ -947,7 +982,7 @@ public class ThemeActivity extends BaseFragmentActivity {
 
     public String getPostText(String postId, String date, String userNick, String innerText) {
 
-        return Post.getQuote(postId, date, userNick, innerText);
+        return org.softeg.slartus.forpda.classes.Post.getQuote(postId, date, userNick, innerText);
     }
 
     public void showPostMenu(String postId, String canEdit, String canDelete) {
@@ -1049,7 +1084,7 @@ public class ThemeActivity extends BaseFragmentActivity {
     }
 
     public void claim(String postId) {
-        Post.claim(ThemeActivity.this, mHandler, m_Topic.getId(), postId);
+        org.softeg.slartus.forpda.classes.Post.claim(ThemeActivity.this, mHandler, m_Topic.getId(), postId);
 
     }
 
@@ -1190,7 +1225,7 @@ public class ThemeActivity extends BaseFragmentActivity {
                 setThemeParams(Client.INSTANCE.getRedirectUri() != null ? Client.INSTANCE.getRedirectUri().toString() : m_LastUrl);
                 m_Topic = topicBodyBuilder.getTopic();
                 m_ThemeBody = topicBodyBuilder.getBody();
-                m_TopicAttaches = topicBodyBuilder.getTopicAttaches();
+
                 topicBodyBuilder.clear();
                 return true;
             } catch (Exception e) {
@@ -1277,7 +1312,7 @@ public class ThemeActivity extends BaseFragmentActivity {
                 setThemeParams(Client.INSTANCE.getRedirectUri() != null ? Client.INSTANCE.getRedirectUri().toString() : m_LastUrl);
                 m_Topic = topicBodyBuilder.getTopic();
                 m_ThemeBody = topicBodyBuilder.getBody();
-                m_TopicAttaches = topicBodyBuilder.getTopicAttaches();
+
                 topicBodyBuilder.clear();
 
                 return true;
@@ -1354,7 +1389,7 @@ public class ThemeActivity extends BaseFragmentActivity {
 
         private com.actionbarsherlock.view.SubMenu mTopicOptionsMenu;
 
-        private static com.actionbarsherlock.view.SubMenu addOptionsMenu(final Context context, final Handler mHandler, com.actionbarsherlock.view.Menu menu, final Topic topic,
+        private static com.actionbarsherlock.view.SubMenu addOptionsMenu(final Context context, final Handler mHandler, com.actionbarsherlock.view.Menu menu, final org.softeg.slartus.forpda.classes.Topic topic,
                                                                          Boolean addFavorites, final String shareItUrl) {
             com.actionbarsherlock.view.SubMenu optionsMenu = menu.addSubMenu("Опции");
             optionsMenu.getItem().setIcon(android.R.drawable.ic_menu_more);
@@ -1362,7 +1397,7 @@ public class ThemeActivity extends BaseFragmentActivity {
             return optionsMenu;
         }
 
-        private static void configureOptionsMenu(final Context context, final Handler mHandler, com.actionbarsherlock.view.SubMenu optionsMenu, final Topic topic,
+        private static void configureOptionsMenu(final Context context, final Handler mHandler, com.actionbarsherlock.view.SubMenu optionsMenu, final org.softeg.slartus.forpda.classes.Topic topic,
                                                  Boolean addFavorites, final String shareItUrl) {
             optionsMenu.clear();
 
@@ -1496,36 +1531,8 @@ public class ThemeActivity extends BaseFragmentActivity {
                         .setOnMenuItemClickListener(new com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener() {
 
                             public boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem item) {
-                                final TopicAttaches topicAttaches = getInterface().getTopicAttaches();
-                                if (topicAttaches == null || topicAttaches.size() == 0) {
-                                    Toast.makeText(getActivity(), "Страница не имеет вложений", Toast.LENGTH_SHORT).show();
-                                    return true;
-                                }
-                                final boolean[] selection = new boolean[topicAttaches.size()];
-                                new AlertDialog.Builder(getActivity())
-                                        .setTitle("Вложения")
-                                        .setMultiChoiceItems(topicAttaches.getList(), selection, new DialogInterface.OnMultiChoiceClickListener() {
-                                            public void onClick(DialogInterface dialogInterface, int i, boolean b) {
-                                                selection[i] = b;
-                                            }
-                                        })
-                                        .setPositiveButton("Скачать", new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                dialogInterface.dismiss();
+                                getInterface().showTopicAttaches();
 
-                                                for (int j = 0; j < selection.length; j++) {
-                                                    if (!selection[j]) continue;
-                                                    DownloadsActivity.download(getActivity(), topicAttaches.get(j).getUri());
-                                                }
-                                            }
-                                        })
-                                        .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                dialogInterface.dismiss();
-                                            }
-                                        })
-                                        .create()
-                                        .show();
                                 return true;
                             }
                         });

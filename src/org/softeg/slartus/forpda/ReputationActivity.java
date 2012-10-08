@@ -375,6 +375,15 @@ public class ReputationActivity extends BaseFragmentActivity implements AdapterV
             com.actionbarsherlock.view.MenuItem item;
 
             if(Client.INSTANCE.getLogined() &&!getReputationActivity().getUserId().equals(Client.INSTANCE.UserId)){
+                item = menu.add("Понизить репутацию");
+                item.setOnMenuItemClickListener(new com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem menuItem) {
+                        getReputationActivity().minusRep();
+                        return true;
+                    }
+                });
+                item.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+
                 item = menu.add("Повысить репутацию");
                 item.setOnMenuItemClickListener(new com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem menuItem) {
@@ -385,14 +394,7 @@ public class ReputationActivity extends BaseFragmentActivity implements AdapterV
                 });
                 item.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 
-                item = menu.add("Понизить репутацию");
-                item.setOnMenuItemClickListener(new com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem menuItem) {
-                        getReputationActivity().minusRep();
-                        return true;
-                    }
-                });
-                item.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+
             }
 
         }

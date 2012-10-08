@@ -4,8 +4,8 @@ import android.text.Html;
 import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.EditPostActivity;
 import org.softeg.slartus.forpda.classes.Exceptions.AdditionalInfoException;
-import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.classes.common.Functions;
+import org.softeg.slartus.forpdaapi.NotReportException;
 
 import java.io.IOException;
 import java.util.Date;
@@ -146,6 +146,6 @@ public class Mail {
     }
 
     public void delete() throws IOException {
-        String res=Client.INSTANCE.performGet("http://4pda.ru/forum/index.php?CODE=05&act=Msg&MSID="+id+"&VID=in");
+        String res= Client.INSTANCE.performGet("http://4pda.ru/forum/index.php?CODE=05&act=Msg&MSID="+id+"&VID=in");
     }
 }

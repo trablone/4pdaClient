@@ -1,5 +1,8 @@
 package org.softeg.slartus.forpda.classes;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.EditPostActivity;
@@ -16,9 +19,11 @@ public class TopicBodyBuilder {
     private Topic m_Topic;
     private String m_UrlParams, m_PostBody;
     private TopicAttaches m_TopicAttaches=new TopicAttaches();
-
-    public TopicBodyBuilder(Boolean logined, Topic topic, String urlParams, Boolean enableSig,
+    private Boolean m_SpoilerByButton=false;
+    public TopicBodyBuilder(Context context,Boolean logined, Topic topic, String urlParams, Boolean enableSig,
                             Boolean enableEmo, String postBody, Boolean hidePostForm,Boolean isWebviewAllowJavascriptInterface) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        m_SpoilerByButton=prefs.getBoolean("theme.SpoilerByButton",false);
         m_IsWebviewAllowJavascriptInterface=isWebviewAllowJavascriptInterface;
         m_Logined = logined;
         m_UrlParams = urlParams;
@@ -73,10 +78,27 @@ public class TopicBodyBuilder {
 
         m_Body.append("<div id=\"msg" + post.getId() + "\">");
 
-        if (spoil)
-            m_Body.append("<div class='hidetop' style='cursor:pointer;' onclick=\"var _n=this.parentNode.getElementsByTagName('div')[1];if(_n.style.display=='none'){_n.style.display='';}else{_n.style.display='none';}\">Спойлер (+/-) <b>( &gt;&gt;&gt;ШАПКА ТЕМЫ&lt;&lt;&lt;)</b></div><div class='hidemain' style=\"display:none\">");
+        if (spoil) {
+            if(m_SpoilerByButton)
+            m_Body.append("<div class='hidetop' style='cursor:pointer;' ><b>( &gt;&gt;&gt;ШАПКА ТЕМЫ&lt;&lt;&lt;)</b></div>" +
+                    "<input class='spoiler_button' type=\"button\" value=\"+\" onclick=\"toggleSpoilerVisibility(this)\"/>"+
+                    "<div class='hidemain' style=\"display:none\">");
+            else
+                m_Body.append("<div class='hidetop' style='cursor:pointer;' " +
+                        "onclick=\"var _n=this.parentNode.getElementsByTagName('div')[1];" +
+                        "if(_n.style.display=='none'){_n.style.display='';}else{_n.style.display='none';}\">" +
+                        "Спойлер (+/-) <b>( &gt;&gt;&gt;ШАПКА ТЕМЫ&lt;&lt;&lt;)</b></div><div class='hidemain' style=\"display:none\">");
+        }
         String postBody=post.getBody().trim();
-        m_TopicAttaches.parseAttaches(post.getId(),post.getNumber(),postBody);
+        if(m_SpoilerByButton){
+            String find="(<div class='hidetop' style='cursor:pointer;' )" +
+                    "(onclick=\"var _n=this.parentNode.getElementsByTagName\\('div'\\)\\[1\\];if\\(_n.style.display=='none'\\)\\{_n.style.display='';\\}else\\{_n.style.display='none';\\}\">)" +
+                    "(Спойлер \\(\\+/-\\).*?</div>)" +
+                    "(\\s*<div class='hidemain' style=\"display:none\">)";
+            String replace="$1>$3<input class='spoiler_button' type=\"button\" value=\"+\" onclick=\"toggleSpoilerVisibility\\(this\\)\"/>$4";
+            postBody=postBody.replaceAll(find,replace);
+        }
+        //m_TopicAttaches.parseAttaches(post.getId(),post.getNumber(),postBody);
         m_Body.append(postBody);
         if (spoil)
             m_Body.append("</div>");
@@ -168,7 +190,7 @@ public class TopicBodyBuilder {
         String style = MyApp.INSTANCE.getCurrentThemeName();
         String nick = msg.getNick();
 
-        String nickLink = m_Logined ? ("<a " + getHtmlout("showUserMenu", msg.getUserId(), msg.getNick()) + " class=\"system_link\">" + nick + "</a>") : nick;
+        String nickLink = "<a " + getHtmlout("showUserMenu", msg.getUserId(), msg.getNick()) + " class=\"system_link\">" + nick + "</a>";
         String userStateImg = "file:///android_asset/forum/style_images/1/folder_editor_buttons_" + style + (msg.getUserState() ? "/online.png" : "/offline.png");
         String userState = msg.getUserState() ? "post_nick_online" : "post_nick";
 

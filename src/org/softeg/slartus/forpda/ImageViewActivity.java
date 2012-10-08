@@ -1,5 +1,6 @@
 package org.softeg.slartus.forpda;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -57,7 +58,7 @@ public class ImageViewActivity extends BaseActivity {
 
                     public boolean onMenuItemClick(MenuItem item) {
 
-                        DownloadsActivity.download( ImageViewActivity.this, mUrl);
+                        DownloadsActivity.download(ImageViewActivity.this, mUrl);
                         return true;
                     }
                 });
@@ -76,6 +77,16 @@ public class ImageViewActivity extends BaseActivity {
     }
 
 
+    public static void showImageUrl(Context activity, String imgUrl) {
+        try {
+            Intent intent = new Intent(activity, ImageViewActivity.class);
+            intent.putExtra(ImageViewActivity.URL_KEY, imgUrl);
+            activity.startActivity(intent);
+        } catch (Exception ex) {
+            Log.e(activity, ex);
+        }
+    }
+
     /**
      * Callback that is received once the image has been downloaded
      */
@@ -86,24 +97,24 @@ public class ImageViewActivity extends BaseActivity {
                 switch (msg.what) {
                     case COMPLETE:
                         Display display = getWindowManager().getDefaultDisplay();
-                       int width = display.getWidth();
-                      int height = display.getHeight();
-                        mImage.setDrawable(mDrawable,width, height);
+                        int width = display.getWidth();
+                        int height = display.getHeight();
+                        mImage.setDrawable(mDrawable, width, height);
 
                         mImage.setVisibility(View.VISIBLE);
                         mSpinner.setVisibility(View.GONE);
                         break;
                     case FAILED:
                         mSpinner.setVisibility(View.GONE);
-                        Bundle data=msg.getData();
-                        Log.e(ImageViewActivity.this,data.getString("message"), (Throwable)data.getSerializable("exception"));
+                        Bundle data = msg.getData();
+                        Log.e(ImageViewActivity.this, data.getString("message"), (Throwable) data.getSerializable("exception"));
                     default:
                         // Could change image here to a 'failed' image
                         // otherwise will just keep on spinning
                         break;
                 }
             } catch (Exception ex) {
-                Log.e(ImageViewActivity.this.getBaseContext(),"Ошибка загрузки изображения по адресу: "+mUrl, ex);
+                Log.e(ImageViewActivity.this.getBaseContext(), "Ошибка загрузки изображения по адресу: " + mUrl, ex);
             }
 
             return true;
@@ -122,32 +133,31 @@ public class ImageViewActivity extends BaseActivity {
         mImage.setVisibility(View.GONE);
         new Thread() {
             public void run() {
-                HttpHelper httpHelper=new HttpHelper();
+                HttpHelper httpHelper = new HttpHelper();
                 try {
 
                     mDrawable = Drawable.createFromStream(httpHelper.getImageStream(imageUrl), "name");
 
                     imageLoadedHandler.sendEmptyMessage(COMPLETE);
 
-                }catch (OutOfMemoryError e) {
-                    Bundle data=new Bundle();
-                    data.putSerializable("exception",e);
-                    data.putString("message","Нехватка памяти: "+mUrl);
-                    Message message=new Message();
-                    message.what=FAILED;
+                } catch (OutOfMemoryError e) {
+                    Bundle data = new Bundle();
+                    data.putSerializable("exception", e);
+                    data.putString("message", "Нехватка памяти: " + mUrl);
+                    Message message = new Message();
+                    message.what = FAILED;
                     message.setData(data);
                     imageLoadedHandler.sendMessage(message);
-                }
-                catch (Exception e) {
-                    Bundle data=new Bundle();
-                    data.putSerializable("exception",e);
-                    data.putString("message","Ошибка загрузки изображения по адресу: "+mUrl);
-                    Message message=new Message();
-                    message.what=FAILED;
+                } catch (Exception e) {
+                    Bundle data = new Bundle();
+                    data.putSerializable("exception", e);
+                    data.putString("message", "Ошибка загрузки изображения по адресу: " + mUrl);
+                    Message message = new Message();
+                    message.what = FAILED;
                     message.setData(data);
                     imageLoadedHandler.sendMessage(message);
 
-                } finally{
+                } finally {
                     httpHelper.close();
                 }
             }
@@ -157,7 +167,7 @@ public class ImageViewActivity extends BaseActivity {
     }
 
     private static Drawable getDrawableFromUrl(final String url) throws IOException {
-        HttpHelper httpHelper=new HttpHelper();
+        HttpHelper httpHelper = new HttpHelper();
         return Drawable.createFromStream(httpHelper.getImageStream(url), "name");
     }
 

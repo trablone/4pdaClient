@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.softeg.slartus.forpda"
-          android:versionCode="119"
-          android:versionName="1.5.9 beta2" android:installLocation="auto"
+          android:versionCode="128"
+          android:versionName="1.6.1 beta2" android:installLocation="auto"
         >
     <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="14"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -15,7 +15,7 @@
                  android:name="org.softeg.slartus.forpda.MyApp"
                  android:theme="@style/Theme.Sherlock">
 
-        <activity android:name="MainActivity"
+        <activity android:name="org.softeg.slartus.forpda.MainActivity"
 
                   android:label="@string/app_name" android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"  >
             <intent-filter>
@@ -47,7 +47,7 @@
         </activity>
 
 
-        <activity android:name=".ThemeActivity" android:configChanges="orientation|keyboardHidden|screenSize"
+        <activity android:name="org.softeg.slartus.forpda.ThemeActivity" android:configChanges="orientation|keyboardHidden|screenSize"
                   android:launchMode="singleTop"   android:theme="@style/Theme.Sherlock">
             <intent-filter>
 
@@ -57,7 +57,7 @@
             <meta-data android:name="android.app.searchable"
                        android:resource="@xml/searchable"/>
         </activity>
-        <activity android:name=".TopicBrowser.TopicActivity" android:configChanges="orientation|keyboardHidden|screenSize"
+        <activity android:name="org.softeg.slartus.forpda.TopicBrowser.TopicActivity" android:configChanges="orientation|keyboardHidden|screenSize"
                   android:launchMode="singleTop"   android:theme="@style/Theme.Sherlock">
             <intent-filter>
 
@@ -69,41 +69,41 @@
         </activity>
         <service
                 android:enabled="true"
-                android:name=".DownloadsService" />
-        <activity android:name=".Mail.EditMailActivity" android:label="Новое сообщение" android:launchMode="singleTop"
+                android:name="org.softeg.slartus.forpda.DownloadsService" />
+        <activity android:name="org.softeg.slartus.forpda.Mail.EditMailActivity" android:label="Новое сообщение" android:launchMode="singleTop"
                   android:theme="@style/Theme.Sherlock"  android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <activity android:name=".Mail.MailBoxActivity" android:label="Личный ящик" android:launchMode="singleTop"
+        <activity android:name="org.softeg.slartus.forpda.Mail.MailBoxActivity" android:label="Личный ящик" android:launchMode="singleTop"
                   android:theme="@style/Theme.Sherlock"  android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <activity android:name=".Mail.MailActivity" android:label="Письмо" android:launchMode="singleTop"
+        <activity android:name="org.softeg.slartus.forpda.Mail.MailActivity" android:label="Письмо" android:launchMode="singleTop"
                   android:theme="@style/Theme.Sherlock"  android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <activity android:name=".PreferencesActivity" android:label="Настройки" android:launchMode="singleTop"/>
-        <activity android:name=".DownloadsActivity" android:label="Загрузки"
+        <activity android:name="org.softeg.slartus.forpda.PreferencesActivity" android:label="Настройки" android:launchMode="singleTop"/>
+        <activity android:name="org.softeg.slartus.forpda.DownloadsActivity" android:label="Загрузки"
                   android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
-        <activity android:name=".SearchActivity" android:label="Поиск"
+        <activity android:name="org.softeg.slartus.forpda.SearchActivity" android:label="Поиск"
                   android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
-        <activity android:name=".ProfileActivity" android:label="Профиль"
+        <activity android:name="org.softeg.slartus.forpda.ProfileActivity" android:label="Профиль"
+                  android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity android:name="org.softeg.slartus.forpda.ReputationActivity" android:label="История репутации"
                   android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
-        <activity android:name=".ReputationActivity" android:label="История репутации"
+        <activity android:name="org.softeg.slartus.forpda.Tabs.TabDataSettingsActivity" android:label="Настройки закладки"
                   android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
-        <activity android:name=".Tabs.TabDataSettingsActivity" android:label="Настройки закладки"
+        <activity android:name="org.softeg.slartus.forpda.qms.QmsContactsActivity" android:label="QMS абоненты"
                   android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
-        <activity android:name=".qms.QmsContactsActivity" android:label="QMS абоненты"
+        <activity android:name="org.softeg.slartus.forpda.qms.QmsChatActivity" android:label="QMS"
                   android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
-        <activity android:name=".qms.QmsChatActivity" android:label="QMS"
+        <activity android:name="org.softeg.slartus.forpda.qms.QmsPreferencesActivity" android:label="Настройки QMS"
                   android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
-        <activity android:name=".qms.QmsPreferencesActivity" android:label="Настройки QMS"
-                  android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
-        <activity android:name=".EditPostPlusActivity" android:label="Редактирование сообщения"
+        <activity android:name="org.softeg.slartus.forpda.EditPostPlusActivity" android:label="Редактирование сообщения"
                   android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
         <activity android:name="com.lamerman.FileDialog" android:label="Выберите файл"
                   android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
-        <activity android:name=".QuickStartActivity" android:label="Быстрый доступ"
+        <activity android:name="org.softeg.slartus.forpda.QuickStartActivity" android:label="Быстрый доступ"
                   android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
-        <activity android:name=".DevDbDeviceActivity" android:label="DevDB.ru"
+        <activity android:name="org.softeg.slartus.forpda.DevDbDeviceActivity" android:label="DevDB.ru"
                   android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
-        <activity android:name=".ImageViewActivity" android:label="Просмотр изображения"
+        <activity android:name="org.softeg.slartus.forpda.ImageViewActivity" android:label="Просмотр изображения"
                   android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop"/>
-        <activity android:name=".NewsActivity" android:label="Новости"
+        <activity android:name="org.softeg.slartus.forpda.NewsActivity" android:label="Новости"
                   android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTop">
             <intent-filter>
 

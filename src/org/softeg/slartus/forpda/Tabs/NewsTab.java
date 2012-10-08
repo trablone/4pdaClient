@@ -13,9 +13,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.NewsActivity;
-import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.classes.Topic;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -149,7 +149,7 @@ public class NewsTab extends ThemesTab {
 
             }
         } catch (Exception ex) {
-            Log.e(getContext(),"Ошибка разбора rss",ex);
+            Log.e(getContext(), "Ошибка разбора rss", ex);
           //  throw new NotReportException("Ошибка разбора rss");
         }
 

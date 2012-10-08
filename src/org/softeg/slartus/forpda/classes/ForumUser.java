@@ -14,6 +14,7 @@ import net.londatiga.android.ActionItem;
 import net.londatiga.android.QuickAction;
 import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.Mail.EditMailActivity;
+import org.softeg.slartus.forpda.ProfileActivity;
 import org.softeg.slartus.forpda.R;
 import org.softeg.slartus.forpda.common.Log;
 import org.softeg.slartus.forpda.qms.QmsChatActivity;
@@ -36,18 +37,18 @@ public class ForumUser {
         final QuickAction mQuickAction = new QuickAction(context);
 
         int insertNickPosition = -1;
-        if (Client.INSTANCE.getLogined()) {
-            ActionItem actionItem = new ActionItem();
-            //actionItem.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_edit));
-            actionItem.setTitle("Вставить ник");
-            insertNickPosition = mQuickAction.addActionItem(actionItem);
-        }
+//        if (Client.INSTANCE.getLogined()) {
+//            ActionItem actionItem = new ActionItem();
+//            //actionItem.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_edit));
+//            actionItem.setTitle("Вставить ник");
+//            insertNickPosition = mQuickAction.addActionItem(actionItem);
+//        }
 
         int sendLSPosition = -1;
         if (Client.INSTANCE.getLogined()) {
             ActionItem actionItem = new ActionItem();
             // actionItem.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_edit));
-            actionItem.setTitle("Отправить сообщение");
+            actionItem.setTitle("ЛС");
 
             sendLSPosition = mQuickAction.addActionItem(actionItem);
         }
@@ -56,16 +57,22 @@ public class ForumUser {
         if (Client.INSTANCE.getLogined()) {
             ActionItem actionItem = new ActionItem();
             // actionItem.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_edit));
-            actionItem.setTitle("Связаться через QMS");
+            actionItem.setTitle("QMS");
 
             sendQmsPosition = mQuickAction.addActionItem(actionItem);
         }
+
+        int showProfilePosition = -1;
+        ActionItem actionItem = new ActionItem();
+        actionItem.setTitle("Профиль");
+        showProfilePosition = mQuickAction.addActionItem(actionItem);
 
         if (mQuickAction.getItemsCount() == 0) return;
 
         final int finalInsertNickPosition = insertNickPosition;
         final int finalSendLSPosition = sendLSPosition;
         final int finalSendQmsPosition = sendQmsPosition;
+        final int finalShowProfilePosition = showProfilePosition;
         mQuickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
             public void onItemClick(int pos) {
                 try {
@@ -77,7 +84,10 @@ public class ForumUser {
                         context.startActivity(intent);
                     } else if (pos == finalSendQmsPosition) {
                         QmsChatActivity.openChat(context, userId, userNick);
+                    } else if (pos == finalShowProfilePosition) {
+                        ProfileActivity.startActivity(context,userId,userNick);
                     }
+
                 } catch (Exception ex) {
                     Log.e(context, ex);
                 }

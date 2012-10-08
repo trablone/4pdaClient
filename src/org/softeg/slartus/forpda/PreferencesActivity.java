@@ -19,11 +19,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import org.softeg.slartus.forpda.Tabs.Tabs;
-import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.classes.ForumUser;
 import org.softeg.slartus.forpda.classes.common.FileUtils;
 import org.softeg.slartus.forpda.classes.common.StringUtils;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.NotReportException;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -196,7 +196,7 @@ public class PreferencesActivity extends SherlockPreferenceActivity {
                     if(!dirPath.endsWith(File.separator))
                         dirPath+=File.separator;
                     File dir=new File(dirPath);
-                    File file=new File(FileUtils.getUniqueFilePath(dirPath,"4pda.tmp"));
+                    File file=new File(FileUtils.getUniqueFilePath(dirPath, "4pda.tmp"));
                     
                     if(!dir.exists()&&!dir.mkdirs())
                         throw new NotReportException("Не удалось создать папку по указанному пути");
@@ -209,6 +209,16 @@ public class PreferencesActivity extends SherlockPreferenceActivity {
                     Log.e(PreferencesActivity.this, new NotReportException(ex.toString()));
                 }
                 return false;
+            }
+        });
+
+        findPreference("Qiwi").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                Intent marketIntent = new Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("http://www.softeg.org/qiwi"));
+                startActivity(Intent.createChooser(marketIntent,"Выбор"));
+                return true;
             }
         });
 
@@ -288,6 +298,7 @@ public class PreferencesActivity extends SherlockPreferenceActivity {
                 "<b>E-mail:</b> <a href=\"mailto:4pda.android@gmail.com\">4pda.android@gmail.com</a><br/><br/>\n" +
                 "<b>Благодарности: </b> <br/>\n" +
                 "* <b><a href=\"http://4pda.ru/forum/index.php?showuser=474658\">zlodey.82</a></b> иконка программы<br/>\n" +
+                "* <b><a href=\"http://4pda.ru/forum/index.php?showuser=1429916\">sbarrofff</a></b> иконка программы<br/>\n" +
                 "* <b><a href=\"http://4pda.ru/forum/index.php?showuser=680839\">SPIDER3220</a></b> (иконки, баннеры)<br/>\n" +
                 "* <b><a href=\"http://4pda.ru/forum/index.php?showuser=1392892\">ssmax2015</a></b> (иконки, баннеры)<br/>\n" +
                 "* <b><a href=\"http://4pda.ru/forum/index.php?showuser=2523\">e202</a></b> (иконки сообщения для черной темы)<br/>\n" +

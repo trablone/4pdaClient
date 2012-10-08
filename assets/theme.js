@@ -1,4 +1,15 @@
 
+function toggleSpoilerVisibility(obj){
+    var _n=obj.parentNode.getElementsByTagName('div')[1];
+    if(_n.style.display!=''){
+        _n.style.display='';
+        obj.value = '-';
+    }
+    else{
+        _n.style.display='none';
+        obj.value = '+';
+    }
+}
 
 function scrollToElement(id) {
 

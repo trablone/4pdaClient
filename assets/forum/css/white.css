@@ -1,3 +1,20 @@
+.spoiler_button{
+    position: relative;
+    z-index: 99;
+    float: right;
+    width: 100%;
+    display: block;
+    margin-top: -22px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    padding-top:5px;
+    padding-bottom: 5px;
+    padding-right: 5px;
+    background: none;
+    border: 0px;
+    text-transform:lowercase;
+    text-align: right;
+}
 .system_link {
 	background-color:transparent;
 	-moz-border-radius:7px;

@@ -11,9 +11,9 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import org.apache.http.HttpEntity;
 import org.softeg.slartus.forpda.classes.DownloadTask;
-import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.classes.common.FileUtils;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.NotReportException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -70,7 +70,7 @@ public class DownloadsService extends IntentService {
 
             String url = downloadTask.getUrl();
 
-            url=FileUtils.getDirPath(url)+"/"+ URLEncoder.encode(FileUtils.getFileNameFromUrl(url)) ;
+            url= FileUtils.getDirPath(url)+"/"+ URLEncoder.encode(FileUtils.getFileNameFromUrl(url)) ;
             HttpHelper httpHelper = new HttpHelper();
 
             try {

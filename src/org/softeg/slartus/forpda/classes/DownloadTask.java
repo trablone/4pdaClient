@@ -133,7 +133,7 @@ public class DownloadTask {
 
     public String getFileName() {
         if(TextUtils.isEmpty(outputFile) )
-            return FileUtils.getFileNameFromUrl( m_Url);
+            return FileUtils.getFileNameFromUrl(m_Url);
         return FileUtils.getFileNameFromUrl(outputFile);
     }
 

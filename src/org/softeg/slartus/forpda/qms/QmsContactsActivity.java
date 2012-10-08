@@ -277,7 +277,7 @@ public class QmsContactsActivity extends BaseFragmentActivity implements Adapter
             try {
                 holder.txtNick.setTextColor(ExtColor.parseColor(user.getHtmlColor()));
             }catch (Exception ex){
-                Log.e(getContext(),new Exception("Не умею цвет: " + user.getHtmlColor()) );
+                Log.e(getContext(), new Exception("Не умею цвет: " + user.getHtmlColor()));
             }
                 
             

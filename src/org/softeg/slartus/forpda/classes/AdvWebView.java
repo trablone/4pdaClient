@@ -39,7 +39,7 @@ public class AdvWebView extends WebView {
         setScrollbarFadingEnabled(false);
        // setWebChromeClient(new WebChromeClient());
         setBackgroundColor(MyApp.INSTANCE.getThemeStyleWebViewBackground());
-        loadData("<html><head></head><body bgcolor="+MyApp.INSTANCE.getCurrentThemeName()+"></body></html>","text/html", "UTF-8");
+        loadData("<html><head></head><body bgcolor="+ MyApp.INSTANCE.getCurrentThemeName()+"></body></html>","text/html", "UTF-8");
     }
 //
 //    @Override

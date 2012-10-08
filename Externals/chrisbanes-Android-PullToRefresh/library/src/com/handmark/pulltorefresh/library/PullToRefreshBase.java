@@ -463,6 +463,10 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout {
 		return mode;
 	}
 
+    public void setMode(int value) {
+        mode=value;
+    }
+
 	/**
 	 * Implemented by derived class to return whether the View is in a state
 	 * where the user can Pull to Refresh by scrolling down.

@@ -20,7 +20,7 @@ public class ListViewMethodsBridge {
 //        }
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        return getItemId(i, l)+ ExtPreferences.parseInt(prefs,"topics.list.offset",0);
+        return getItemId(i, l)+ ExtPreferences.parseInt(prefs, "topics.list.offset", 0);
     }
     
     private static int getItemId(int i, long l) {

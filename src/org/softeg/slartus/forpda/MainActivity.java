@@ -79,12 +79,11 @@ public class MainActivity extends BaseFragmentActivity {
                 return;
 
             createTabHost(savedInstanceState);
-            MyApp.INSTANCE.showPromo(this);
+
 
         } catch (Exception ex) {
             Log.e(getApplicationContext(), ex);
         }
-
     }
 
     @Override
@@ -106,7 +105,6 @@ public class MainActivity extends BaseFragmentActivity {
         } catch (Exception ex) {
             Log.e(this, ex);
         }
-
     }
 
 
@@ -161,7 +159,8 @@ public class MainActivity extends BaseFragmentActivity {
         MainTabContentFactory mainTabContentFactory = new MainTabContentFactory();
 
         for (int i = 1; i <= getResources().getStringArray(R.array.tabsArray).length; i++) {
-            addTab(mainTabContentFactory, "Tab" + i, prefs);
+            if(Tabs.getTabVisible(prefs,"Tab" + i))
+                addTab(mainTabContentFactory, "Tab" + i, prefs);
         }
 
 
@@ -206,7 +205,7 @@ public class MainActivity extends BaseFragmentActivity {
         }
         if (mTabHost != null && mTabHost.getCurrentView() != null && !((ITab) mTabHost.getCurrentView()).onParentBackPressed()) {
             if (!m_ExitWarned) {
-                Toast.makeText(getApplicationContext(), "Нажмите кнопку НАЗАД снова, чтобы выйти из программы", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Нажмите кнопку НАЗАД снова, чтобы выйти из программы", Toast.LENGTH_SHORT).show();
                 m_ExitWarned = true;
             } else {
                 finish();
@@ -244,6 +243,7 @@ public class MainActivity extends BaseFragmentActivity {
     public void onResume() {
         super.onResume();
         m_ExitWarned = false;
+        MyApp.INSTANCE.showPromo(this);
     }
 
 
@@ -333,36 +333,54 @@ public class MainActivity extends BaseFragmentActivity {
             m_miCheckAllAsRead = m_miOther.add("Отметить весь форум прочитанным");
             m_miCheckAllAsRead.setOnMenuItemClickListener(new com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener() {
                 public boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem item) {
-                    Toast.makeText(getActivity(), "Запрос отправлен", Toast.LENGTH_SHORT).show();
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("Подтвердите действие")
+                            .setMessage("Отметить весь форум прочитанным?")
+                            .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
 
-                    new Thread(new Runnable() {
-                        public void run() {
-                            Exception ex = null;
-                            try {
-                                Client.INSTANCE.markAllForumAsRead();
-                            } catch (Exception e) {
-                                ex = e;
-                            }
+                                    Toast.makeText(getActivity(), "Запрос отправлен", Toast.LENGTH_SHORT).show();
 
-                            final Exception finalEx = ex;
+                                    new Thread(new Runnable() {
+                                        public void run() {
+                                            Exception ex = null;
+                                            try {
+                                                Client.INSTANCE.markAllForumAsRead();
+                                            } catch (Exception e) {
+                                                ex = e;
+                                            }
 
-                            getHandler().post(new Runnable() {
-                                public void run() {
-                                    try {
-                                        if (finalEx != null) {
-                                            Toast.makeText(getActivity(), "Ошибка", Toast.LENGTH_SHORT).show();
-                                            Log.e(getActivity(), finalEx);
-                                        } else {
-                                            Toast.makeText(getActivity(), "Форум отмечен прочитанным", Toast.LENGTH_SHORT).show();
+                                            final Exception finalEx = ex;
+
+                                            getHandler().post(new Runnable() {
+                                                public void run() {
+                                                    try {
+                                                        if (finalEx != null) {
+                                                            Toast.makeText(getActivity(), "Ошибка", Toast.LENGTH_SHORT).show();
+                                                            Log.e(getActivity(), finalEx);
+                                                        } else {
+                                                            Toast.makeText(getActivity(), "Форум отмечен прочитанным", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    } catch (Exception ex) {
+                                                        Log.e(getActivity(), ex);
+                                                    }
+
+                                                }
+                                            });
                                         }
-                                    } catch (Exception ex) {
-                                        Log.e(getActivity(), ex);
-                                    }
-
+                                    }).start();
                                 }
-                            });
-                        }
-                    }).start();
+                            })
+                            .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .create()
+                            .show();
+
+
 
                     return true;
                 }

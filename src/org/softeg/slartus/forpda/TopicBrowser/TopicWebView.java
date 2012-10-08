@@ -15,7 +15,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import org.softeg.slartus.forpda.*;
+import org.softeg.slartus.forpda.MyApp;
+import org.softeg.slartus.forpda.R;
 
 import java.lang.reflect.Method;
 
@@ -53,7 +54,7 @@ public class TopicWebView extends WebView {
         setScrollbarFadingEnabled(false);
         // setWebChromeClient(new WebChromeClient());
         setBackgroundColor(MyApp.INSTANCE.getThemeStyleWebViewBackground());
-        loadData("<html><head></head><body bgcolor="+MyApp.INSTANCE.getCurrentThemeName()+"></body></html>","text/html", "UTF-8");
+        loadData("<html><head></head><body bgcolor="+ MyApp.INSTANCE.getCurrentThemeName()+"></body></html>","text/html", "UTF-8");
     }
 
     public View getSearchPanel() {

@@ -10,9 +10,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import org.softeg.slartus.forpda.Mail.MailActivity;
-import org.softeg.slartus.forpda.TopicBrowser.TopicActivity;
-import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.NotReportException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -76,6 +75,23 @@ public class IntentActivity extends Activity {
         return m.find();
     }
 
+    public static boolean tryProfile(Activity context,String url, Boolean finish) {
+
+
+        Pattern p = Pattern.compile("http://4pda.ru/forum/index.php?.*?act=profile.*?id=(\\d+)");
+
+        Matcher m = p.matcher(url);
+        if(m.find()){
+            ProfileActivity.startActivity(context,m.group(1));
+
+            if(finish)
+                context.finish();
+            return true;
+        }
+       
+        return false;
+    }
+
 
     public static Boolean tryShowUrl(Activity context, Handler handler, String url, Boolean showInDefaultBrowser,
                                      final Boolean finishActivity) {
@@ -100,8 +116,15 @@ public class IntentActivity extends Activity {
         if (tryShowFile(context, handler, url, finishActivity)) {
             return true;
         }
+
+        if (tryProfile(context,  url, finishActivity)) {
+            return true;
+        }
+
         if (showInDefaultBrowser)
             showInDefaultBrowser(context, url);
+
+
         if (finishActivity)
             context.finish();
         return false;
@@ -148,10 +171,7 @@ public class IntentActivity extends Activity {
     }
 
     private static void showImage(Context context, String url) {
-        Intent intent = new Intent(context, ImageViewActivity.class);
-        intent.putExtra(ImageViewActivity.URL_KEY, url);
-
-        context.startActivity(intent);
+        ImageViewActivity.showImageUrl(context,url);
     }
 
     public static void downloadFileStart(final Activity activity, final Handler handler, final String url, final Boolean finish) {

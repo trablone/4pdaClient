@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.*;
 import org.softeg.slartus.forpda.classes.DownloadTask;
-import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.classes.common.FileUtils;
 import org.softeg.slartus.forpda.classes.common.Functions;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.NotReportException;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -279,7 +279,7 @@ public class DownloadsActivity extends BaseActivity {
         notification.contentIntent = contentIntent;
         notification.flags = Notification.FLAG_AUTO_CANCEL;
 
-        NotificationManager nm = (NotificationManager) context1.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager nm = (NotificationManager) context1.getSystemService(NOTIFICATION_SERVICE);
 
 
         nm.notify(url, notificationId, notification);

@@ -39,11 +39,11 @@ import org.apache.http.protocol.ExecutionContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.softeg.slartus.forpda.classes.AppHttpStatus;
-import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.classes.SerializableCookie;
 import org.softeg.slartus.forpda.classes.common.FileUtils;
 import org.softeg.slartus.forpda.classes.common.Translit;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.NotReportException;
 
 import java.io.*;
 import java.net.URI;
@@ -413,7 +413,7 @@ public class HttpHelper {
     private String performRequest(final String contentType, final String url, final String user, final String pass,
                                   final Map<String, String> headers, final Map<String, String> params, final int requestType,
                                   final String acceptEncoding, String encoding) throws IOException {
-
+        android.util.Log.d("HttpHelper", url);
         // add user and pass to client credentials if present
         if ((user != null) && (pass != null)) {
             client.getCredentialsProvider().setCredentials(AuthScope.ANY,

@@ -1,7 +1,6 @@
 package org.softeg.slartus.forpda.classes;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.

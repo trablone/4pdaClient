@@ -5,6 +5,7 @@
         <item>Вкладка3</item>
         <item>Вкладка4</item>
         <item>Вкладка5</item>
+        <item>Вкладка6</item>
     </string-array>
 
     <string-array name="tabsValues">
@@ -13,6 +14,7 @@
         <item>Tab3</item>
         <item>Tab4</item>
         <item>Tab5</item>
+        <item>Tab6</item>
     </string-array>
 
     <string-array name="ThemeActionsArray">
@@ -54,11 +56,12 @@
     </string-array>
 
     <string-array name="appthemesArray">
-        <item>White</item> /
+        <item>White</item>
         <item>Black</item>
 
         <item>White от Remie-l</item>
         <item>Black от Remie-l</item>
+        <item>PlasticBlack от Remie-l</item>
         <item>WhiteR от Remie-l</item>
         <item>Gray от Remie-l</item>
         <item>Green от Remie-l</item>
@@ -78,6 +81,7 @@
 
         <item>2</item>
         <item>3</item>
+        <item>11</item>
         <item>5</item>
         <item>6</item>
         <item>10</item>

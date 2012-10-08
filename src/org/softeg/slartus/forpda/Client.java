@@ -15,12 +15,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import org.apache.http.cookie.Cookie;
 import org.softeg.slartus.forpda.classes.*;
-import org.softeg.slartus.forpda.classes.Forum;
-import org.softeg.slartus.forpda.classes.Post;
-import org.softeg.slartus.forpda.classes.Topic;
-import org.softeg.slartus.forpdaapi.*;
 import org.softeg.slartus.forpda.classes.common.Functions;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpdaapi.*;
 
 import java.io.IOException;
 import java.net.URI;
@@ -41,7 +38,7 @@ import java.util.regex.Pattern;
 public class Client implements IHttpClient {
 
     public static final String SITE = "4pda.ru";
-    public static final String MASTER_PASSWORD = "sx2AvOCPjXFhKoyWJMAqSiiPwaS2Z3Pc";
+
     public String UserId = "0";
     private String m_User = "гость";
 
@@ -55,7 +52,7 @@ public class Client implements IHttpClient {
         return m_K;
     }
 
-    public Forum MainForum = null;
+    public org.softeg.slartus.forpda.classes.Forum MainForum = null;
 
     public static final Client INSTANCE = new Client();
 
@@ -119,7 +116,7 @@ public class Client implements IHttpClient {
         return "Жалоба отправлена";
     }
 
-    public String themeSubscribe(Topic topic, String emailtype) throws IOException {
+    public String themeSubscribe(org.softeg.slartus.forpda.classes.Topic topic, String emailtype) throws IOException {
         if (TextUtils.isEmpty(topic.getForumId()) || TextUtils.isEmpty(topic.getAuthKey())) {
             setThemeForumAndAuthKey(topic);
         }
@@ -136,7 +133,7 @@ public class Client implements IHttpClient {
         return "Подписка оформлена";
     }
 
-    public String unSubscribe(Topic topic) throws IOException {
+    public String unSubscribe(org.softeg.slartus.forpda.classes.Topic topic) throws IOException {
         String error = org.softeg.slartus.forpdaapi.Topic.unSubscribe(this, topic.getId());
         if (!TextUtils.isEmpty(error))
             return error;
@@ -245,8 +242,16 @@ public class Client implements IHttpClient {
         return res;
     }
 
-    public UserProfile loadUserProfile(String userId) throws IOException {
-        return UserProfile.loadProfile(this, userId);
+    public UserProfile loadUserProfile(UserProfile userProfile,String userId) throws IOException {
+        return UserProfile.loadProfile(this, userProfile, userId);
+    }
+
+    public UserProfile loadUserProfileFriends(UserProfile userProfile,String userId) throws IOException {
+        return UserProfile.loadProfileFriends(this, userProfile, userId,m_K);
+    }
+
+    public UserProfile loadUserProfileComments(UserProfile userProfile,String userId) throws IOException {
+        return UserProfile.loadUserProfileComments(this, userProfile, userId,m_K);
     }
 
     public interface OnUserChangedListener {
@@ -375,7 +380,6 @@ public class Client implements IHttpClient {
                 enablesig, enableemo, addedFileList, quick);
     }
 
-    private String m_SessionId;
 
     public Boolean login(String login, String password, Boolean privacy) throws Exception {
 
@@ -418,7 +422,7 @@ public class Client implements IHttpClient {
                 }
             }, login, password, privacy, outParams);
             m_LoginFailedReason = outParams.get("LoginFailedReason");
-            m_SessionId = outParams.get("SessionId");
+            // m_SessionId = outParams.get("SessionId");
             m_User = outParams.get("User");
             m_K = outParams.get("K");
 
@@ -523,7 +527,7 @@ public class Client implements IHttpClient {
     public void loadForums(OnProgressChangedListener progressChangedListener) throws Exception {
         org.softeg.slartus.forpdaapi.Forum forum = org.softeg.slartus.forpdaapi.Forums.loadForums(this);
 
-        MainForum = Forum.loadFromApiForum(forum);
+        MainForum = org.softeg.slartus.forpda.classes.Forum.loadFromApiForum(forum);
 
 
     }
@@ -553,7 +557,7 @@ public class Client implements IHttpClient {
 
     public TopicBodyBuilder loadTopic(Handler handler, Context context, String themeUrl, Boolean spoilFirstPost, Boolean enableSig,
                                       Boolean enableEmo, String postBody, Boolean hidePostForm,
-                                      OnProgressChangedListener progressChangedListener) throws IOException, Topic.ThemeParseException {
+                                      OnProgressChangedListener progressChangedListener) throws IOException, org.softeg.slartus.forpda.classes.Topic.ThemeParseException {
 //        if (progressChangedListener != null)
 //            doOnOnProgressChanged(progressChangedListener, "Получение данных...");
         // themeUrl=java.net.URLEncoder.encode(themeUrl, "windows-1251");
@@ -563,11 +567,11 @@ public class Client implements IHttpClient {
 
         return parseTopic(res,handler,context,themeUrl,spoilFirstPost,enableSig,enableEmo,postBody,hidePostForm,progressChangedListener);
     }
-    
+
     public TopicBodyBuilder parseTopic(String topicPageBody,
                                        Handler handler, Context context, String themeUrl, Boolean spoilFirstPost, Boolean enableSig,
                                        Boolean enableEmo, String postBody, Boolean hidePostForm,
-                                       OnProgressChangedListener progressChangedListener) throws IOException, Topic.ThemeParseException {
+                                       OnProgressChangedListener progressChangedListener) throws IOException, org.softeg.slartus.forpda.classes.Topic.ThemeParseException {
         checkLogin(topicPageBody);
 
         Pattern pattern = Pattern.compile("showtopic=(\\d+)(&(.*))?");
@@ -616,7 +620,7 @@ public class Client implements IHttpClient {
         pageBody = null;
         int phase = 0;
         Matcher m;
-        Topic topic = null;
+        org.softeg.slartus.forpda.classes.Topic topic = null;
 
         String today = Functions.getToday();
         String yesterday = Functions.getYesterToday();
@@ -631,7 +635,7 @@ public class Client implements IHttpClient {
                 case 0:
                     m = pattern.matcher(str);
                     if (m.find()) {
-                        topic = new Topic(m.group(1), m.group(2));
+                        topic = new org.softeg.slartus.forpda.classes.Topic(m.group(1), m.group(2));
                         topic.setIsNew(str.contains("view=getnewpost"));
                         phase++;
                     }
@@ -697,7 +701,7 @@ public class Client implements IHttpClient {
 
             if (!TextUtils.isEmpty(m.group(2)))
                 forumTitle = m.group(2);
-            Topic topic = new Topic(m.group(6), m.group(7));
+            org.softeg.slartus.forpda.classes.Topic topic = new org.softeg.slartus.forpda.classes.Topic(m.group(6), m.group(7));
             topic.setDescription(m.group(9));
             topic.setForumTitle(forumTitle);
             topic.setPostsCount(m.group(10));
@@ -711,7 +715,7 @@ public class Client implements IHttpClient {
     }
 
 
-    private Topic createFullVersionTopic(String id, String page) {
+    private org.softeg.slartus.forpda.classes.Topic createFullVersionTopic(String id, String page) {
 
         final Pattern forumIdPattern = Pattern.compile("name=\"forums\\[\\]\" value=\"(\\d+)\"");
         final Pattern userPattern = Pattern.compile("<a href=\"(http://4pda.ru)?/forum/index.php\\?showuser=\\d+\">.*?</a></b> \\( <a href=\"(http://4pda.ru)?/forum/index.php\\?act=Login&amp;CODE=03&amp;k=([a-z0-9]{32})\">Выход</a>");
@@ -732,7 +736,7 @@ public class Client implements IHttpClient {
                 title = m.group(1);
         }
 
-        Topic topic = new Topic(id, title);
+        org.softeg.slartus.forpda.classes.Topic topic = new org.softeg.slartus.forpda.classes.Topic(id, title);
 
         m = forumIdPattern.matcher(str);
         if (m.find()) {
@@ -762,7 +766,7 @@ public class Client implements IHttpClient {
 
     }
 
-    private Topic createTopic(Handler handler, final Context context, String id, String page) {
+    private org.softeg.slartus.forpda.classes.Topic createTopic(Handler handler, final Context context, String id, String page) {
 
 
         final Pattern navStripPattern = Pattern.compile("<div id=\"navstrip\">(.*?)</div>");
@@ -784,7 +788,7 @@ public class Client implements IHttpClient {
                 title = m.group(1);
         }
 
-        Topic topic = new Topic(id, title);
+        org.softeg.slartus.forpda.classes.Topic topic = new org.softeg.slartus.forpda.classes.Topic(id, title);
 
 
         m = navStripPattern.matcher(str);
@@ -821,14 +825,14 @@ public class Client implements IHttpClient {
 
     }
 
-    public TopicBodyBuilder loadFullVersionTopic(String id, Matcher mainMatcher, Boolean spoilFirstPost,
+    public TopicBodyBuilder loadFullVersionTopic(Context context,String id, Matcher mainMatcher, Boolean spoilFirstPost,
                                                  Boolean logined, String urlParams, Boolean enableSig,
                                                  Boolean enableEmo, String postBody, Boolean hidePostForm,
-                                                 Boolean isWebviewAllowJavascriptInterface) throws IOException, Topic.ThemeParseException {
+                                                 Boolean isWebviewAllowJavascriptInterface) throws IOException, org.softeg.slartus.forpda.classes.Topic.ThemeParseException {
 
-        Topic topic = createFullVersionTopic(id, mainMatcher.group(1));
+        org.softeg.slartus.forpda.classes.Topic topic = createFullVersionTopic(id, mainMatcher.group(1));
 
-        TopicBodyBuilder topicBodyBuilder = new TopicBodyBuilder(logined, topic, urlParams, enableSig,
+        TopicBodyBuilder topicBodyBuilder = new TopicBodyBuilder(context,logined, topic, urlParams, enableSig,
                 enableEmo, postBody, hidePostForm, isWebviewAllowJavascriptInterface);
         topicBodyBuilder.beginTopic();
         final Pattern postPattern = Pattern.compile("<table class=\"ipbtable\" cellspacing=\"1\">([\\s\\S]*?)((<!--Begin Msg Number)|(<!-- TABLE))", Pattern.MULTILINE);
@@ -851,7 +855,7 @@ public class Client implements IHttpClient {
         final Pattern pattern = Pattern.compile("^([\\s\\S]*)</div>");
         String today = Functions.getToday();
         String yesterday = Functions.getYesterToday();
-        Post post = null;
+        org.softeg.slartus.forpda.classes.Post post = null;
         Boolean spoil = spoilFirstPost;
         while (matcher.find()) {
             if (post != null) {
@@ -860,7 +864,7 @@ public class Client implements IHttpClient {
             }
             Matcher m = fullPattern.matcher(matcher.group(1));
             if (m.find()) {
-                post = new Post(m.group(1), Functions.getForumDateTime(Functions.parseForumDateTime(m.group(4), today, yesterday)), m.group(5));
+                post = new org.softeg.slartus.forpda.classes.Post(m.group(1), Functions.getForumDateTime(Functions.parseForumDateTime(m.group(4), today, yesterday)), m.group(5));
                 post.setAuthor(m.group(3));
                 post.setUserGroup(m.group(7));
                 post.setUserState(m.group(6));
@@ -897,7 +901,7 @@ public class Client implements IHttpClient {
     public TopicBodyBuilder loadTopic(Handler handler, Context context,
                                       String id, String topicBody, Boolean spoilFirstPost,
                                       Boolean logined, String urlParams, Boolean enableSig,
-                                      Boolean enableEmo, String postBody, Boolean hidePostForm) throws IOException, Topic.ThemeParseException {
+                                      Boolean enableEmo, String postBody, Boolean hidePostForm) throws IOException, org.softeg.slartus.forpda.classes.Topic.ThemeParseException {
         final Pattern errorPattern = Pattern.compile("<div class=\"errorwrap\">([\\s\\S]*?)</div>");
         Matcher errorMatcher = errorPattern.matcher(topicBody);
         if (errorMatcher.find()) {
@@ -917,14 +921,14 @@ public class Client implements IHttpClient {
         Boolean isWebviewAllowJavascriptInterface = Functions.isWebviewAllowJavascriptInterface(context);
         Boolean isFullVersion = mainMatcher.group(3).contains("<a href=\"/wp-content/plugins/ngx.php?mb=1\"><b>Мобильная версия</b></a>");
         if (isFullVersion) {
-            return loadFullVersionTopic(id, mainMatcher, spoilFirstPost, logined, urlParams, enableSig,
+            return loadFullVersionTopic(context,id, mainMatcher, spoilFirstPost, logined, urlParams, enableSig,
                     enableEmo, postBody, hidePostForm, isWebviewAllowJavascriptInterface);
         }
 
 
-        Topic topic = createTopic(handler, context, id, mainMatcher.group(1));
+        org.softeg.slartus.forpda.classes.Topic topic = createTopic(handler, context, id, mainMatcher.group(1));
 
-        TopicBodyBuilder topicBodyBuilder = new TopicBodyBuilder(logined, topic, urlParams, enableSig,
+        TopicBodyBuilder topicBodyBuilder = new TopicBodyBuilder(context,logined, topic, urlParams, enableSig,
                 enableEmo, postBody, hidePostForm, isWebviewAllowJavascriptInterface);
         topicBodyBuilder.beginTopic();
 
@@ -940,7 +944,7 @@ public class Client implements IHttpClient {
         Matcher matcher = postPattern.matcher(mainMatcher.group(2) + "<!-- TABLE");
         String today = Functions.getToday();
         String yesterday = Functions.getYesterToday();
-        Post post = null;
+        org.softeg.slartus.forpda.classes.Post post = null;
         Boolean spoil = spoilFirstPost;
         while (matcher.find()) {
             if (post != null) {
@@ -948,11 +952,11 @@ public class Client implements IHttpClient {
                 spoil = false;
             }
             String postId = matcher.group(1);
-
+            android.util.Log.d("loadTopic",postId);
             String str = matcher.group(2);
             Matcher m = postHeaderPattern.matcher(str);
             if (m.find()) {
-                post = new Post(postId, Functions.getForumDateTime(Functions.parseForumDateTime(m.group(1), today, yesterday)), m.group(2));
+                post = new org.softeg.slartus.forpda.classes.Post(postId, Functions.getForumDateTime(Functions.parseForumDateTime(m.group(1), today, yesterday)), m.group(2));
 
             } else
                 continue;
@@ -1004,7 +1008,7 @@ public class Client implements IHttpClient {
         return topicBodyBuilder;
     }
 
-    private static void beforeThemeMessages(Topic topic, Pattern titlePattern, Pattern moderatorTitlePattern, Pattern pagesCountPattern, Pattern lastPageStartPattern, Pattern currentPagePattern, String str) {
+    private static void beforeThemeMessages(org.softeg.slartus.forpda.classes.Topic topic, Pattern titlePattern, Pattern moderatorTitlePattern, Pattern pagesCountPattern, Pattern lastPageStartPattern, Pattern currentPagePattern, String str) {
         Matcher m;
         if (topic.getPagesCount() == 1) {
             m = pagesCountPattern.matcher(str);
@@ -1054,7 +1058,7 @@ public class Client implements IHttpClient {
 
     }
 
-    private void setThemeForumAndAuthKey(Topic topic) throws IOException {
+    private void setThemeForumAndAuthKey(org.softeg.slartus.forpda.classes.Topic topic) throws IOException {
 
         String res = performGet("http://4pda.ru/forum/lofiversion/index.php?t" + topic.getId() + ".html");
 
@@ -1076,7 +1080,7 @@ public class Client implements IHttpClient {
 
     }
 
-    public String addToFavorites(Topic topic) throws IOException {
+    public String addToFavorites(org.softeg.slartus.forpda.classes.Topic topic) throws IOException {
         if (TextUtils.isEmpty(topic.getForumId())) {
             topic.setForumId(getThemeForumId(topic.getId()));
         }
@@ -1086,7 +1090,7 @@ public class Client implements IHttpClient {
         return org.softeg.slartus.forpdaapi.Topic.addToFavorites(this, topic.getForumId(),topic.getId());
     }
 
-    public String removeFromFavorites(Topic topic) throws IOException {
+    public String removeFromFavorites(org.softeg.slartus.forpda.classes.Topic topic) throws IOException {
 //        if (TextUtils.isEmpty(topic.getForumId())) {
 //            topic.setForumId(getThemeForumId(topic.getId()));
 //        }

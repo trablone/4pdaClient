@@ -50,6 +50,9 @@
             <Preference android:key="tabs.Tab1.Data"
                         android:title="Содержание"
                         android:summary="Последние"/>
+            <CheckBoxPreference android:key="tabs.Tab1.Visible"
+                                android:defaultValue="true"
+                                android:title="Показывать"/>
         </PreferenceScreen>
 
 
@@ -63,6 +66,9 @@
             <Preference android:key="tabs.Tab2.Data"
                         android:title="Содержание"
                         android:summary="Форумы"/>
+            <CheckBoxPreference android:key="tabs.Tab2.Visible"
+                                android:defaultValue="true"
+                                android:title="Показывать"/>
         </PreferenceScreen>
         <PreferenceScreen android:title="Вкладка3" android:key="tabs.Tab3">
             <ListPreference android:key="tabs.Tab3.Action"
@@ -74,6 +80,9 @@
             <Preference android:key="tabs.Tab3.Data"
                         android:title="Содержание"
                         android:summary="Избранное"/>
+            <CheckBoxPreference android:key="tabs.Tab3.Visible"
+                                android:defaultValue="true"
+                                android:title="Показывать"/>
         </PreferenceScreen>
         <PreferenceScreen android:title="Вкладка4" android:key="tabs.Tab4">
             <ListPreference android:key="tabs.Tab4.Action"
@@ -85,6 +94,9 @@
             <Preference android:key="tabs.Tab4.Data"
                         android:title="Содержание"
                         android:summary="Подписки"/>
+            <CheckBoxPreference android:key="tabs.Tab4.Visible"
+                                android:defaultValue="true"
+                                android:title="Показывать"/>
         </PreferenceScreen>
         <PreferenceScreen android:title="Вкладка5" android:key="tabs.Tab5">
             <ListPreference android:key="tabs.Tab5.Action"
@@ -96,6 +108,23 @@
             <Preference android:key="tabs.Tab5.Data"
                         android:title="Содержание"
                         android:summary="Каталог"/>
+            <CheckBoxPreference android:key="tabs.Tab5.Visible"
+                                android:defaultValue="true"
+                                android:title="Показывать"/>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="Вкладка6" android:key="tabs.Tab6">
+            <ListPreference android:key="tabs.Tab6.Action"
+                            android:defaultValue="getnewpost"
+                            android:title="Действие по умолчанию"
+                            android:summary="Выберите действие по клику на теме"
+                            android:entries="@array/ThemeActionsArray"
+                            android:entryValues="@array/ThemeActionsValues"/>
+            <Preference android:key="tabs.Tab6.Data"
+                        android:title="Содержание"
+                        android:summary="Приложения"/>
+            <CheckBoxPreference android:key="tabs.Tab6.Visible"
+                                android:defaultValue="false"
+                                android:title="Показывать"/>
         </PreferenceScreen>
     </PreferenceScreen>
     <PreferenceScreen android:title="Системное" android:summary="Лучше не трогать ;)">
@@ -153,6 +182,10 @@
                             android:defaultValue="false"
                             android:title="Прятать поле ответа"
                             android:summary="Прятать поле ответа под спойлер"/>
+        <CheckBoxPreference android:key="theme.SpoilerByButton"
+                            android:defaultValue="false"
+                            android:title="Использовать кнопку для спойлеров"
+                            android:summary="Если не работают спойлеры"/>
     </PreferenceScreen>
 
     <PreferenceScreen android:title="Новости">
@@ -212,6 +245,9 @@
                     android:key="About.ShowTheme"/>
     </PreferenceScreen>
     <PreferenceScreen android:title="Помочь проекту" android:summary="Ваше осязаемое 'Спасибо'">
+        <Preference android:title="QIWI"
+                    android:summary="переход на форму выставления счета"
+                    android:key="Qiwi"/>
         <Preference android:title="Яндекс-кошелёк"
                     android:summary="41001491859942"
                     android:key="Yandex.money"/>

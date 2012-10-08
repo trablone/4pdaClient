@@ -15,8 +15,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import com.actionbarsherlock.view.Window;
 import org.softeg.slartus.forpda.BaseFragmentActivity;
-import org.softeg.slartus.forpda.R;
 import org.softeg.slartus.forpda.classes.common.StringUtils;
+import org.softeg.slartus.forpda.R;
 
 /**
  * User: slinkin

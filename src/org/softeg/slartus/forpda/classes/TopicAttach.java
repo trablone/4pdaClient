@@ -48,6 +48,7 @@ public class TopicAttach {
 
     @Override
     public String toString(){
+      //  return "#"+PostNum+": "+ Html.fromHtml(FileName);
         return "#"+PostNum+": "+FileName+" ( "+FileSize+" ) Скачан: "+DownloadsCount;
     }
 }

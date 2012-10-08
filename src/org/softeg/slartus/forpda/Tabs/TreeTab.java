@@ -9,10 +9,10 @@ import android.view.ContextMenu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import org.softeg.slartus.forpda.R;
 import org.softeg.slartus.forpda.classes.Forum;
 import org.softeg.slartus.forpda.classes.Forums;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpda.R;
 import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
 /**

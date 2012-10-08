@@ -17,13 +17,13 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import org.softeg.slartus.forpda.BaseFragmentActivity;
-import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.Mail.classes.MailFolder;
 import org.softeg.slartus.forpda.Mail.classes.MailFolders;
+import org.softeg.slartus.forpda.BaseFragmentActivity;
+import org.softeg.slartus.forpda.Client;
+import org.softeg.slartus.forpda.common.Log;
 import org.softeg.slartus.forpda.MyApp;
 import org.softeg.slartus.forpda.R;
-import org.softeg.slartus.forpda.common.Log;
 import org.softeg.slartus.forpdaapi.NotReportException;
 
 import java.io.IOException;
@@ -43,7 +43,7 @@ public class MailBoxActivity extends BaseFragmentActivity {
     MenuFragment mFragment1;
     public static boolean Refresh;
     public static String DeleteMsgId=null;
-    private Boolean m_FromEdit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,20 +69,6 @@ public class MailBoxActivity extends BaseFragmentActivity {
         }
         LoadFoldersTask loadFoldersTask = new LoadFoldersTask(this);
         loadFoldersTask.execute();
-
-
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("mailstype", Mail.MAIL_TYPE_INCOMING);
-//        tabsAdapter.addTab(mTabHost.newTabSpec("incoming").setIndicator("Входящие"), MailsListFragment.class, bundle);
-//
-//        bundle = new Bundle();
-//        bundle.putInt("mailstype", Mail.MAIL_TYPE_OUTGOING);
-//        tabsAdapter.addTab(mTabHost.newTabSpec("outgoing").setIndicator("Исходящие"), MailsListFragment.class, bundle);
-
-
-//        if (savedInstanceState != null) {
-//            mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
-//        }
     }
 
     @Override
@@ -122,8 +108,6 @@ public class MailBoxActivity extends BaseFragmentActivity {
         onBackPressed();
     }
 
-
-
     private void createMenu() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -134,7 +118,6 @@ public class MailBoxActivity extends BaseFragmentActivity {
         }
         ft.commit();
     }
-
 
     private MailFolders createDefaultFolders() {
         MailFolders mailFolders = new MailFolders();

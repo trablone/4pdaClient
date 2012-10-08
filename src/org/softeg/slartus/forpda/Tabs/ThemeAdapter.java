@@ -190,6 +190,15 @@ public class ThemeAdapter extends ArrayAdapter<Topic> {
                 }
             });
             addOptionsMenu(getContext(), handler, menu, topic, addFavorites, null);
+//            menu.add("Профиль автора").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//                public boolean onMenuItemClick(MenuItem menuItem) {
+//
+//
+//                    topic.setIsNew(false);
+//                    notifyDataSetChanged();
+//                    return true;
+//                }
+//            });
 
         } catch (Exception ex) {
             Log.e(this.getContext(), ex);

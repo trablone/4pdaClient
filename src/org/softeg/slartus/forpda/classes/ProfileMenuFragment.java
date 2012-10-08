@@ -7,12 +7,8 @@ import android.text.TextUtils;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
-import org.softeg.slartus.forpda.Client;
-import org.softeg.slartus.forpda.LoginDialog;
+import org.softeg.slartus.forpda.*;
 import org.softeg.slartus.forpda.Mail.MailBoxActivity;
-import org.softeg.slartus.forpda.ProfileActivity;
-import org.softeg.slartus.forpda.R;
-import org.softeg.slartus.forpda.ReputationActivity;
 import org.softeg.slartus.forpda.qms.QmsContactsActivity;
 
 /**
@@ -135,12 +131,7 @@ public class ProfileMenuFragment extends SherlockFragment {
             mUserMenuItem.add("Профиль").setOnMenuItemClickListener(new com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener() {
 
                 public boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem item) {
-                    Intent intent = new Intent(getActivity(), ProfileActivity.class);
-                    intent.putExtra(ProfileActivity.USER_ID_KEY, Client.INSTANCE.UserId);
-                    intent.putExtra("activity", getActivity().getClass().toString());
-                    getActivity().startActivity(intent);
-
-
+                    ProfileActivity.startActivity(getActivity(),Client.INSTANCE.UserId,Client.INSTANCE.getUser());
                     return true;
                 }
             });

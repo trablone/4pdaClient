@@ -10,12 +10,25 @@ import java.util.regex.Pattern;
  * Time: 9:39
  */
 public class TopicAttaches extends ArrayList<TopicAttach> {
-    private final Pattern ATTACH_PATTERN = Pattern.compile("<a href=\"((http://4pda.ru)?/forum/dl/post/\\d+/.*?)\" .*? title=\"Скачать .*?\".*?><img.*?/>(.*?)</a> \\( (.*?) \\)<span class=\"desc\">Кол-во скачиваний: (\\d+)");
+    private final Pattern FULL_ATTACH_PATTERN = Pattern.compile("/forum/dl/post/(.*?)</span>");
+    private final Pattern ATTACH_PATTERN = Pattern.compile("(\\d+/.*?)\".*>(.*?)</a> \\( (.*?) \\)<span class=\"desc\">Кол-во скачиваний: (\\d+)");
+
+    public void parseAttaches(String postBody) {
+        final Matcher matcher = FULL_ATTACH_PATTERN.matcher(postBody);
+        while (matcher.find()) {
+            final Matcher m = ATTACH_PATTERN.matcher(matcher.group(1));
+            while (m.find()) {
+                add("",m.group(4),"http://4pda.ru/forum/dl/post/"+m.group(1), m.group(2),m.group(3),m.group(4));
+            }
+        }
+
+    }
+
 
     public void parseAttaches(String postId, String postNum, String postBody) {
         final Matcher matcher = ATTACH_PATTERN.matcher(postBody);
         while (matcher.find()) {
-            add(postId,postNum,"http://4pda.ru"+matcher.group(1).replace("http://4pda.ru",""),matcher.group(3),matcher.group(4),matcher.group(5));
+            add(postId,postNum,"http://4pda.ru"+matcher.group(1), matcher.group(2),"","");
         }
     }
     

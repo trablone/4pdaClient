@@ -36,7 +36,7 @@ public class BbCodesPanel {
         try{
             createBbCodeButtons(); 
         }catch (Exception ex){
-           Log.e(mContext,ex);
+           Log.e(mContext, ex);
         }
         
     }

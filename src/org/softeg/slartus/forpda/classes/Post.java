@@ -69,6 +69,7 @@ public class Post {
                 .replaceAll("\"http://sc.4pda.ru/forum/style_emoticons", "\"file:///android_asset/forum/style_emoticons")
                 .replaceAll("(src|href)=('|\")index.php", "$1=$2http://" + Client.SITE + "/forum/index.php")
                 .replaceAll("(src|href)=('|\")/forum", "$1=$2http://" + Client.SITE + "/forum");
+
 //        int i = -1;
 //        int startDivCount = 0;
 //        while ((i = m_Body.indexOf("<div", i + 1)) != -1)

@@ -18,6 +18,11 @@ import java.util.regex.Pattern;
 public class User {
     private String nick;
     private String mid;
+    private String tag;
+    public String MessagesCount;
+    public String State;
+    public String LastVisit;
+    public String Group;
 
     public String getNick() {
         return nick;
@@ -222,5 +227,11 @@ public class User {
     }
 
 
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
+    public String getTag() {
+        return tag;
+    }
 }

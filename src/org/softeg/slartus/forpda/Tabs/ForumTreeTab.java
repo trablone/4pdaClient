@@ -14,13 +14,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import org.softeg.slartus.forpda.Client;
-import org.softeg.slartus.forpda.R;
 import org.softeg.slartus.forpda.classes.Forum;
 import org.softeg.slartus.forpda.classes.ForumItem;
 import org.softeg.slartus.forpda.classes.Forums;
 import org.softeg.slartus.forpda.classes.Topic;
 import org.softeg.slartus.forpda.classes.common.Functions;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpda.R;
 import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
 import java.io.IOException;

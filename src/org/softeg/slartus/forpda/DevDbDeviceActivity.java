@@ -50,11 +50,7 @@ public class DevDbDeviceActivity extends BaseActivity {
         gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String imgUrl = adapterView.getItemAtPosition(i).toString();
-
-                Intent intent = new Intent(DevDbDeviceActivity.this, ImageViewActivity.class);
-                intent.putExtra(ImageViewActivity.URL_KEY, imgUrl.replace("p.jpg", "n.jpg"));
-
-                DevDbDeviceActivity.this.startActivity(intent);
+                ImageViewActivity.showImageUrl(DevDbDeviceActivity.this,imgUrl.replace("p.jpg", "n.jpg"));
             }
         });
         txtModel = (TextView) findViewById(R.id.txtModel);

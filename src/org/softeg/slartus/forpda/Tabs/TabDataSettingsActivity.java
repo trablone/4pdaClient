@@ -17,11 +17,11 @@ import android.view.View;
 import android.widget.*;
 import org.softeg.slartus.forpda.Client;
 import org.softeg.slartus.forpda.MyApp;
-import org.softeg.slartus.forpda.R;
-import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpda.classes.Forum;
 import org.softeg.slartus.forpda.classes.ForumsAdapter;
 import org.softeg.slartus.forpda.common.Log;
+import org.softeg.slartus.forpda.R;
+import org.softeg.slartus.forpdaapi.NotReportException;
 import org.softeg.slartus.forpdaapi.OnProgressChangedListener;
 
 import java.util.ArrayList;

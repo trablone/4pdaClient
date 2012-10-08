@@ -138,7 +138,7 @@ public class QmsChatActivity extends BaseFragmentActivity {
 
     private void loadPrefs(){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        m_MessagesCount= Integer.toString(ExtPreferences.parseInt(preferences,"qms.chat.messages_count",10));
+        m_MessagesCount= Integer.toString(ExtPreferences.parseInt(preferences, "qms.chat.messages_count", 10));
         m_UpdateTimeout= ExtPreferences.parseInt(preferences,"qms.chat.update_timer",15)*1000;
     }
 
