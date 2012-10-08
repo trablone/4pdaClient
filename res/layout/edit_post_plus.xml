@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+
 
 
     <LinearLayout
@@ -21,14 +19,21 @@
                     android:orientation="horizontal">
             </LinearLayout>
         </HorizontalScrollView>
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+        <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical">
 
-        <EditText
+            <EditText
                 android:id="@+id/txtPost"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top"
                 android:minLines="10"
-                android:maxLines="20"
                 android:scrollHorizontally="false"
                 android:singleLine="false"
                 android:capitalize="sentences">
@@ -76,11 +81,11 @@
 
                         android:text=" + "/>
                 <!--<Button-->
-                        <!--android:id="@+id/btnAddImage"-->
-                        <!--android:layout_width="fill_parent"-->
-                        <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/btnAddImage"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
 
-                        <!--android:text="+Image"/>-->
+                <!--android:text="+Image"/>-->
             </LinearLayout>
 
 
@@ -116,6 +121,7 @@
         <!--android:scrollHorizontally="false"-->
         <!--android:singleLine="false"/>-->
 
-    </LinearLayout>
 
+            </LinearLayout>
 </ScrollView>
+</LinearLayout>
